@@ -1,6 +1,8 @@
 # Vice City UI
 
-A design system styled after Grand Theft Auto VI's menus and HUD: the wanted stars, pause menu, settings, weapon wheel, radio, phone and Wasted screen, plus a core kit of everyday components. It's built on [Vercel UI SDK](https://ui-sdk.dev), which handles keyboard, focus and ARIA; Vice City UI handles the look.
+![Vice City UI: a Grand Theft Auto VI design system](.github/banner.png)
+
+A design system styled after Grand Theft Auto VI's menus and HUD: the wanted stars, pause menu, settings, weapon wheel, radio, map and phone, plus a core kit of everyday components. It's built on [Vercel UI SDK](https://ui-sdk.dev), which handles keyboard, focus and ARIA; Vice City UI handles the look.
 
 [View the live catalogue](https://vice-city-ui.vercel.app)
 
