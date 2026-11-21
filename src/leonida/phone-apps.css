@@ -156,7 +156,9 @@
   border: 0;
   border-radius: 9px;
   background: #fff;
-  box-shadow: 0 1px 1px rgb(0 0 0 / 0.06), inset 0 0 0 1px rgb(0 0 0 / 0.04);
+  box-shadow:
+    0 1px 1px rgb(0 0 0 / 0.06),
+    inset 0 0 0 1px rgb(0 0 0 / 0.04);
   color: inherit;
   font: inherit;
   text-align: left;
@@ -687,8 +689,8 @@
   cursor: pointer;
 }
 
+/* Not positioned: a positioned child would paint over the post's focus outline. */
 .ld-snap__media {
-  position: relative;
   display: grid;
   place-items: center;
   aspect-ratio: 16 / 11;
@@ -834,7 +836,6 @@
   color: #fff;
   box-shadow: 0 0 0 400px rgb(0 0 0 / 0.35);
 }
-
 
 .ld-snap__group h3 {
   margin: 4px 4px 8px;

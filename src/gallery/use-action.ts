@@ -1,15 +1,14 @@
-import { useEffect, useRef } from "react"
+import { useEffect, useEffectEvent } from "react";
 
-// Runs `run` each time a playground action button is pressed (its count goes up), never on mount.
-function useAction(count: number | undefined, run: () => void): void {
-  const seen = useRef(count ?? 0)
-  const latest = useRef(run)
-  latest.current = run
+import type { Playground } from "./types";
+
+const useAction = (subscribe: Playground["subscribeAction"], name: string, run: () => void): void => {
+  const onAction = useEffectEvent(run);
+
   useEffect(() => {
-    if ((count ?? 0) === seen.current) return
-    seen.current = count ?? 0
-    latest.current()
-  }, [count])
-}
+    const unsubscribe = subscribe(name, () => onAction());
+    return () => unsubscribe();
+  }, [subscribe, name]);
+};
 
-export { useAction }
+export { useAction };

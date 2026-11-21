@@ -1,41 +1,61 @@
-import { Meter, MeterIndicator, MeterLabel, MeterTrack } from "@ui-sdk/react/meter"
-import { Eye, Heart, House, Wallet, Zap } from "lucide-react"
-import { useEffect, useRef, useState, type CSSProperties, type HTMLAttributes, type ReactElement } from "react"
-import { cx } from "../ui/cx"
-import "./hud-meters.css"
+import { Meter, MeterIndicator, MeterLabel, MeterTrack } from "@ui-sdk/react/meter";
+import { Eye, Heart, House, Wallet, Zap } from "lucide-react";
+import { useEffect, useState, type HTMLAttributes, type ReactElement } from "react";
 
-type VitalsShow = "all" | "stamina" | "none"
+import { cssVariables } from "../ui/css-variables";
+import { cx } from "../ui/cx";
+
+import "./hud-meters.css";
+
+type VitalsShow = "all" | "stamina" | "none";
 
 const BARS = [
   { key: "health", label: "Health", Icon: Heart, fill: true },
   { key: "stamina", label: "Stamina", Icon: Zap, fill: true },
   { key: "focus", label: "Focus", Icon: Eye, fill: false },
-] as const
+] as const;
 
 type HudVitalsProps = HTMLAttributes<HTMLDivElement> & {
-  health: number
-  stamina: number
-  focus: number
-  show?: VitalsShow
-  // Bar length in 1080p px. Stamina and focus grow with training, up to the full 182.
-  length?: { health?: number; stamina?: number; focus?: number }
-}
+  health: number;
+  stamina: number;
+  focus: number;
+  show?: VitalsShow;
+  length?: { health?: number; stamina?: number; focus?: number };
+};
 
-/* Health, stamina and focus, top-left. Rows 30px apart, 10px square-ended bars. It dims to 40% when idle and lights up for 3 s on any change. */
-function HudVitals({ health, stamina, focus, show = "all", length = {}, className, ...props }: HudVitalsProps): ReactElement {
-  const values = { health, stamina, focus }
-  const [lit, setLit] = useState(false)
-  const last = useRef(`${health}/${stamina}/${focus}`)
+function HudVitals({
+  health,
+  stamina,
+  focus,
+  show = "all",
+  length = {},
+  className,
+  ...props
+}: HudVitalsProps): ReactElement {
+  const values = { health, stamina, focus };
+  const [lit, setLit] = useState(false);
+  const levels = `${health}/${stamina}/${focus}`;
+  const [previous, setPrevious] = useState(levels);
+  if (levels !== previous) {
+    setPrevious(levels);
+    setLit(true);
+  }
+
+  const litKey = lit ? levels : null;
   useEffect(() => {
-    const key = `${health}/${stamina}/${focus}`
-    if (key === last.current) return
-    last.current = key
-    setLit(true)
-    const timer = setTimeout(() => setLit(false), 3000)
-    return () => clearTimeout(timer)
-  }, [health, stamina, focus])
+    if (litKey === null) return undefined;
+    const timer = setTimeout(() => setLit(false), 3000);
+    return () => clearTimeout(timer);
+  }, [litKey]);
+
   return (
-    <div {...props} className={cx("ld-vitals", className)} data-slot="hud-vitals" data-show={show} data-lit={lit || undefined}>
+    <div
+      {...props}
+      className={cx("ld-vitals", className)}
+      data-slot="hud-vitals"
+      data-show={show}
+      data-lit={lit || undefined}
+    >
       {BARS.map(({ key, label, Icon, fill }) => (
         <Meter
           key={key}
@@ -43,7 +63,7 @@ function HudVitals({ health, stamina, focus, show = "all", length = {}, classNam
           data-kind={key}
           value={values[key]}
           max={100}
-          style={{ "--len": length[key] ?? 182 } as CSSProperties}
+          style={cssVariables({ "--len": length[key] ?? 182 })}
           hidden={show === "none" || (show === "stamina" && key !== "stamina")}
         >
           <span className="ld-vitals__icon" data-slot="hud-vitals-icon" aria-hidden="true">
@@ -57,12 +77,16 @@ function HudVitals({ health, stamina, focus, show = "all", length = {}, classNam
         </Meter>
       ))}
     </div>
-  )
+  );
 }
 
-/* Wallet and bank, top-right, in the blocky money face with their round icons. */
-function HudCash({ wallet, bank, className, ...props }: HTMLAttributes<HTMLDListElement> & { wallet: number; bank?: number }): ReactElement {
-  const money = (n: number) => `$${n.toLocaleString("en-US")}`
+function HudCash({
+  wallet,
+  bank,
+  className,
+  ...props
+}: HTMLAttributes<HTMLDListElement> & { wallet: number; bank?: number }): ReactElement {
+  const money = (n: number) => `$${n.toLocaleString("en-US")}`;
   return (
     <dl {...props} className={cx("ld-cash", className)} data-slot="hud-cash">
       <div className="ld-cash__row" data-slot="hud-cash-row" data-kind="wallet">
@@ -87,23 +111,35 @@ function HudCash({ wallet, bank, className, ...props }: HTMLAttributes<HTMLDList
         </div>
       )}
     </dl>
-  )
+  );
 }
 
-/* Clip and reserve with no slash, and the weapon under them. */
-type HudAmmoProps = HTMLAttributes<HTMLDivElement> & { clip: number; reserve: number; weapon?: string; image?: string }
+type HudAmmoProps = HTMLAttributes<HTMLDivElement> & { clip: number; reserve: number; weapon?: string; image?: string };
 
-function HudAmmo({ clip, reserve, weapon = "Pistol", image = "/vc/hud-pistol.png", className, ...props }: HudAmmoProps): ReactElement {
+function HudAmmo({
+  clip,
+  reserve,
+  weapon = "Pistol",
+  image = "/vc/hud-pistol.png",
+  className,
+  ...props
+}: HudAmmoProps): ReactElement {
   return (
-    <div {...props} className={cx("ld-ammo", className)} data-slot="hud-ammo" role="group" aria-label={`${weapon}: ${clip} in the clip, ${reserve} in reserve`}>
+    <div
+      {...props}
+      className={cx("ld-ammo", className)}
+      data-slot="hud-ammo"
+      role="group"
+      aria-label={`${weapon}: ${clip} in the clip, ${reserve} in reserve`}
+    >
       <p className="ld-ammo__count" aria-hidden="true">
         <span>{clip}</span>
         <span data-kind="reserve">{reserve}</span>
       </p>
       <img className="ld-ammo__weapon" src={image} alt="" />
     </div>
-  )
+  );
 }
 
-export { HudAmmo, HudCash, HudVitals }
-export type { VitalsShow }
+export { HudAmmo, HudCash, HudVitals };
+export type { VitalsShow };

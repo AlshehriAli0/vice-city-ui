@@ -90,8 +90,14 @@
 
 .vc-vital[data-segmented] .vc-vital__track {
   --cell: calc(100% / var(--segments, 1));
-  -webkit-mask: var(--vital-mask, repeating-linear-gradient(90deg, #000 0 calc(var(--cell) - 2px), transparent calc(var(--cell) - 2px) var(--cell)));
-  mask: var(--vital-mask, repeating-linear-gradient(90deg, #000 0 calc(var(--cell) - 2px), transparent calc(var(--cell) - 2px) var(--cell)));
+  -webkit-mask: var(
+    --vital-mask,
+    repeating-linear-gradient(90deg, #000 0 calc(var(--cell) - 2px), transparent calc(var(--cell) - 2px) var(--cell))
+  );
+  mask: var(
+    --vital-mask,
+    repeating-linear-gradient(90deg, #000 0 calc(var(--cell) - 2px), transparent calc(var(--cell) - 2px) var(--cell))
+  );
   -webkit-mask-size: calc(100% + 2px) 100%;
   mask-size: calc(100% + 2px) 100%;
 }

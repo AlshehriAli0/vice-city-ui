@@ -25,8 +25,7 @@
   color: var(--hud-white);
   font-family: var(--font-ui);
   font-size: calc(24 * var(--u));
-  background:
-    radial-gradient(70% 60% at 50% 42%, #2b2a33 0%, #1a191f 55%, #0c0b0f 100%);
+  background: radial-gradient(70% 60% at 50% 42%, #2b2a33 0%, #1a191f 55%, #0c0b0f 100%);
   -webkit-font-smoothing: antialiased;
 }
 

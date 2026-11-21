@@ -1,22 +1,36 @@
-import { Avatar as AvatarRoot, AvatarFallback as AvatarFallbackRoot, AvatarImage as AvatarImageRoot } from "@ui-sdk/react/avatar"
-import { renderElement, type PartProps } from "@ui-sdk/react/primitive"
-import type { ComponentProps, CSSProperties, ReactElement, ReactNode } from "react"
-import { merge, styled } from "./cx"
-import "./base.css"
-import "./avatar.css"
+import {
+  Avatar as AvatarRoot,
+  AvatarFallback as AvatarFallbackRoot,
+  AvatarImage as AvatarImageRoot,
+} from "@ui-sdk/react/avatar";
+import { renderElement, type PartProps } from "@ui-sdk/react/primitive";
+import type { ComponentProps, CSSProperties, ReactElement, ReactNode } from "react";
 
-type AvatarSize = "xs" | "sm" | "md" | "lg" | "xl"
+import type { CssVariables } from "./css-variables";
+import { merge, styled } from "./cx";
+
+import "./base.css";
+import "./avatar.css";
+
+type AvatarSize = "xs" | "sm" | "md" | "lg" | "xl";
 
 type AvatarProps = Omit<ComponentProps<typeof AvatarRoot>, "children"> & {
-  size?: AvatarSize
-  ring?: "none" | "sunset" | "pink" | "teal"
-  status?: "online" | "busy" | "away" | "wanted"
-  shape?: "circle" | "square"
-  children?: ReactNode
-}
+  size?: AvatarSize;
+  ring?: "none" | "sunset" | "pink" | "teal";
+  status?: "online" | "busy" | "away" | "wanted";
+  shape?: "circle" | "square";
+  children?: ReactNode;
+};
 
-// Name the avatar with aria-label, and include the status in it when there is one.
-function Avatar({ size, ring = "none", status, shape = "circle", className, children, ...props }: AvatarProps): ReactElement {
+function Avatar({
+  size,
+  ring = "none",
+  status,
+  shape = "circle",
+  className,
+  children,
+  ...props
+}: AvatarProps): ReactElement {
   return (
     <AvatarRoot
       role="img"
@@ -29,34 +43,56 @@ function Avatar({ size, ring = "none", status, shape = "circle", className, chil
     >
       <span className="vc-avatar__clip">{children}</span>
     </AvatarRoot>
-  )
+  );
 }
 
 type AvatarImageProps = Omit<ComponentProps<typeof AvatarImageRoot>, "style"> & {
-  focus?: string
-  origin?: string
-  zoom?: number
-  style?: CSSProperties
-}
+  focus?: string;
+  origin?: string;
+  zoom?: number;
+  style?: CSSProperties;
+};
 
-/* `focus` is where the portrait centers, and `zoom` scales it about `origin` (the focus by default). */
 function AvatarImage({ focus, origin, zoom, className, style, ...props }: AvatarImageProps): ReactElement {
-  const vars = { "--avatar-focus": focus, "--avatar-origin": origin ?? focus, "--avatar-zoom": zoom } as CSSProperties
-  return <AvatarImageRoot alt="" {...props} className={merge("vc-avatar__img", className)} style={{ ...vars, ...style }} />
+  const vars = {
+    "--avatar-focus": focus,
+    "--avatar-origin": origin ?? focus,
+    "--avatar-zoom": zoom,
+  } satisfies CssVariables;
+  return (
+    <AvatarImageRoot alt="" {...props} className={merge("vc-avatar__img", className)} style={{ ...vars, ...style }} />
+  );
 }
 
-const AvatarFallback = styled(AvatarFallbackRoot, "vc-avatar__fallback")
+const AvatarFallback = styled(AvatarFallbackRoot, "vc-avatar__fallback");
 
-type AvatarGroupProps = PartProps<"div"> & { size?: AvatarSize }
+type AvatarGroupProps = PartProps<"div"> & { size?: AvatarSize };
 
 function AvatarGroup({ size, render, className, ...props }: AvatarGroupProps): ReactElement {
-  return renderElement("div", { role: "group", ...props, className: merge("vc-avatar-group", className), "data-slot": "avatar-group", "data-size": size }, render)
+  "use memo";
+
+  return renderElement(
+    "div",
+    {
+      role: "group",
+      ...props,
+      className: merge("vc-avatar-group", className),
+      "data-slot": "avatar-group",
+      "data-size": size,
+    },
+    render
+  );
 }
 
-/* The "+3" disc that ends a group; name it with aria-label. */
 function AvatarGroupCount({ render, className, ...props }: PartProps<"span">): ReactElement {
-  return renderElement("span", { role: "img", ...props, className: merge("vc-avatar-group__more", className), "data-slot": "avatar-group-count" }, render)
+  "use memo";
+
+  return renderElement(
+    "span",
+    { role: "img", ...props, className: merge("vc-avatar-group__more", className), "data-slot": "avatar-group-count" },
+    render
+  );
 }
 
-export { Avatar, AvatarFallback, AvatarGroup, AvatarGroupCount, AvatarImage }
-export type { AvatarProps }
+export { Avatar, AvatarFallback, AvatarGroup, AvatarGroupCount, AvatarImage };
+export type { AvatarProps };

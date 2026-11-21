@@ -158,7 +158,9 @@
 }
 
 .vc-field[data-layout="row"]:is(:hover, :focus-within, :has([data-open])) .vc-control ::placeholder,
-.vc-field[data-layout="row"]:is(:hover, :focus-within, :has([data-open])) .vc-select[data-placeholder] .vc-select__value {
+.vc-field[data-layout="row"]:is(:hover, :focus-within, :has([data-open]))
+  .vc-select[data-placeholder]
+  .vc-select__value {
   color: rgb(31 32 47 / 0.55);
 }
 
@@ -320,14 +322,30 @@
 .vc-stagger > * {
   animation: vc-fade 67ms linear both;
 }
-.vc-stagger > :nth-child(2) { animation-delay: 33ms; }
-.vc-stagger > :nth-child(3) { animation-delay: 66ms; }
-.vc-stagger > :nth-child(4) { animation-delay: 99ms; }
-.vc-stagger > :nth-child(5) { animation-delay: 132ms; }
-.vc-stagger > :nth-child(6) { animation-delay: 165ms; }
-.vc-stagger > :nth-child(7) { animation-delay: 198ms; }
-.vc-stagger > :nth-child(8) { animation-delay: 231ms; }
-.vc-stagger > :nth-child(n + 9) { animation-delay: 264ms; }
+.vc-stagger > :nth-child(2) {
+  animation-delay: 33ms;
+}
+.vc-stagger > :nth-child(3) {
+  animation-delay: 66ms;
+}
+.vc-stagger > :nth-child(4) {
+  animation-delay: 99ms;
+}
+.vc-stagger > :nth-child(5) {
+  animation-delay: 132ms;
+}
+.vc-stagger > :nth-child(6) {
+  animation-delay: 165ms;
+}
+.vc-stagger > :nth-child(7) {
+  animation-delay: 198ms;
+}
+.vc-stagger > :nth-child(8) {
+  animation-delay: 231ms;
+}
+.vc-stagger > :nth-child(n + 9) {
+  animation-delay: 264ms;
+}
 
 @keyframes vc-draw {
   from {
@@ -339,17 +357,61 @@
 }
 
 /* Menu text is the regular cut; display headings set their own weight. */
-:is(.vc-list, .vc-field, .vc-switch-row, .vc-control, .vc-row, .vc-cycle, .vc-slider, .vc-radios, .vc-choice, .vc-menu, .vc-pop,
-  .vc-card, .vc-alert, .vc-popover, .vc-hovercard, .vc-tooltip, .vc-dialog, .vc-sheet, .vc-accordion, .vc-cal, .vc-otp,
-  .vc-number, .vc-scroll, .vc-context-area) {
+:is(
+  .vc-list,
+  .vc-field,
+  .vc-switch-row,
+  .vc-control,
+  .vc-row,
+  .vc-cycle,
+  .vc-slider,
+  .vc-radios,
+  .vc-choice,
+  .vc-menu,
+  .vc-pop,
+  .vc-card,
+  .vc-alert,
+  .vc-popover,
+  .vc-hovercard,
+  .vc-tooltip,
+  .vc-dialog,
+  .vc-sheet,
+  .vc-accordion,
+  .vc-cal,
+  .vc-otp,
+  .vc-number,
+  .vc-scroll,
+  .vc-context-area
+) {
   font-weight: 400;
 }
 
 /* GTA Art Deco carries a tall ascender, so untrimmed text rides high in a row. Trimming to cap
    height and baseline centres the caps the way the menus do. */
-:is(.vc-label, .vc-cycle__value, .vc-cycle__count, .vc-switch-row__label, .vc-switch-row__state, .vc-slider__value,
-  .vc-menu__text, .vc-row__text, .vc-accordion__label, .vc-btn__label, .vc-tabs__tab, .vc-segments__item, .vc-toggle,
-  .vc-prompt, .vc-prompt-btn, .vc-chip, .vc-badge, .vc-radio-item__label, .vc-choice__label, .vc-list__title,
-  .vc-collapsible__trigger, .vc-bumper, .vc-kbd) {
+:is(
+  .vc-label,
+  .vc-cycle__value,
+  .vc-cycle__count,
+  .vc-switch-row__label,
+  .vc-switch-row__state,
+  .vc-slider__value,
+  .vc-menu__text,
+  .vc-row__text,
+  .vc-accordion__label,
+  .vc-btn__label,
+  .vc-tabs__tab,
+  .vc-segments__item,
+  .vc-toggle,
+  .vc-prompt,
+  .vc-prompt-btn,
+  .vc-chip,
+  .vc-badge,
+  .vc-radio-item__label,
+  .vc-choice__label,
+  .vc-list__title,
+  .vc-collapsible__trigger,
+  .vc-bumper,
+  .vc-kbd
+) {
   text-box: trim-both cap alphabetic;
 }

@@ -1,22 +1,24 @@
-import { ArrowLeft, ArrowRight } from "lucide-react"
-import { useEffect, useRef, type ReactElement } from "react"
-import { BY_ID, ENTRIES, entriesOf, sections, type Entry } from "./catalog"
-import { DemoBoundary } from "./boundary"
-import { FrameCrop } from "./crop-stage"
-import { FitStage } from "./fit-stage"
-import { hrefOf } from "./route"
-import { Source } from "./source"
-import { ControlsPanel, Examples, Usage, usePlayground } from "./playground"
-import { Stage } from "./stage"
+import { ArrowLeft, ArrowRight } from "lucide-react";
+import { useEffect, useRef, type ReactElement } from "react";
+
+import { DemoBoundary } from "./boundary";
+import { BY_ID, ENTRIES, entriesOf, sections, type Entry } from "./catalog";
+import { FrameCrop } from "./crop-stage";
+import { FitStage } from "./fit-stage";
+import { ControlsPanel, Examples, Usage } from "./playground";
+import { usePlayground } from "./playground-state";
+import { hrefOf } from "./route";
+import { Source } from "./source";
+import { Stage } from "./stage";
 
 function ComponentNav({ current }: { current: string }): ReactElement {
   return (
     <nav className="side-nav" aria-label="Components">
-      {sections.map((section) => (
+      {sections.map(section => (
         <div key={section.id} className="side-nav__group">
           <p className="side-nav__title">{section.title}</p>
           <ul>
-            {entriesOf(section).map((entry) => (
+            {entriesOf(section).map(entry => (
               <li key={entry.id}>
                 <a href={hrefOf(entry.id)} aria-current={entry.id === current ? "page" : undefined}>
                   <span className="side-nav__no">{entry.label}</span>
@@ -28,13 +30,13 @@ function ComponentNav({ current }: { current: string }): ReactElement {
         </div>
       ))}
     </nav>
-  )
+  );
 }
 
 function Pager({ entry }: { entry: Entry }): ReactElement {
-  const index = ENTRIES.indexOf(entry)
-  const prev = ENTRIES[index - 1]
-  const next = ENTRIES[index + 1]
+  const index = ENTRIES.indexOf(entry);
+  const prev = index > 0 ? ENTRIES[index - 1] : undefined;
+  const next = ENTRIES.at(index + 1);
   return (
     <nav className="pager" aria-label="Previous and next component">
       {prev ? (
@@ -58,7 +60,7 @@ function Pager({ entry }: { entry: Entry }): ReactElement {
         </a>
       )}
     </nav>
-  )
+  );
 }
 
 function KeyTable({ keys }: { keys: [string, string][] }): ReactElement {
@@ -86,27 +88,31 @@ function KeyTable({ keys }: { keys: [string, string][] }): ReactElement {
         ))}
       </tbody>
     </table>
-  )
+  );
 }
 
 function DetailPage({ id }: { id: string }): ReactElement | null {
-  const entry = BY_ID.get(id)
-  const playground = usePlayground(entry ?? ENTRIES[0])
-  const title = useRef<HTMLHeadingElement>(null)
-  const side = useRef<HTMLElement>(null)
+  const entry = BY_ID.get(id);
+  return entry ? <DetailContent entry={entry} /> : <UnknownComponent />;
+}
+
+function UnknownComponent(): null {
+  useEffect(() => window.location.replace("#/"), []);
+  return null;
+}
+
+function DetailContent({ entry }: { entry: Entry }): ReactElement {
+  const playground = usePlayground(entry);
+  const title = useRef<HTMLHeadingElement>(null);
+  const side = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    if (!entry) {
-      window.location.replace("#/")
-      return
-    }
-    window.scrollTo(0, 0)
-    title.current?.focus({ preventScroll: true })
-    const current = side.current?.querySelector<HTMLElement>('[aria-current="page"]')
-    if (side.current && current) side.current.scrollTop = current.offsetTop - side.current.clientHeight / 2
-  }, [entry])
+    window.scrollTo(0, 0);
+    title.current?.focus({ preventScroll: true });
+    const current = side.current?.querySelector<HTMLElement>('[aria-current="page"]');
+    if (side.current && current) side.current.scrollTop = current.offsetTop - side.current.clientHeight / 2;
+  }, []);
 
-  if (!entry) return null
   return (
     <div className="detail">
       <aside className="detail__side" ref={side}>
@@ -127,7 +133,11 @@ function DetailPage({ id }: { id: string }): ReactElement | null {
         <Examples demo={entry} state={playground} />
         <Stage className="detail__stage" scene={entry.scene}>
           <DemoBoundary name={entry.name}>
-            {entry.stageCrop ? <FrameCrop crop={entry.stageCrop}>{entry.render(playground)}</FrameCrop> : entry.render(playground)}
+            {entry.stageCrop ? (
+              <FrameCrop crop={entry.stageCrop}>{entry.render(playground)}</FrameCrop>
+            ) : (
+              entry.render(playground)
+            )}
           </DemoBoundary>
         </Stage>
         <ControlsPanel demo={entry} state={playground} />
@@ -138,7 +148,7 @@ function DetailPage({ id }: { id: string }): ReactElement | null {
           <section className="detail__section" aria-labelledby="states-title">
             <h2 id="states-title">States</h2>
             <div className="states">
-              {entry.states.map((state) => (
+              {entry.states.map(state => (
                 <figure key={state.label} className="states__item">
                   <Stage className="states__stage" scene={entry.scene}>
                     <div inert aria-hidden="true">
@@ -171,7 +181,7 @@ function DetailPage({ id }: { id: string }): ReactElement | null {
         <Pager entry={entry} />
       </article>
     </div>
-  )
+  );
 }
 
-export { DetailPage }
+export { DetailPage };

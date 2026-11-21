@@ -8,22 +8,23 @@ import {
   SelectLabel as SelectLabelRoot,
   SelectTrigger as SelectTriggerRoot,
   SelectValue as SelectValueRoot,
-} from "@ui-sdk/react/select"
-import type { ComponentProps, ReactElement, ReactNode } from "react"
-import { merge, POPUP_CLEARANCE, styled } from "./cx"
-import { Check, ChevronDown } from "./icons"
-import "./ui.css"
-import "./select.css"
+} from "@ui-sdk/react/select";
+import type { ComponentProps, ReactElement, ReactNode } from "react";
 
-type SelectTriggerProps = ComponentProps<typeof SelectTriggerRoot> & { size?: "sm" | "md" | "lg" }
+import { merge, POPUP_CLEARANCE, styled } from "./cx";
+import { Check, ChevronDown } from "./icons";
 
-// The trigger ends in the row chevron.
+import "./ui.css";
+import "./select.css";
+
+type SelectTriggerProps = ComponentProps<typeof SelectTriggerRoot> & { size?: "sm" | "md" | "lg" };
+
 function SelectTrigger({ size, className, children, ...props }: SelectTriggerProps): ReactElement {
   return (
     <SelectTriggerRoot {...props} className={merge("vc-control vc-select", className)} data-size={size}>
-      {typeof children === "function" ? (state) => withChevron(children(state)) : withChevron(children)}
+      {typeof children === "function" ? state => withChevron(children(state)) : withChevron(children)}
     </SelectTriggerRoot>
-  )
+  );
 }
 
 function withChevron(children: ReactNode): ReactElement {
@@ -32,26 +33,47 @@ function withChevron(children: ReactNode): ReactElement {
       {children}
       <ChevronDown className="vc-chevron" />
     </>
-  )
+  );
 }
 
 function SelectContent({ className, ...props }: ComponentProps<typeof SelectContentRoot>): ReactElement {
-  return <SelectContentRoot sideOffset={6} collisionPadding={POPUP_CLEARANCE} {...props} className={merge("vc-pop vc-select__list", className)} />
+  return (
+    <SelectContentRoot
+      sideOffset={6}
+      collisionPadding={POPUP_CLEARANCE}
+      {...props}
+      className={merge("vc-pop vc-select__list", className)}
+    />
+  );
 }
 
-function SelectItemIndicator({ className, children, ...props }: ComponentProps<typeof SelectItemIndicatorRoot>): ReactElement {
+function SelectItemIndicator({
+  className,
+  children,
+  ...props
+}: ComponentProps<typeof SelectItemIndicatorRoot>): ReactElement {
   return (
     <SelectItemIndicatorRoot {...props} className={merge("vc-row__check", className)}>
       {children ?? <Check />}
     </SelectItemIndicatorRoot>
-  )
+  );
 }
 
-const SelectLabel = styled(SelectLabelRoot, "vc-label")
-const SelectValue = styled(SelectValueRoot, "vc-select__value")
-const SelectItem = styled(SelectItemRoot, "vc-row")
-const SelectItemIcon = styled(SelectItemIconRoot, "vc-row__icon")
-const SelectItemText = styled(SelectItemTextRoot, "vc-row__text")
+const SelectLabel = styled(SelectLabelRoot, "vc-label");
+const SelectValue = styled(SelectValueRoot, "vc-select__value");
+const SelectItem = styled(SelectItemRoot, "vc-row");
+const SelectItemIcon = styled(SelectItemIconRoot, "vc-row__icon");
+const SelectItemText = styled(SelectItemTextRoot, "vc-row__text");
 
-export { Select, SelectContent, SelectItem, SelectItemIcon, SelectItemIndicator, SelectItemText, SelectLabel, SelectTrigger, SelectValue }
-export type { SelectTriggerProps }
+export {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectItemIcon,
+  SelectItemIndicator,
+  SelectItemText,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+};
+export type { SelectTriggerProps };

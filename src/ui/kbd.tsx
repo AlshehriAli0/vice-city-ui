@@ -1,22 +1,27 @@
-import { renderElement, type PartProps } from "@ui-sdk/react/primitive"
-import type { ReactElement } from "react"
-import { merge } from "./cx"
-import { plain } from "./plain"
-import "./base.css"
-import "./kbd.css"
+import { renderElement, type PartProps } from "@ui-sdk/react/primitive";
+import type { ReactElement } from "react";
 
-const Kbd = plain("kbd", "kbd", "vc-kbd")
+import { merge } from "./cx";
+import { plain } from "./plain";
 
-/* A shoulder button keycap like L1 or R1. */
-const Bumper = plain("kbd", "bumper", "vc-bumper")
+import "./base.css";
+import "./kbd.css";
 
-type GlyphName = "cross" | "circle" | "square" | "triangle"
+const Kbd = plain("kbd", "kbd", "vc-kbd");
 
-const GLYPH_TEXT: Record<GlyphName, string> = { cross: "Cross", circle: "Circle", square: "Square", triangle: "Triangle" }
+const Bumper = plain("kbd", "bumper", "vc-bumper");
 
-type GlyphProps = Omit<PartProps<"span">, "children"> & { name: GlyphName }
+type GlyphName = "cross" | "circle" | "square" | "triangle";
 
-/* A controller face button: the round glyph keycap from the game's prompts. */
+const GLYPH_TEXT: Record<GlyphName, string> = {
+  cross: "Cross",
+  circle: "Circle",
+  square: "Square",
+  triangle: "Triangle",
+};
+
+type GlyphProps = Omit<PartProps<"span">, "children"> & { name: GlyphName };
+
 function Glyph({ name, render, className, ...props }: GlyphProps): ReactElement {
   const glyph = (
     <svg viewBox="0 0 20 20" aria-hidden="true">
@@ -25,17 +30,29 @@ function Glyph({ name, render, className, ...props }: GlyphProps): ReactElement 
       {name === "square" && <rect x="5.6" y="5.6" width="8.8" height="8.8" />}
       {name === "triangle" && <path d="M10 5l5 8.6H5z" />}
     </svg>
-  )
+  );
   return renderElement(
     "span",
-    { role: "img", "aria-label": GLYPH_TEXT[name], ...props, className: merge("vc-glyph", className), "data-slot": "glyph", "data-glyph": name, children: glyph },
-    render,
-  )
+    {
+      role: "img",
+      "aria-label": GLYPH_TEXT[name],
+      ...props,
+      className: merge("vc-glyph", className),
+      "data-slot": "glyph",
+      "data-glyph": name,
+      children: glyph,
+    },
+    render
+  );
 }
 
-type PromptProps = Omit<PartProps<"span">, "children"> & { label: string; glyph?: GlyphName; keys?: string; disabled?: boolean }
+type PromptProps = Omit<PartProps<"span">, "children"> & {
+  label: string;
+  glyph?: GlyphName;
+  keys?: string;
+  disabled?: boolean;
+};
 
-/* A footer prompt, label first, like "BACK ○". */
 function Prompt({ label, glyph, keys, disabled, render, className, ...props }: PromptProps): ReactElement {
   const children = (
     <>
@@ -43,20 +60,36 @@ function Prompt({ label, glyph, keys, disabled, render, className, ...props }: P
       {glyph && <Glyph name={glyph} />}
       {keys && <Kbd>{keys}</Kbd>}
     </>
-  )
+  );
   return renderElement(
     "span",
-    { ...props, className: merge("vc-prompt", className), "data-slot": "prompt", "data-disabled": disabled || undefined, children },
-    render,
-  )
+    {
+      ...props,
+      className: merge("vc-prompt", className),
+      "data-slot": "prompt",
+      "data-disabled": disabled ? true : undefined,
+      children,
+    },
+    render
+  );
 }
 
-type PromptsProps = PartProps<"div"> & { stack?: boolean }
+type PromptsProps = PartProps<"div"> & { stack?: boolean };
 
-/* A row of prompts, right-aligned like the menus' footer; `stack` gives the map's vertical column. */
 function Prompts({ stack, render, className, ...props }: PromptsProps): ReactElement {
-  return renderElement("div", { ...props, className: merge("vc-prompts", className), "data-slot": "prompts", "data-stack": stack || undefined }, render)
+  "use memo";
+
+  return renderElement(
+    "div",
+    {
+      ...props,
+      className: merge("vc-prompts", className),
+      "data-slot": "prompts",
+      "data-stack": stack ? true : undefined,
+    },
+    render
+  );
 }
 
-export { Bumper, Glyph, Kbd, Prompt, Prompts }
-export type { GlyphName }
+export { Bumper, Glyph, Kbd, Prompt, Prompts };
+export type { GlyphName };

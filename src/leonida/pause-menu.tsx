@@ -1,39 +1,26 @@
-import { Button } from "@ui-sdk/react/button"
-import { Toolbar, ToolbarButton } from "@ui-sdk/react/toolbar"
-import { Camera, CircleQuestionMark, Map, Save, SlidersVertical, Tag, type LucideIcon } from "lucide-react"
-import { useEffect, useState, type CSSProperties, type ReactElement } from "react"
-import { ButtonPrompt, ButtonPrompts } from "./button-prompt"
-import { GameScreen } from "./game-screen"
-import "./pause-menu.css"
+import { Button } from "@ui-sdk/react/button";
+import { Toolbar, ToolbarButton } from "@ui-sdk/react/toolbar";
+import { useEffect, useEffectEvent, useState, type ReactElement } from "react";
 
-type Row = { value: string; label: string; Icon: LucideIcon }
+import { cssVariables } from "../ui/css-variables";
+import { ButtonPrompt, ButtonPrompts } from "./button-prompt";
+import { GameScreen } from "./game-screen";
+import { PAUSE_ROWS } from "./pause-menu.data";
 
-const ROWS: Row[] = [
-  { value: "map", label: "Map", Icon: Map },
-  { value: "game", label: "Game", Icon: Save },
-  { value: "store", label: "Store", Icon: Tag },
-  { value: "help", label: "Help", Icon: CircleQuestionMark },
-  { value: "photo", label: "Photo Studio", Icon: Camera },
-  { value: "settings", label: "Settings", Icon: SlidersVertical },
-]
+import "./pause-menu.css";
 
 type PauseMenuProps = {
-  // The row with the bar: the one focused last.
-  value?: string
-  defaultValue?: string
-  onValueChange?: (value: string) => void
-  chapter?: string
-  title?: string
-  // Select (×, Enter, Space or a click) on a row.
-  onSelect?: (value: string) => void
-  onAction?: (action: "retry" | "restart") => void
-  // Back: the menu fades out, then this runs once the game would be back.
-  onResume?: () => void
-  // Rows with something new get the yellow dot.
-  badges?: string[]
-}
+  value?: string;
+  defaultValue?: string;
+  onValueChange?: (value: string) => void;
+  chapter?: string;
+  title?: string;
+  onSelect?: (value: string) => void;
+  onAction?: (action: "retry" | "restart") => void;
+  onResume?: () => void;
+  badges?: string[];
+};
 
-/* The world behind the menu: a neutral CSS scene, blurred, split and vignetted. Not a screenshot. */
 function World(): ReactElement {
   return (
     <div className="ld-pause__world" aria-hidden="true">
@@ -46,7 +33,7 @@ function World(): ReactElement {
         <i data-l="5" />
       </div>
     </div>
-  )
+  );
 }
 
 function Status({ chapter, title, onAction }: Pick<PauseMenuProps, "chapter" | "title" | "onAction">): ReactElement {
@@ -63,7 +50,7 @@ function Status({ chapter, title, onAction }: Pick<PauseMenuProps, "chapter" | "
         </Button>
       </div>
     </div>
-  )
+  );
 }
 
 function PauseMenu({
@@ -77,22 +64,23 @@ function PauseMenu({
   onResume,
   badges = [],
 }: PauseMenuProps): ReactElement {
-  const [ownValue, setOwnValue] = useState(defaultValue)
-  const [closing, setClosing] = useState(false)
-  const current = value ?? ownValue
+  const [ownValue, setOwnValue] = useState(defaultValue);
+  const [closing, setClosing] = useState(false);
+  const current = value ?? ownValue;
+
+  const resume = useEffectEvent(() => onResume?.());
 
   useEffect(() => {
-    if (!closing) return
-    // Panel fades over 130ms, then the game cuts back about 470ms later.
-    const timer = setTimeout(() => onResume?.(), 600)
-    return () => clearTimeout(timer)
-  }, [closing, onResume])
+    if (!closing) return undefined;
+    const timer = setTimeout(() => resume(), 600);
+    return () => clearTimeout(timer);
+  }, [closing]);
 
   const point = (next: string) => {
-    if (next === current) return
-    setOwnValue(next)
-    onValueChange?.(next)
-  }
+    if (next === current) return;
+    setOwnValue(next);
+    onValueChange?.(next);
+  };
 
   return (
     <GameScreen className="ld-pause" data-closing={closing || undefined}>
@@ -103,12 +91,12 @@ function PauseMenu({
             VC
           </span>
           <Toolbar className="ld-pause__list" orientation="vertical" aria-label="Pause menu">
-            {ROWS.map(({ value: row, label, Icon }, index) => (
+            {PAUSE_ROWS.map(({ value: row, label, Icon }, index) => (
               <ToolbarButton
                 key={row}
                 className="ld-pause__row"
                 data-current={row === current || undefined}
-                style={{ "--i": index } as CSSProperties}
+                style={cssVariables({ "--i": index })}
                 onFocus={() => point(row)}
                 onClick={() => onSelect?.(row)}
               >
@@ -137,8 +125,8 @@ function PauseMenu({
         </ButtonPrompt>
       </ButtonPrompts>
     </GameScreen>
-  )
+  );
 }
 
-export { PauseMenu, ROWS as PAUSE_ROWS }
-export type { PauseMenuProps }
+export { PauseMenu };
+export type { PauseMenuProps };

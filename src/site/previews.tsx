@@ -1,13 +1,13 @@
-import type { ReactElement } from "react"
-import { HudAmmo, HudCash, HudVitals } from "../leonida/hud-meters"
-import { HudMinimap, type Blip } from "../leonida/hud-minimap"
+import type { ReactElement } from "react";
+
+import { HudAmmo, HudCash, HudVitals } from "../leonida/hud-meters";
+import { HudMinimap, type Blip } from "../leonida/hud-minimap";
 
 const BLIPS: Blip[] = [
   { id: "goal", bearing: 72, kind: "destination", label: "Destination" },
   { id: "store", bearing: 290, kind: "store", label: "Store" },
-]
+];
 
-/* The HUD at rest for its catalogue card: no heat, day minimap, vitals and cash gathered into one view. */
 function CalmHud(): ReactElement {
   return (
     <div className="calm-hud">
@@ -20,12 +20,11 @@ function CalmHud(): ReactElement {
         <HudAmmo clip={12} reserve={48} />
       </div>
     </div>
-  )
+  );
 }
 
-// Card-only previews that replace a demo's live default when that default isn't the component's calm state.
-const PREVIEWS: Record<string, () => ReactElement> = {
+const PREVIEWS: Partial<Record<string, () => ReactElement>> = {
   "hud-meters": () => <CalmHud />,
-}
+};
 
-export { PREVIEWS }
+export { PREVIEWS };

@@ -185,5 +185,6 @@
   height: calc(60 * var(--u, 1px));
   object-fit: contain;
   object-position: right center;
-  filter: brightness(1.2) drop-shadow(0 0 calc(1 * var(--u, 1px)) #000) drop-shadow(0 0 calc(1 * var(--u, 1px)) rgb(0 0 0 / 0.8));
+  filter: brightness(1.2) drop-shadow(0 0 calc(1 * var(--u, 1px)) #000)
+    drop-shadow(0 0 calc(1 * var(--u, 1px)) rgb(0 0 0 / 0.8));
 }

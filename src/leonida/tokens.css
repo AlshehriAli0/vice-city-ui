@@ -1,12 +1,41 @@
 @layer ui-sdk;
 
 /* Rockstar's GTA VI typefaces, as served by rockstargames.com/VI. */
-@font-face { font-family: "GTA Art Deco"; src: url("/fonts/GTAArtDeco_Regular.woff") format("woff"); font-weight: 400; font-display: swap; }
-@font-face { font-family: "GTA Art Deco"; src: url("/fonts/GTAArtDeco_Medium.woff") format("woff"); font-weight: 500 600; font-display: swap; }
-@font-face { font-family: "GTA Art Deco"; src: url("/fonts/GTAArtDeco_Bold.woff") format("woff"); font-weight: 700; font-display: swap; }
-@font-face { font-family: "GTA Art Deco Condensed"; src: url("/fonts/GTAArtDeco_CondensedBold.woff") format("woff"); font-weight: 400 700; font-display: swap; }
-@font-face { font-family: "GTA Art Deco Condensed"; src: url("/fonts/GTAArtDeco_CondensedHeavy.woff") format("woff"); font-weight: 800 900; font-display: swap; }
-@font-face { font-family: "Rage Italic"; src: url("/fonts/RageItalicStd.otf") format("opentype"); font-display: swap; }
+@font-face {
+  font-family: "GTA Art Deco";
+  src: url("/fonts/GTAArtDeco_Regular.woff") format("woff");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "GTA Art Deco";
+  src: url("/fonts/GTAArtDeco_Medium.woff") format("woff");
+  font-weight: 500 600;
+  font-display: swap;
+}
+@font-face {
+  font-family: "GTA Art Deco";
+  src: url("/fonts/GTAArtDeco_Bold.woff") format("woff");
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: "GTA Art Deco Condensed";
+  src: url("/fonts/GTAArtDeco_CondensedBold.woff") format("woff");
+  font-weight: 400 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: "GTA Art Deco Condensed";
+  src: url("/fonts/GTAArtDeco_CondensedHeavy.woff") format("woff");
+  font-weight: 800 900;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Rage Italic";
+  src: url("/fonts/RageItalicStd.otf") format("opentype");
+  font-display: swap;
+}
 
 :root {
   --font-display: "GTA Art Deco Condensed", "Arial Narrow", sans-serif;
@@ -35,7 +64,16 @@
   --wasted: #c8282d;
 
   /* The VI gradient, sampled top to bottom. */
-  --vi: linear-gradient(180deg, #ffa148 0%, #ff7d54 18%, #f66483 34%, #e1558e 46%, #bb36b7 62%, #6d3fbb 80%, #3a4fc0 100%);
+  --vi: linear-gradient(
+    180deg,
+    #ffa148 0%,
+    #ff7d54 18%,
+    #f66483 34%,
+    #e1558e 46%,
+    #bb36b7 62%,
+    #6d3fbb 80%,
+    #3a4fc0 100%
+  );
   --sunset: var(--vi);
   --sunset-x: linear-gradient(90deg, #ffa148 0%, #f66483 40%, #bb36b7 72%, #3a4fc0 100%);
   --sunset-warm: linear-gradient(90deg, #ffa148 0%, #f66483 55%, #e963bc 100%);
@@ -127,7 +165,6 @@
   --page-sky: linear-gradient(189deg, #16203f 0.55%, #151732 30.38%, #111127 65.19%, #0d0c1a 100%);
   color-scheme: dark;
 }
-
 
 /* ---------- The site's six adaptive themes (rockstargames.com/VI) ----------
    Any element with data-sky="<theme>" gets that theme's tokens; children inherit them.

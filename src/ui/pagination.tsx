@@ -8,35 +8,48 @@ import {
   PaginationList as PaginationListRoot,
   PaginationNext as PaginationNextRoot,
   PaginationPrevious as PaginationPreviousRoot,
-} from "@ui-sdk/react/pagination"
-import { ChevronLeft, ChevronRight } from "lucide-react"
-import type { ComponentProps, ReactElement } from "react"
-import { merge, styled } from "./cx"
-import "./base.css"
-import "./pagination.css"
+} from "@ui-sdk/react/pagination";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import type { ComponentProps, ReactElement } from "react";
 
-const Pagination = styled(PaginationRoot, "vc-pagination")
-const PaginationList = styled(PaginationListRoot, "vc-pagination__list")
-const PaginationLink = styled(PaginationLinkRoot, "vc-pagination__link")
-const PaginationEllipsis = styled(PaginationEllipsisRoot, "vc-pagination__gap")
-const PaginationFirst = styled(PaginationFirstRoot, "vc-pagination__step")
-const PaginationLast = styled(PaginationLastRoot, "vc-pagination__step")
+import { merge, styled } from "./cx";
 
-// Previous and Next draw a chevron, and name themselves, when they're given no content.
-function PaginationPrevious({ className, children, ...props }: ComponentProps<typeof PaginationPreviousRoot>): ReactElement {
+import "./base.css";
+import "./pagination.css";
+
+const Pagination = styled(PaginationRoot, "vc-pagination");
+const PaginationList = styled(PaginationListRoot, "vc-pagination__list");
+const PaginationLink = styled(PaginationLinkRoot, "vc-pagination__link");
+const PaginationEllipsis = styled(PaginationEllipsisRoot, "vc-pagination__gap");
+const PaginationFirst = styled(PaginationFirstRoot, "vc-pagination__step");
+const PaginationLast = styled(PaginationLastRoot, "vc-pagination__step");
+
+function PaginationPrevious({
+  className,
+  children,
+  ...props
+}: ComponentProps<typeof PaginationPreviousRoot>): ReactElement {
   return (
-    <PaginationPreviousRoot aria-label={children ? undefined : "Previous page"} {...props} className={merge("vc-pagination__step", className)}>
+    <PaginationPreviousRoot
+      aria-label={children ? undefined : "Previous page"}
+      {...props}
+      className={merge("vc-pagination__step", className)}
+    >
       {children ?? <ChevronLeft className="vc-pagination__chev" aria-hidden="true" />}
     </PaginationPreviousRoot>
-  )
+  );
 }
 
 function PaginationNext({ className, children, ...props }: ComponentProps<typeof PaginationNextRoot>): ReactElement {
   return (
-    <PaginationNextRoot aria-label={children ? undefined : "Next page"} {...props} className={merge("vc-pagination__step", className)}>
+    <PaginationNextRoot
+      aria-label={children ? undefined : "Next page"}
+      {...props}
+      className={merge("vc-pagination__step", className)}
+    >
       {children ?? <ChevronRight className="vc-pagination__chev" aria-hidden="true" />}
     </PaginationNextRoot>
-  )
+  );
 }
 
 export {
@@ -49,4 +62,4 @@ export {
   PaginationList,
   PaginationNext,
   PaginationPrevious,
-}
+};

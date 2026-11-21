@@ -1,4 +1,3 @@
-// UI glyphs come from lucide-react; these names keep the kit's call sites short.
 export {
   TriangleAlert as Alert,
   ArrowRight as Arrow,
@@ -17,4 +16,4 @@ export {
   Star,
   Sun,
   Underline,
-} from "lucide-react"
+} from "lucide-react";

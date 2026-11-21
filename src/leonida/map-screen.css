@@ -211,7 +211,9 @@
 
 .ld-map__blip[data-active] {
   background: #ff6b9f;
-  box-shadow: 0 0 0 6px rgb(255 107 159 / 0.3), 0 0 0 13px rgb(255 107 159 / 0.14);
+  box-shadow:
+    0 0 0 6px rgb(255 107 159 / 0.3),
+    0 0 0 13px rgb(255 107 159 / 0.14);
 }
 
 /* Distance under the hovered blip, "1.86 mi": display face, white with a dark outline. */
@@ -427,7 +429,9 @@
   font-size: 28px;
   line-height: 40px;
   text-align: center;
-  text-shadow: 0 0 8px rgb(0 0 0 / 0.85), 0 2px 2px rgb(0 0 0 / 0.8);
+  text-shadow:
+    0 0 8px rgb(0 0 0 / 0.85),
+    0 2px 2px rgb(0 0 0 / 0.8);
 }
 
 .ld-map__objective em,
@@ -508,7 +512,15 @@
 }
 
 .ld-map__filter[data-active] {
-  background: linear-gradient(90deg, rgb(var(--bar)) 0%, rgb(var(--bar) / 0.95) 45%, rgb(var(--bar) / 0.82) 60%, rgb(var(--bar) / 0.55) 80%, rgb(var(--bar) / 0.28) 100%) top / 100% 67px no-repeat;
+  background: linear-gradient(
+      90deg,
+      rgb(var(--bar)) 0%,
+      rgb(var(--bar) / 0.95) 45%,
+      rgb(var(--bar) / 0.82) 60%,
+      rgb(var(--bar) / 0.55) 80%,
+      rgb(var(--bar) / 0.28) 100%
+    )
+    top / 100% 67px no-repeat;
   color: #1f202f;
   animation: ld-map-bar 167ms steps(5) both;
 }

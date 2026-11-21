@@ -32,4 +32,3 @@
 .ld-hud-frame:has(.ld-help[data-slot="tooltip-content"][data-open]) .hud-demo__idle {
   visibility: hidden;
 }
-

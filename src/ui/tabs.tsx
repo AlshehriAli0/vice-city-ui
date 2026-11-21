@@ -1,21 +1,27 @@
-import { Tabs as TabsRoot, TabsList as TabsListRoot, TabsPanel as TabsPanelRoot, TabsTab as TabsTabRoot } from "@ui-sdk/react/tabs"
-import type { ComponentProps, ReactElement } from "react"
-import { merge, styled } from "./cx"
-import { plain } from "./plain"
-import "./base.css"
-import "./tabs.css"
+import {
+  Tabs as TabsRoot,
+  TabsList as TabsListRoot,
+  TabsPanel as TabsPanelRoot,
+  TabsTab as TabsTabRoot,
+} from "@ui-sdk/react/tabs";
+import type { ComponentProps, ReactElement } from "react";
 
-type TabsProps = ComponentProps<typeof TabsRoot> & { variant?: "underline" | "chips" | "pill" | "slant" }
+import { merge, styled } from "./cx";
+import { plain } from "./plain";
+
+import "./base.css";
+import "./tabs.css";
+
+type TabsProps = ComponentProps<typeof TabsRoot> & { variant?: "underline" | "chips" | "pill" | "slant" };
 
 function Tabs({ variant = "underline", className, ...props }: TabsProps): ReactElement {
-  return <TabsRoot {...props} className={merge("vc-tabs", className)} data-variant={variant} />
+  return <TabsRoot {...props} className={merge("vc-tabs", className)} data-variant={variant} />;
 }
 
-// The row a tab list sits in, with room for the settings screen's L1 and R1 keycaps on either side.
-const TabsBar = plain("div", "tabs-bar", "vc-tabs__bar")
-const TabsList = styled(TabsListRoot, "vc-tabs__list")
-const TabsTab = styled(TabsTabRoot, "vc-tabs__tab")
-const TabsPanel = styled(TabsPanelRoot, "vc-tabs__panel")
+const TabsBar = plain("div", "tabs-bar", "vc-tabs__bar");
+const TabsList = styled(TabsListRoot, "vc-tabs__list");
+const TabsTab = styled(TabsTabRoot, "vc-tabs__tab");
+const TabsPanel = styled(TabsPanelRoot, "vc-tabs__panel");
 
-export { Tabs, TabsBar, TabsList, TabsPanel, TabsTab }
-export type { TabsProps }
+export { Tabs, TabsBar, TabsList, TabsPanel, TabsTab };
+export type { TabsProps };

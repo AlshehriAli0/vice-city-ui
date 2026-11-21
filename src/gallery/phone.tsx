@@ -1,79 +1,88 @@
-import { useEffect, useRef, useState } from "react"
-import { HudCash } from "../leonida/hud-meters"
-import { GameFrame, NeutralScene } from "../leonida/menu-backdrop"
-import { NotificationSlot, TextCardStill, createSlot, type CallState } from "../leonida/mission-toast"
-import type { PhoneApp } from "../leonida/phone-data"
-import { PhoneDrawer, PhoneDrawerContent, PhoneDrawerTrigger } from "../leonida/phone-drawer"
-import "./overlays.css"
-import type { Demo, Playground } from "./types"
-import { useAction } from "./use-action"
+import { useEffect, useState } from "react";
 
-type Card = "text" | CallState
+import { HudCash } from "../leonida/hud-meters";
+import { GameFrame, NeutralScene } from "../leonida/menu-backdrop";
+import { NotificationSlot, TextCardStill } from "../leonida/mission-toast";
+import { createSlot, type CallState, type Slot } from "../leonida/mission-toast.store";
+import type { PhoneApp } from "../leonida/phone-data";
+import { PhoneDrawer, PhoneDrawerContent, PhoneDrawerTrigger } from "../leonida/phone-drawer";
 
-function NotificationDemo({ values, fired }: Playground) {
-  const [slot] = useState(createSlot)
-  const card = values.card as Card
-  const name = String(values.name)
-  const body = String(values.body)
-  // The frame shows a still of the default card until a value changes or an action runs; nothing fires on mount.
-  const [live, setLive] = useState(false)
-  const show = () => {
-    setLive(true)
-    if (card === "text") slot.message(name, body)
-    else if (card === "dialing") slot.dial(name)
-    else slot.call(name, card)
-  }
-  const [still] = useState({ card, name, body })
-  const changed = useRef(false)
+import "./overlays.css";
+import { optionValue } from "./options";
+import type { Demo, Playground } from "./types";
+import { useAction } from "./use-action";
+import { useMirroredControl } from "./use-mirrored-control";
+
+type Card = "text" | CallState;
+
+function deliverCard(slot: Slot, card: Card, name: string, body: string): void {
+  if (card === "text") slot.message(name, body);
+  else if (card === "dialing") slot.dial(name);
+  else slot.call(name, card);
+}
+
+function createCardPreview(card: Card, name: string, body: string) {
+  const slot = createSlot();
+  const initial = { card, name, body };
+  let previous = initial;
+
+  return {
+    slot,
+    initial,
+    sync: (nextCard: Card, nextName: string, nextBody: string) => {
+      const unchanged = previous.card === nextCard && previous.name === nextName && previous.body === nextBody;
+      if (unchanged) return;
+
+      previous = { card: nextCard, name: nextName, body: nextBody };
+      deliverCard(slot, nextCard, nextName, nextBody);
+    },
+  };
+}
+
+function NotificationDemo({ values, subscribeAction }: Playground) {
+  const card = optionValue(values.card, CARDS) ?? "text";
+  const name = String(values.name);
+  const body = String(values.body);
+  const [preview] = useState(() => createCardPreview(card, name, body));
+  const { slot, initial: still } = preview;
+  const edited = card !== still.card || name !== still.name || body !== still.body;
+  const [live, setLive] = useState(false);
+  if (edited && !live) setLive(true);
+
   useEffect(() => {
-    if (!changed.current && card === still.card && name === still.name && body === still.body) return
-    changed.current = true
-    show()
-  }, [card, name, body])
-  useAction(fired.again, show)
-  useAction(fired.answer, () => {
-    setLive(true)
-    slot.answer()
-  })
-  useAction(fired.hangUp, () => {
-    setLive(true)
-    slot.endCall()
-  })
+    preview.sync(card, name, body);
+  }, [preview, card, name, body]);
+
+  useAction(subscribeAction, "again", () => {
+    setLive(true);
+    deliverCard(slot, card, name, body);
+  });
+  useAction(subscribeAction, "answer", () => {
+    setLive(true);
+    slot.answer();
+  });
+  useAction(subscribeAction, "hangUp", () => {
+    setLive(true);
+    slot.endCall();
+  });
+
   return (
     <div className="ov-demo">
       <div className="ov-demo__frame">
         <GameFrame>
           <NeutralScene />
-          {/* The slot is always placed, so the slot's toaster never falls back to the page's overlay host. */}
           <NotificationSlot toaster={slot.toaster} inline />
           {!live && <TextCardStill name={still.name} body={still.body} />}
         </GameFrame>
       </div>
     </div>
-  )
-}
-
-// Mirrors a panel value locally, so the phone still opens and closes where the panel is read-only (catalogue, harness).
-function useMirror<T>(value: T, set: (next: T) => void): [T, (next: T) => void] {
-  const [own, setOwn] = useState(value)
-  const [seen, setSeen] = useState(value)
-  if (value !== seen) {
-    setSeen(value)
-    setOwn(value)
-  }
-  return [
-    own,
-    (next) => {
-      setOwn(next)
-      set(next)
-    },
-  ]
+  );
 }
 
 function PhoneDemo({ values, set }: Playground) {
-  const [slot] = useState(createSlot)
-  const [open, setOpen] = useMirror(Boolean(values.open), (next) => set("open", next))
-  const [app, setApp] = useMirror(values.app as PhoneApp, (next) => set("app", next))
+  const [slot] = useState(createSlot);
+  const [open, setOpen] = useMirroredControl(Boolean(values.open), next => set("open", next));
+  const [app, setApp] = useMirroredControl(optionValue(values.app, APP_OPTIONS) ?? "home", next => set("app", next));
   return (
     <div className="ov-demo">
       <PhoneDrawer open={open} onOpenChange={setOpen} app={app} onAppChange={setApp} slot={slot}>
@@ -86,11 +95,11 @@ function PhoneDemo({ values, set }: Playground) {
           </GameFrame>
         </div>
         <div className="ov-demo__trigger">
-          <PhoneDrawerTrigger className="g-btn">Open phone</PhoneDrawerTrigger>
+          <PhoneDrawerTrigger className="g-btn">{open ? "Put phone away" : "Open phone"}</PhoneDrawerTrigger>
         </div>
       </PhoneDrawer>
     </div>
-  )
+  );
 }
 
 const APP_OPTIONS: { value: PhoneApp; label: string }[] = [
@@ -103,14 +112,22 @@ const APP_OPTIONS: { value: PhoneApp; label: string }[] = [
   { value: "weather", label: "Weather" },
   { value: "waink", label: "WAiNK" },
   { value: "settings", label: "Settings" },
-]
+];
 
 const CARDS: { value: Card; label: string }[] = [
   { value: "text", label: "Text" },
   { value: "incoming", label: "Incoming" },
   { value: "dialing", label: "Dialing" },
   { value: "connected", label: "Connected" },
-]
+];
+
+function notificationCode({ card, name, body }: Playground["values"]): string {
+  const host = "<LeonidaToasts />\n\n";
+  if (card === "text") return `${host}message("${name}", "${body}")`;
+  if (card === "dialing") return `${host}dial("${name}")`;
+  if (card === "incoming") return `${host}ring("${name}")`;
+  return `${host}call("${name}", "connected")`;
+}
 
 const phone: Demo[] = [
   {
@@ -143,7 +160,7 @@ const phone: Demo[] = [
       { label: "Contacts", values: { app: "contacts" } },
       { label: "In car", values: { inCar: true, time: "5:43 pm" } },
     ],
-    code: (v) => `const slot = createSlot()
+    code: v => `const slot = createSlot()
 
 <PhoneDrawer
   open={${v.open}}
@@ -156,7 +173,7 @@ const phone: Demo[] = [
   <PhoneDrawerContent time="${v.time}"${v.inCar ? " inCar" : ""} />
 </PhoneDrawer>
 <NotificationSlot toaster={slot.toaster} />`,
-    render: (playground) => <PhoneDemo {...playground} />,
+    render: playground => <PhoneDemo {...playground} />,
   },
   {
     id: "mission-toast",
@@ -188,11 +205,9 @@ const phone: Demo[] = [
       { label: "Dialing", values: { card: "dialing" } },
       { label: "On a call", values: { card: "connected" } },
     ],
-    code: (v) => `<LeonidaToasts />
-
-${v.card === "text" ? `message("${v.name}", "${v.body}")` : v.card === "dialing" ? `dial("${v.name}")` : v.card === "incoming" ? `ring("${v.name}")` : `call("${v.name}", "connected")`}`,
-    render: (playground) => <NotificationDemo {...playground} />,
+    code: notificationCode,
+    render: playground => <NotificationDemo {...playground} />,
   },
-]
+];
 
-export { phone }
+export { phone };

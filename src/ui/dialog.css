@@ -60,15 +60,22 @@
   animation: vc-fade 100ms linear 200ms both;
 }
 
-.vc-dialog__body > :nth-child(2) { animation-delay: 233ms; }
-.vc-dialog__body > :nth-child(3) { animation-delay: 266ms; }
-.vc-dialog__body > :nth-child(n + 4) { animation-delay: 300ms; }
+.vc-dialog__body > :nth-child(2) {
+  animation-delay: 233ms;
+}
+.vc-dialog__body > :nth-child(3) {
+  animation-delay: 266ms;
+}
+.vc-dialog__body > :nth-child(n + 4) {
+  animation-delay: 300ms;
+}
 
 .vc-dialog__title,
 .vc-sheet__title {
   margin: 0;
   padding-bottom: calc(18 * var(--vc-u));
-  background: linear-gradient(90deg, var(--vc-heading-rule) 58%, transparent) bottom / 100% calc(2 * var(--vc-u)) no-repeat;
+  background: linear-gradient(90deg, var(--vc-heading-rule) 58%, transparent) bottom / 100% calc(2 * var(--vc-u))
+    no-repeat;
   font-family: var(--font-cond);
   font-weight: 700;
   font-size: calc(36 * var(--vc-u));

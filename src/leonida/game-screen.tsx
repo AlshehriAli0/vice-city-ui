@@ -1,8 +1,9 @@
-import type { HTMLAttributes, ReactElement } from "react"
-import { cx } from "../ui/cx"
-import "./game-screen.css"
+import type { HTMLAttributes, ReactElement } from "react";
 
-/* A 1920x1080 game screen. Children are laid out in 1080p pixels and the frame scales to the box width. */
+import { cx } from "../ui/cx";
+
+import "./game-screen.css";
+
 function GameScreen({ className, children, ...props }: HTMLAttributes<HTMLDivElement>): ReactElement {
   return (
     <div {...props} className={cx("ld-screen", className)} data-slot="game-screen">
@@ -10,7 +11,7 @@ function GameScreen({ className, children, ...props }: HTMLAttributes<HTMLDivEle
         {children}
       </div>
     </div>
-  )
+  );
 }
 
-export { GameScreen }
+export { GameScreen };

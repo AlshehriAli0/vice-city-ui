@@ -161,7 +161,12 @@
   right: 14px;
   bottom: 32px;
   height: 22px;
-  background: radial-gradient(50% 100% at 50% 100%, var(--rarity) 0%, color-mix(in srgb, var(--rarity) 45%, transparent) 55%, transparent 100%);
+  background: radial-gradient(
+    50% 100% at 50% 100%,
+    var(--rarity) 0%,
+    color-mix(in srgb, var(--rarity) 45%, transparent) 55%,
+    transparent 100%
+  );
 }
 
 .ld-wheel__tile[data-rarity="teal"],
@@ -201,23 +206,53 @@
 /* Icon sizes from the frames: long guns ~75% of the tile, small items 30-40%. */
 .ld-wheel__art[data-icon="pistol"] .ld-icon,
 .ld-wheel__art[data-icon="pistol2"] .ld-icon,
-.ld-wheel__art[data-icon="revolver"] .ld-icon { width: 58px; height: 38px; }
+.ld-wheel__art[data-icon="revolver"] .ld-icon {
+  width: 58px;
+  height: 38px;
+}
 .ld-wheel__art[data-icon="rifle"] .ld-icon,
-.ld-wheel__art[data-icon="ak"] .ld-icon { width: 140px; height: 34px; }
+.ld-wheel__art[data-icon="ak"] .ld-icon {
+  width: 140px;
+  height: 34px;
+}
 .ld-wheel__art[data-icon="smg"] .ld-icon,
 .ld-wheel__art[data-icon="shotgun"] .ld-icon,
-.ld-wheel__art[data-icon="carbine"] .ld-icon { width: 96px; height: 46px; }
+.ld-wheel__art[data-icon="carbine"] .ld-icon {
+  width: 96px;
+  height: 46px;
+}
 .ld-wheel__art[data-icon="knife"] .ld-icon,
-.ld-wheel__art[data-icon="bowie"] .ld-icon { width: 74px; height: 18px; }
-.ld-wheel__art[data-icon="bat"] .ld-icon { width: 120px; height: 14px; }
-.ld-wheel__art[data-icon="fist"] .ld-icon { width: 58px; height: 44px; }
-.ld-wheel__art[data-icon="binoculars"] .ld-icon { width: 46px; height: 42px; }
+.ld-wheel__art[data-icon="bowie"] .ld-icon {
+  width: 74px;
+  height: 18px;
+}
+.ld-wheel__art[data-icon="bat"] .ld-icon {
+  width: 120px;
+  height: 14px;
+}
+.ld-wheel__art[data-icon="fist"] .ld-icon {
+  width: 58px;
+  height: 44px;
+}
+.ld-wheel__art[data-icon="binoculars"] .ld-icon {
+  width: 46px;
+  height: 42px;
+}
 .ld-wheel__art[data-icon="grenade"] .ld-icon,
-.ld-wheel__art[data-icon="molotov"] .ld-icon { width: 42px; height: 46px; }
-.ld-wheel__art[data-icon="sunglasses"] .ld-icon { width: 70px; height: 30px; }
+.ld-wheel__art[data-icon="molotov"] .ld-icon {
+  width: 42px;
+  height: 46px;
+}
+.ld-wheel__art[data-icon="sunglasses"] .ld-icon {
+  width: 70px;
+  height: 30px;
+}
 .ld-wheel__art[data-icon="cap"] .ld-icon,
 .ld-wheel__art[data-icon="hanger"] .ld-icon,
-.ld-wheel__art[data-icon="vest"] .ld-icon { width: 54px; height: 50px; }
+.ld-wheel__art[data-icon="vest"] .ld-icon {
+  width: 54px;
+  height: 50px;
+}
 
 /* Ammo or ON/OFF band: bottom 32px, clip in light semibold, reserve in grey, no slash. */
 .ld-wheel__band {

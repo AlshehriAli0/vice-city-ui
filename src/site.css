@@ -105,17 +105,11 @@ main:focus {
   text-decoration: none;
 }
 
-
 .brand:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 4px;
   border-radius: 4px;
 }
-
-
-
-
-
 
 /* The kit's secondary button, widened into a search field. */
 .topbar__search {
@@ -138,16 +132,6 @@ main:focus {
   gap: 10px;
   margin-inline-start: auto;
 }
-
-
-
-
-
-
-
-
-
-
 
 /* Keep the masthead glow from widening the document. */
 .home {
@@ -181,12 +165,6 @@ main:focus {
   gap: 12px;
   margin-top: 32px;
 }
-
-
-
-
-
-
 
 /* The site's soft sun behind the headline, in the hour's colours. */
 .masthead::before {
@@ -299,7 +277,11 @@ main:focus {
 .family__rule {
   flex: 1;
   height: 1px;
-  background: linear-gradient(90deg, color-mix(in srgb, var(--sky-accent) 60%, transparent), rgb(255 255 255 / 0.08) 40%);
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--sky-accent) 60%, transparent),
+    rgb(255 255 255 / 0.08) 40%
+  );
 }
 
 .family__grid {
@@ -738,7 +720,11 @@ main:focus {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: rgb(0 0 0 / 0.25);
-  font: 13px/1.6 ui-monospace, "SF Mono", Menlo, monospace;
+  font:
+    13px/1.6 ui-monospace,
+    "SF Mono",
+    Menlo,
+    monospace;
   letter-spacing: 0;
   color: var(--text-2);
   tab-size: 2;
@@ -909,7 +895,6 @@ main:focus {
 }
 
 @media (max-width: 640px) {
-
   :root {
     --site-gutter: 16px;
   }
@@ -1201,7 +1186,6 @@ main:focus {
   max-width: none;
 }
 
-
 /* Harness: one demo, full viewport, for 1:1 comparison with reference frames. */
 .harness-body {
   background: var(--bg);
@@ -1249,7 +1233,6 @@ main:focus {
   color: var(--text);
 }
 
-
 .demo-failed {
   margin: 0;
   padding: 10px 18px;
@@ -1258,7 +1241,6 @@ main:focus {
   color: var(--text-3);
   font-size: 13px;
 }
-
 
 /* ---------- Cropped game previews ---------- */
 .crop {
@@ -1417,7 +1399,11 @@ main:focus {
   overflow-x: auto;
   border-radius: 12px;
   background: rgb(0 0 0 / 0.35);
-  font: 13px/1.6 ui-monospace, SFMono-Regular, Menlo, monospace;
+  font:
+    13px/1.6 ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    monospace;
   color: var(--sky-text, var(--text));
 }
 

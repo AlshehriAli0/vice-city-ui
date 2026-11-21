@@ -1,32 +1,39 @@
-import { OverlayHost } from "@ui-sdk/react/overlays"
-import { StrictMode } from "react"
-import { createRoot } from "react-dom/client"
-import type { Demo } from "./gallery/types"
-import { LeonidaToasts } from "./leonida/mission-toast"
-import "./leonida/tokens.css"
-import "./leonida/parts.css"
-import { staticPlayground } from "./site/playground"
-import "./site.css"
+import { OverlayHost } from "@ui-sdk/react/overlays";
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
 
-// Dev-only page that renders one gallery set: /preview.html?set=core-forms&theme=day
-const sets = import.meta.glob<Record<string, unknown>>("./gallery/core-*.tsx", { eager: true })
-const params = new URLSearchParams(location.search)
-const set = params.get("set") ?? "core-forms"
-document.documentElement.dataset.theme = params.get("theme") ?? "sunset"
-const module = sets[`./gallery/${set}.tsx`] ?? {}
-const demos = (Object.values(module).find(Array.isArray) ?? []) as Demo[]
-const only = params.get("only")
+import { coreDisplay } from "./gallery/core-display";
+import { coreForms } from "./gallery/core-forms";
+import { LeonidaToasts } from "./leonida/mission-toast";
 
-createRoot(document.getElementById("root")!).render(
+import "./leonida/tokens.css";
+import "./leonida/parts.css";
+import { staticPlayground } from "./site/playground-state";
+
+import "./site.css";
+
+const sets = new Map([
+  ["core-forms", coreForms],
+  ["core-display", coreDisplay],
+]);
+const params = new URLSearchParams(location.search);
+const set = params.get("set") ?? "core-forms";
+document.documentElement.dataset.theme = params.get("theme") ?? "sunset";
+const demos = sets.get(set) ?? [];
+const only = params.get("only");
+const root = document.getElementById("root");
+if (!root) throw new Error("Missing #root");
+
+createRoot(root).render(
   <StrictMode>
     <OverlayHost />
     <LeonidaToasts />
     <main className="section">
       <div className="grid">
         {demos
-          .filter((demo) => !only || demo.id === only)
+          .filter(demo => !only || demo.id === only)
           .map((demo, index) => (
-            <article key={demo.id} className="card" id={demo.id} data-wide={demo.wide || undefined}>
+            <article key={demo.id} className="card" id={demo.id} data-wide={demo.wide ?? undefined}>
               <header className="card__head">
                 <span className="card__no">{String(index + 1).padStart(2, "0")}</span>
                 <h3 className="card__title">{demo.name}</h3>
@@ -38,5 +45,5 @@ createRoot(document.getElementById("root")!).render(
           ))}
       </div>
     </main>
-  </StrictMode>,
-)
+  </StrictMode>
+);

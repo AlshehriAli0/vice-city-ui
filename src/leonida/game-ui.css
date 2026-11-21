@@ -99,7 +99,20 @@
 .g-glyph[data-glyph="cross"]::after {
   box-shadow: none;
   background: currentColor;
-  clip-path: polygon(18% 0, 50% 32%, 82% 0, 100% 18%, 68% 50%, 100% 82%, 82% 100%, 50% 68%, 18% 100%, 0 82%, 32% 50%, 0 18%);
+  clip-path: polygon(
+    18% 0,
+    50% 32%,
+    82% 0,
+    100% 18%,
+    68% 50%,
+    100% 82%,
+    82% 100%,
+    50% 68%,
+    18% 100%,
+    0 82%,
+    32% 50%,
+    0 18%
+  );
 }
 
 .g-glyph[data-glyph="circle"]::after {

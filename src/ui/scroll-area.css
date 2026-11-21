@@ -14,8 +14,20 @@
   outline: none;
   --scroll-area-overflow-y-start: inherit;
   --scroll-area-overflow-y-end: inherit;
-  -webkit-mask: linear-gradient(180deg, transparent 0, #000 min(60px, var(--scroll-area-overflow-y-start, 0px)), #000 calc(100% - min(60px, var(--scroll-area-overflow-y-end, 0px))), transparent 100%);
-  mask: linear-gradient(180deg, transparent 0, #000 min(60px, var(--scroll-area-overflow-y-start, 0px)), #000 calc(100% - min(60px, var(--scroll-area-overflow-y-end, 0px))), transparent 100%);
+  -webkit-mask: linear-gradient(
+    180deg,
+    transparent 0,
+    #000 min(60px, var(--scroll-area-overflow-y-start, 0px)),
+    #000 calc(100% - min(60px, var(--scroll-area-overflow-y-end, 0px))),
+    transparent 100%
+  );
+  mask: linear-gradient(
+    180deg,
+    transparent 0,
+    #000 min(60px, var(--scroll-area-overflow-y-start, 0px)),
+    #000 calc(100% - min(60px, var(--scroll-area-overflow-y-end, 0px))),
+    transparent 100%
+  );
 }
 
 .vc-scroll__viewport:focus-visible {

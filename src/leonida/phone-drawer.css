@@ -56,9 +56,11 @@
   transition-delay: 83ms;
 }
 
-/* Close: cut to black with the prompts gone (cash stays), hold, then fade into the world behind while it comes back into focus. */
+/* Close: cut to black with the prompts gone (cash stays), hold, then fade into the world behind while it comes back into focus.
+   Faded rather than hidden, so a prompt that has keyboard focus keeps it until the dialog hands focus back. */
 .ld-phone-layer[data-phase="out"] .ld-phone-prompts {
-  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
 }
 
 .ld-phone-layer[data-ending-style] {
@@ -97,17 +99,45 @@
   }
 }
 
-/* Hand motion: a 1.7s settle about 18px right and down with one quicker shift near +1s, then a ±6px loop every 7.5s. */
+/* Hand motion: a 1.7s settle about 18px right and down with one quicker shift near +1s, then a ±6px loop every 7.5s.
+   Both run from the first black frame, so nothing jumps when the fade ends: the settle holds its start pose through the
+   black and the fade (--lift), and the sway starts at the rest point. They stop only for the close's cut. */
+@property --sway-x {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+@property --sway-y {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+.ld-phone-layer {
+  --lift: 300ms;
+}
+
+.ld-phone-layer[data-pose="car"] {
+  --lift: 350ms;
+}
+
 .ld-phone-hold {
   position: absolute;
   inset: 0;
   pointer-events: none;
 }
 
-.ld-phone-layer[data-phase="up"] .ld-phone-hold[data-sway="on"] {
+.ld-phone-layer:not([data-phase="out"]) .ld-phone-hold[data-settle] {
+  animation: ld-phone-settle 1700ms cubic-bezier(0.3, 0.1, 0.3, 1) var(--lift) both;
+}
+
+/* The sway is a smooth ellipse through the rest point, x leading y: x = 6 sin(wt), y = 3.85 + 6 sin(wt - 0.7).
+   Each axis is a sine (ease-in-out-sine, alternating), started a quarter turn in so both begin at 0 and moving. */
+.ld-phone-layer:not([data-phase="out"]) .ld-phone-hold[data-sway="on"] > .ld-phone {
   animation:
-    ld-phone-settle 1700ms cubic-bezier(0.3, 0.1, 0.3, 1) both,
-    ld-phone-sway 7.5s linear 1700ms infinite;
+    ld-phone-sway-x 3.75s cubic-bezier(0.37, 0, 0.63, 1) -1.875s infinite alternate,
+    ld-phone-sway-y 3.75s cubic-bezier(0.37, 0, 0.63, 1) -1.039s infinite alternate;
 }
 
 @keyframes ld-phone-settle {
@@ -125,35 +155,23 @@
   }
 }
 
-/* An ellipse through the rest point, x leading y. */
-@keyframes ld-phone-sway {
-  0%,
-  100% {
-    translate: 0 0;
+@keyframes ld-phone-sway-x {
+  from {
+    --sway-x: -6px;
   }
-  12.5% {
-    translate: 4.2px 4.4px;
-  }
-  25% {
-    translate: 6px 8.5px;
-  }
-  37.5% {
-    translate: 4.2px 9.8px;
-  }
-  50% {
-    translate: 0 7.7px;
-  }
-  62.5% {
-    translate: -4.2px 3.3px;
-  }
-  75% {
-    translate: -6px -0.7px;
-  }
-  87.5% {
-    translate: -4.2px -2.1px;
+  to {
+    --sway-x: 6px;
   }
 }
 
+@keyframes ld-phone-sway-y {
+  from {
+    --sway-y: -2.15px;
+  }
+  to {
+    --sway-y: 9.85px;
+  }
+}
 
 /* The handset: a lavender-grey glass front in a thin dark case. Local box 422×851; the screen is 364×683 at (29, 69).
    Posed by the homography of the measured screen quad (A 11:58): TL 780,190 · TR 1139,209 · BR 1037,902 · BL 671,855. */
@@ -166,14 +184,35 @@
   border-radius: 52px;
   background: #19181d;
   transform-origin: 0 0;
-  transform: matrix3d(0.866163, 0.0301601, 0, -0.000105444, -0.188888, 0.936313, 0, -0.0000436635, 0, 0, 1, 0, 780, 190, 0, 1) translate(-29px, -69px);
+  transform: matrix3d(
+      0.866163,
+      0.0301601,
+      0,
+      -0.000105444,
+      -0.188888,
+      0.936313,
+      0,
+      -0.0000436635,
+      0,
+      0,
+      1,
+      0,
+      780,
+      190,
+      0,
+      1
+    )
+    translate(-29px, -69px);
+  /* The sway, in frame pixels: translate applies outside the pose's projection. */
+  translate: var(--sway-x) var(--sway-y);
   pointer-events: auto;
   box-shadow: 18px 22px 24px rgb(0 0 0 / 0.35);
 }
 
 /* In a car: upright and right of centre, over the wheel (B 0:12). */
 .ld-phone-layer[data-pose="car"] .ld-phone {
-  transform: matrix3d(0.966338, -0.0382754, 0, -0.0000702474, 0.00314098, 1.00457, 0, 0, 0, 0, 1, 0, 1106, 240, 0, 1) translate(-29px, -69px);
+  transform: matrix3d(0.966338, -0.0382754, 0, -0.0000702474, 0.00314098, 1.00457, 0, 0, 0, 0, 1, 0, 1106, 240, 0, 1)
+    translate(-29px, -69px);
 }
 
 .ld-phone::before {
@@ -232,6 +271,8 @@
   color: #1e1e24;
   font-family: var(--font-ui);
   font-size: 17px;
+  /* Regular, whatever the page around the frame uses: bold is set where the game uses it. */
+  font-weight: 400;
   line-height: 1.25;
   letter-spacing: 0;
   text-transform: none;
@@ -243,7 +284,13 @@
   position: absolute;
   inset: 0;
   z-index: 20;
-  background: linear-gradient(118deg, rgb(255 255 255 / 0.1), transparent 34%, transparent 70%, rgb(255 255 255 / 0.05));
+  background: linear-gradient(
+    118deg,
+    rgb(255 255 255 / 0.1),
+    transparent 34%,
+    transparent 70%,
+    rgb(255 255 255 / 0.05)
+  );
   pointer-events: none;
 }
 
@@ -275,7 +322,14 @@
    and a soft diagonal band of light. Not pastel. */
 .ld-wallpaper[data-wallpaper="default"] {
   background:
-    radial-gradient(circle 404px at -196px 372px, transparent 0 340px, rgb(140 214 204 / 0.22) 398px, rgb(255 255 255 / 0.42) 400px 403px, rgb(255 255 255 / 0.08) 405px, transparent 416px),
+    radial-gradient(
+      circle 404px at -196px 372px,
+      transparent 0 340px,
+      rgb(140 214 204 / 0.22) 398px,
+      rgb(255 255 255 / 0.42) 400px 403px,
+      rgb(255 255 255 / 0.08) 405px,
+      transparent 416px
+    ),
     linear-gradient(-30deg, transparent 35%, rgb(255 255 255 / 0.3) 40%, rgb(255 255 255 / 0.12) 46%, transparent 53%),
     radial-gradient(70% 45% at 0% 62%, #6ca19c 0%, rgb(108 161 156 / 0.6) 45%, transparent 80%),
     radial-gradient(60% 40% at 100% 100%, #929799, transparent 80%),
@@ -425,14 +479,30 @@
   height: 100%;
 }
 
-[data-slot="phone-app-icon"][data-app="whatup"] { background: linear-gradient(160deg, #9ee0fb, #3b98e0); }
-[data-slot="phone-app-icon"][data-app="contacts"] { background: linear-gradient(160deg, #56d877, #15933c); }
-[data-slot="phone-app-icon"][data-app="fitness"] { background: linear-gradient(160deg, #3d33a8, #17134f); }
-[data-slot="phone-app-icon"][data-app="snapmatic"] { background: linear-gradient(200deg, #ffd23c, #ff7d2b 70%); }
-[data-slot="phone-app-icon"][data-app="news"] { background: linear-gradient(160deg, #f04850, #b4142a); }
-[data-slot="phone-app-icon"][data-app="weather"] { background: linear-gradient(160deg, #86d3ff, #2a8ce0); }
-[data-slot="phone-app-icon"][data-app="waink"] { background: linear-gradient(150deg, #ff92d2, #c873f0 50%, #6f9cff); }
-[data-slot="phone-app-icon"][data-app="settings"] { background: linear-gradient(160deg, #acacb4, #696971); }
+[data-slot="phone-app-icon"][data-app="whatup"] {
+  background: linear-gradient(160deg, #9ee0fb, #3b98e0);
+}
+[data-slot="phone-app-icon"][data-app="contacts"] {
+  background: linear-gradient(160deg, #56d877, #15933c);
+}
+[data-slot="phone-app-icon"][data-app="fitness"] {
+  background: linear-gradient(160deg, #3d33a8, #17134f);
+}
+[data-slot="phone-app-icon"][data-app="snapmatic"] {
+  background: linear-gradient(200deg, #ffd23c, #ff7d2b 70%);
+}
+[data-slot="phone-app-icon"][data-app="news"] {
+  background: linear-gradient(160deg, #f04850, #b4142a);
+}
+[data-slot="phone-app-icon"][data-app="weather"] {
+  background: linear-gradient(160deg, #86d3ff, #2a8ce0);
+}
+[data-slot="phone-app-icon"][data-app="waink"] {
+  background: linear-gradient(150deg, #ff92d2, #c873f0 50%, #6f9cff);
+}
+[data-slot="phone-app-icon"][data-app="settings"] {
+  background: linear-gradient(160deg, #acacb4, #696971);
+}
 
 /* Unread: a red dot on the rim at 10–11 o'clock. */
 .ld-app-icon__badge {

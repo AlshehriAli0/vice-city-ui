@@ -1,16 +1,17 @@
-import { Check, Copy } from "lucide-react"
-import { useEffect, useState, type ReactElement } from "react"
-import { Button } from "../ui/button"
+import { Check, Copy } from "lucide-react";
+import { useEffect, useState, type ReactElement } from "react";
+
+import { Button } from "../ui/button";
 
 function CopyButton({ text, label }: { text: string; label?: string }): ReactElement {
-  const [copied, setCopied] = useState(false)
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
-    if (!copied) return
+    if (!copied) return undefined;
 
-    const timer = setTimeout(() => setCopied(false), 1200)
-    return () => clearTimeout(timer)
-  }, [copied])
+    const timer = setTimeout(() => setCopied(false), 1200);
+    return () => clearTimeout(timer);
+  }, [copied]);
 
   return (
     <>
@@ -20,10 +21,12 @@ function CopyButton({ text, label }: { text: string; label?: string }): ReactEle
         variant="ghost"
         aria-label={label}
         onClick={async () => {
-          if (!navigator.clipboard) return
-
-          await navigator.clipboard.writeText(text)
-          setCopied(true)
+          try {
+            await navigator.clipboard.writeText(text);
+            setCopied(true);
+          } catch {
+            setCopied(false);
+          }
         }}
       >
         {copied ? <Check aria-hidden="true" /> : <Copy aria-hidden="true" />} {copied ? "Copied" : "Copy"}
@@ -32,7 +35,7 @@ function CopyButton({ text, label }: { text: string; label?: string }): ReactEle
         {copied ? "Copied to clipboard" : ""}
       </span>
     </>
-  )
+  );
 }
 
-export { CopyButton }
+export { CopyButton };

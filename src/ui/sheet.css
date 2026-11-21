@@ -49,9 +49,15 @@
   animation: vc-fade 67ms linear 170ms both;
 }
 
-.vc-sheet__body > :nth-child(2) { animation-delay: 203ms; }
-.vc-sheet__body > :nth-child(3) { animation-delay: 236ms; }
-.vc-sheet__body > :nth-child(n + 4) { animation-delay: 269ms; }
+.vc-sheet__body > :nth-child(2) {
+  animation-delay: 203ms;
+}
+.vc-sheet__body > :nth-child(3) {
+  animation-delay: 236ms;
+}
+.vc-sheet__body > :nth-child(n + 4) {
+  animation-delay: 269ms;
+}
 
 .vc-sheet__footer {
   margin-top: auto;

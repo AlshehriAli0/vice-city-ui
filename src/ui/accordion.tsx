@@ -4,18 +4,20 @@ import {
   AccordionItem as AccordionItemRoot,
   AccordionPanel as AccordionPanelRoot,
   AccordionTrigger as AccordionTriggerRoot,
-} from "@ui-sdk/react/accordion"
-import { ChevronDown } from "lucide-react"
-import type { ComponentProps, ReactElement, ReactNode } from "react"
-import { merge, styled } from "./cx"
-import "./base.css"
-import "./accordion.css"
+} from "@ui-sdk/react/accordion";
+import { ChevronDown } from "lucide-react";
+import type { ComponentProps, ReactElement, ReactNode } from "react";
 
-const Accordion = styled(AccordionRoot, "vc-accordion")
-const AccordionItem = styled(AccordionItemRoot, "vc-accordion__item")
-const AccordionHeader = styled(AccordionHeaderRoot, "vc-accordion__header")
+import { merge, styled } from "./cx";
 
-type AccordionTriggerProps = Omit<ComponentProps<typeof AccordionTriggerRoot>, "children"> & { children?: ReactNode }
+import "./base.css";
+import "./accordion.css";
+
+const Accordion = styled(AccordionRoot, "vc-accordion");
+const AccordionItem = styled(AccordionItemRoot, "vc-accordion__item");
+const AccordionHeader = styled(AccordionHeaderRoot, "vc-accordion__header");
+
+type AccordionTriggerProps = Omit<ComponentProps<typeof AccordionTriggerRoot>, "children"> & { children?: ReactNode };
 
 function AccordionTrigger({ className, children, ...props }: AccordionTriggerProps): ReactElement {
   return (
@@ -23,18 +25,17 @@ function AccordionTrigger({ className, children, ...props }: AccordionTriggerPro
       {children}
       <ChevronDown className="vc-accordion__chevron" aria-hidden="true" />
     </AccordionTriggerRoot>
-  )
+  );
 }
 
-type AccordionPanelProps = Omit<ComponentProps<typeof AccordionPanelRoot>, "children"> & { children?: ReactNode }
+type AccordionPanelProps = Omit<ComponentProps<typeof AccordionPanelRoot>, "children"> & { children?: ReactNode };
 
-// The panel animates its height, so its padding lives on an inner block.
 function AccordionPanel({ className, children, ...props }: AccordionPanelProps): ReactElement {
   return (
     <AccordionPanelRoot {...props} className={merge("vc-accordion__panel", className)}>
       <div className="vc-accordion__content">{children}</div>
     </AccordionPanelRoot>
-  )
+  );
 }
 
-export { Accordion, AccordionHeader, AccordionItem, AccordionPanel, AccordionTrigger }
+export { Accordion, AccordionHeader, AccordionItem, AccordionPanel, AccordionTrigger };

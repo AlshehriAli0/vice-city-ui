@@ -115,7 +115,8 @@
   color: var(--vc-ink);
 }
 
-.vc-tabs:is([data-variant="chips"], [data-variant="pill"], [data-variant="slant"]) .vc-tabs__tab[data-selected]::before {
+.vc-tabs:is([data-variant="chips"], [data-variant="pill"], [data-variant="slant"])
+  .vc-tabs__tab[data-selected]::before {
   background: #fff;
   box-shadow: none;
 }

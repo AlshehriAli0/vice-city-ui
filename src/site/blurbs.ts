@@ -1,5 +1,4 @@
-// Card and pitch copy, kept apart from the gallery files so the builders' captions can stay technical.
-const BLURBS: Record<string, string> = {
+const BLURBS: Partial<Record<string, string>> = {
   "wanted-level": "Six stars, filled from the right. Lose them before they lose patience.",
   "hud-meters": "Health, cash, ammo and the minimap, all kept out of your way.",
   "hint-tooltip": "The quiet box in the corner that tells you what to press next.",
@@ -36,6 +35,6 @@ const BLURBS: Record<string, string> = {
   "core-menu": "A compact menu with submenus, checks and radios.",
   "core-feedback": "Thin bars for health, stamina and anything else that runs low.",
   "core-data": "A month at a glance, and lists that fade at their edges.",
-}
+};
 
-export { BLURBS }
+export { BLURBS };

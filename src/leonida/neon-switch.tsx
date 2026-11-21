@@ -1,14 +1,15 @@
-import { Switch, SwitchThumb } from "@ui-sdk/react/switch"
-import type { ComponentProps, ReactElement, ReactNode } from "react"
-import { merge } from "../ui/cx"
-import "./neon-switch.css"
+import { Switch, SwitchThumb } from "@ui-sdk/react/switch";
+import type { ComponentProps, ReactElement, ReactNode } from "react";
 
-type NeonSwitchProps = Omit<ComponentProps<typeof Switch>, "children"> & { children: ReactNode }
+import { merge } from "../ui/cx";
 
-// The settings screen's toggle row: label on the left, "On" and a pink track on the right.
+import "./neon-switch.css";
+
+type NeonSwitchProps = Omit<ComponentProps<typeof Switch>, "children"> & { children: ReactNode };
+
 function NeonSwitch({ children, className, ...props }: NeonSwitchProps): ReactElement {
   return (
-    <label className="ld-toggle" data-disabled={props.disabled || undefined}>
+    <label className="ld-toggle" data-disabled={props.disabled ? true : undefined}>
       <span className="ld-toggle__label">{children}</span>
       <span className="ld-toggle__state" aria-hidden="true">
         <span data-when="on">On</span>
@@ -18,8 +19,8 @@ function NeonSwitch({ children, className, ...props }: NeonSwitchProps): ReactEl
         <SwitchThumb className="ld-toggle__knob" />
       </Switch>
     </label>
-  )
+  );
 }
 
-export { NeonSwitch }
-export type { NeonSwitchProps }
+export { NeonSwitch };
+export type { NeonSwitchProps };

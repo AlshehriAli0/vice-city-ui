@@ -1,7 +1,6 @@
-import type { ReactElement } from "react"
-import type { Preview } from "./settings-screen.data"
+import type { ReactElement } from "react";
 
-/* Line-art previews in the settings style: thin white strokes on a dark translucent plum box. Our own drawings. */
+import type { Preview } from "./settings-screen.data";
 
 const LEGEND = [
   { label: "Player", color: "#1f1f24", ring: "#fff" },
@@ -13,26 +12,26 @@ const LEGEND = [
   { label: "Side Missions", color: "#b994f0" },
   { label: "Gangs", color: "#f4c542" },
   { label: "Robberies", color: "#5cc95c" },
-]
+];
 
 function Legend(): ReactElement {
   return (
     <ul className="ld-set__legend" aria-label="Colours">
-      {LEGEND.map((item) => (
+      {LEGEND.map(item => (
         <li key={item.label}>
           <i style={{ background: item.color, borderColor: item.ring }} />
           {item.label}
         </li>
       ))}
     </ul>
-  )
+  );
 }
 
 function Reticle({ shape }: { shape: string }): ReactElement | null {
-  if (shape === "Off") return null
-  if (shape === "Dot") return <circle cx="353" cy="203" r="3" className="pv-solid" />
-  if (shape === "Simple") return <path d="M353 191v8M353 207v8M341 203h8M357 203h8" className="pv-solid" />
-  return <path d="M336 197h11M359 197h11M353 203v9" className="pv-solid" />
+  if (shape === "Off") return null;
+  if (shape === "Dot") return <circle cx="353" cy="203" r="3" className="pv-solid" />;
+  if (shape === "Simple") return <path d="M353 191v8M353 207v8M341 203h8M357 203h8" className="pv-solid" />;
+  return <path d="M336 197h11M359 197h11M353 203v9" className="pv-solid" />;
 }
 
 function Street({ reticle }: { reticle: string }): ReactElement {
@@ -43,7 +42,7 @@ function Street({ reticle }: { reticle: string }): ReactElement {
       <path d="M60 280h86l-6 12h-86z" />
       <Reticle shape={reticle} />
     </svg>
-  )
+  );
 }
 
 function Prompts(): ReactElement {
@@ -55,7 +54,7 @@ function Prompts(): ReactElement {
       <circle cx="372" cy="190" r="26" className="pv-ring" />
       <circle cx="372" cy="190" r="12" className="pv-ring" />
     </svg>
-  )
+  );
 }
 
 function Flash(): ReactElement {
@@ -63,7 +62,7 @@ function Flash(): ReactElement {
     <div className="ld-set__art ld-set__flash" aria-hidden="true">
       <i />
     </div>
-  )
+  );
 }
 
 function Hits(): ReactElement {
@@ -80,7 +79,7 @@ function Hits(): ReactElement {
         <circle key={`${x}-${y}`} cx={x} cy={y} r="22" className="pv-blot" />
       ))}
     </svg>
-  )
+  );
 }
 
 function Hud(): ReactElement {
@@ -92,23 +91,32 @@ function Hud(): ReactElement {
       <circle cx="150" cy="340" r="6" className="pv-pink" />
       <path d="M30 380h150M560 30h120M600 46h80" />
     </svg>
-  )
+  );
 }
 
-const LEFT = ["Map", "Loadout", "Aim / Interact", "Phone", "Radio Menu", "Quick Navigation", "Partner Menu", "Run", "Move"]
-const RIGHT = ["Pause", "Cover", "Shoot", "Interact", "Melee", "Reload", "Jump / Climb", "Look Behind", "Look"]
+const LEFT = [
+  "Map",
+  "Loadout",
+  "Aim / Interact",
+  "Phone",
+  "Radio Menu",
+  "Quick Navigation",
+  "Partner Menu",
+  "Run",
+  "Move",
+];
+const RIGHT = ["Pause", "Cover", "Shoot", "Interact", "Melee", "Reload", "Jump / Climb", "Look Behind", "Look"];
 
-/* CONTROL SCHEME: a controller drawn in line art with callouts either side. */
 function Controller({ title }: { title: string }): ReactElement {
   return (
     <div className="ld-set__pad" aria-hidden="true">
       <p className="ld-set__pad-title">{title}</p>
       <ul className="ld-set__callouts" data-side="left">
-        {LEFT.map((label) => (
+        {LEFT.map(label => (
           <li key={label}>{label}</li>
         ))}
       </ul>
-      <svg className="ld-set__pad-art" viewBox="0 0 340 230">
+      <svg aria-hidden="true" className="ld-set__pad-art" viewBox="0 0 340 230">
         <path d="M72 34L268 34C300 40 316 70 322 110L334 190C338 214 322 228 304 224C292 222 284 212 276 198L256 160C250 150 242 146 230 146L110 146C98 146 90 150 84 160L64 198C56 212 48 222 36 224C18 228 2 214 6 190L18 110C24 70 40 40 72 34Z" />
         <path d="M118 26h104v62c0 8-6 14-14 14h-76c-8 0-14-6-14-14z" />
         <circle cx="122" cy="132" r="22" />
@@ -123,21 +131,21 @@ function Controller({ title }: { title: string }): ReactElement {
         <path d="M60 22l14-12h40M280 22l-14-12h-40" />
       </svg>
       <ul className="ld-set__callouts" data-side="right">
-        {RIGHT.map((label) => (
+        {RIGHT.map(label => (
           <li key={label}>{label}</li>
         ))}
       </ul>
     </div>
-  )
+  );
 }
 
 function PreviewArt({ kind, value }: { kind: Preview; value: string }): ReactElement | null {
-  if (kind === "street") return <Street reticle={value} />
-  if (kind === "prompts") return <Prompts />
-  if (kind === "flash") return <Flash />
-  if (kind === "hits") return <Hits />
-  if (kind === "hud") return <Hud />
-  return null
+  if (kind === "street") return <Street reticle={value} />;
+  if (kind === "prompts") return <Prompts />;
+  if (kind === "flash") return <Flash />;
+  if (kind === "hits") return <Hits />;
+  if (kind === "hud") return <Hud />;
+  return null;
 }
 
-export { Controller, Legend, PreviewArt }
+export { Controller, Legend, PreviewArt };

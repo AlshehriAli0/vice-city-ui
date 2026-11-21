@@ -2,16 +2,20 @@ import {
   Collapsible as CollapsibleRoot,
   CollapsiblePanel as CollapsiblePanelRoot,
   CollapsibleTrigger as CollapsibleTriggerRoot,
-} from "@ui-sdk/react/collapsible"
-import { ChevronRight } from "lucide-react"
-import type { ComponentProps, ReactElement, ReactNode } from "react"
-import { merge, styled } from "./cx"
-import "./base.css"
-import "./collapsible.css"
+} from "@ui-sdk/react/collapsible";
+import { ChevronRight } from "lucide-react";
+import type { ComponentProps, ReactElement, ReactNode } from "react";
 
-const Collapsible = styled(CollapsibleRoot, "vc-collapsible")
+import { merge, styled } from "./cx";
 
-type CollapsibleTriggerProps = Omit<ComponentProps<typeof CollapsibleTriggerRoot>, "children"> & { children?: ReactNode }
+import "./base.css";
+import "./collapsible.css";
+
+const Collapsible = styled(CollapsibleRoot, "vc-collapsible");
+
+type CollapsibleTriggerProps = Omit<ComponentProps<typeof CollapsibleTriggerRoot>, "children"> & {
+  children?: ReactNode;
+};
 
 function CollapsibleTrigger({ className, children, ...props }: CollapsibleTriggerProps): ReactElement {
   return (
@@ -19,18 +23,17 @@ function CollapsibleTrigger({ className, children, ...props }: CollapsibleTrigge
       <ChevronRight className="vc-collapsible__chevron" aria-hidden="true" />
       {children}
     </CollapsibleTriggerRoot>
-  )
+  );
 }
 
-type CollapsiblePanelProps = Omit<ComponentProps<typeof CollapsiblePanelRoot>, "children"> & { children?: ReactNode }
+type CollapsiblePanelProps = Omit<ComponentProps<typeof CollapsiblePanelRoot>, "children"> & { children?: ReactNode };
 
-// The panel animates its height, so its padding lives on an inner block.
 function CollapsiblePanel({ className, children, ...props }: CollapsiblePanelProps): ReactElement {
   return (
     <CollapsiblePanelRoot {...props} className={merge("vc-collapsible__panel", className)}>
       <div className="vc-collapsible__content">{children}</div>
     </CollapsiblePanelRoot>
-  )
+  );
 }
 
-export { Collapsible, CollapsiblePanel, CollapsibleTrigger }
+export { Collapsible, CollapsiblePanel, CollapsibleTrigger };

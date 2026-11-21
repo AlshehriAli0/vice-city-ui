@@ -1,50 +1,70 @@
-import { Tabs, TabsList, TabsPanel, TabsTab } from "@ui-sdk/react/tabs"
-import { useEffect, useState, type ReactElement } from "react"
-import { highlight } from "sugar-high"
-import { CopyButton } from "./copy-button"
+import { ScrollArea, ScrollAreaViewport } from "@ui-sdk/react/scroll-area";
+import { Tabs, TabsList, TabsPanel, TabsTab } from "@ui-sdk/react/tabs";
+import { useEffect, useState, type ReactElement } from "react";
 
-const FILES = import.meta.glob(["../leonida/*.tsx", "../leonida/*.css", "../ui/*.tsx", "../ui/*.css"], {
-  query: "?raw",
-  import: "default",
-}) as Record<string, () => Promise<string>>
+import { CopyButton } from "./copy-button";
+import { HighlightedCode } from "./highlighted-code";
 
-/* The component's own files, read raw at build time, with a copy button per file. */
-function Source({ file }: { file: string }): ReactElement | null {
-  const [code, setCode] = useState<{ ext: string; name: string; text: string }[]>([])
-  useEffect(() => {
-    let live = true
-    const wanted = ["tsx", "css"].flatMap((ext) => {
-      const load = FILES[`../${file}.${ext}`]
-      return load ? [load().then((text) => ({ ext, name: `${file.split("/").pop()}.${ext}`, text }))] : []
+const FILES: Partial<Record<string, () => Promise<string>>> = import.meta.glob<string>(
+  ["../leonida/*.tsx", "../leonida/*.css", "../ui/*.tsx", "../ui/*.css"],
+  { query: "?raw", import: "default" }
+);
+
+const loadSourceFiles = (file: string) =>
+  Promise.all(
+    ["tsx", "css"].flatMap(ext => {
+      const load = FILES[`../${file}.${ext}`];
+      const name = `${file.split("/").at(-1)}.${ext}`;
+      return load ? [load().then(text => ({ ext, name, text }))] : [];
     })
-    Promise.all(wanted).then((files) => live && setCode(files))
-    return () => {
-      live = false
-    }
-  }, [file])
-  if (code.length === 0) return null
+  );
+
+function Source({ file }: { file: string }): ReactElement | null {
+  const [code, setCode] = useState<Awaited<ReturnType<typeof loadSourceFiles>>>([]);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    loadSourceFiles(file)
+      .then(files => {
+        if (!controller.signal.aborted) setCode(files);
+      })
+      .catch(() => {
+        if (!controller.signal.aborted) setCode([]);
+      });
+    return () => controller.abort();
+  }, [file]);
+
+  const first = code.at(0);
+  if (!first) return null;
+
   return (
-    <Tabs className="src" defaultValue={code[0].ext}>
+    <Tabs className="src" defaultValue={first.ext}>
       <TabsList className="src__tabs" aria-label="Source files">
-        {code.map((item) => (
+        {code.map(item => (
           <TabsTab key={item.ext} value={item.ext} className="src__tab">
             {item.name}
           </TabsTab>
         ))}
       </TabsList>
-      {code.map((item) => (
+      {code.map(item => (
         <TabsPanel key={item.ext} value={item.ext} className="src__panel">
           <div className="src__actions">
             <CopyButton text={item.text} label={`Copy ${item.name}`} />
           </div>
-          <pre className="src__code code" tabIndex={0} aria-label={`${item.name} source`}>
-            {/* Our own source files, read at build time, so the markup is trusted. */}
-            <code dangerouslySetInnerHTML={{ __html: highlight(item.text) }} />
-          </pre>
+          <ScrollArea>
+            <ScrollAreaViewport
+              render={<pre />}
+              className="src__code code"
+              role="region"
+              aria-label={`${item.name} source`}
+            >
+              <HighlightedCode text={item.text} />
+            </ScrollAreaViewport>
+          </ScrollArea>
         </TabsPanel>
       ))}
     </Tabs>
-  )
+  );
 }
 
-export { Source }
+export { Source };

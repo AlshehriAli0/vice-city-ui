@@ -10,10 +10,18 @@
   border-radius: 50%;
 }
 
-.vc-avatar[data-size="xs"] { --s: calc(28 * var(--vc-u)); }
-.vc-avatar[data-size="sm"] { --s: calc(40 * var(--vc-u)); }
-.vc-avatar[data-size="lg"] { --s: calc(64 * var(--vc-u)); }
-.vc-avatar[data-size="xl"] { --s: calc(96 * var(--vc-u)); }
+.vc-avatar[data-size="xs"] {
+  --s: calc(28 * var(--vc-u));
+}
+.vc-avatar[data-size="sm"] {
+  --s: calc(40 * var(--vc-u));
+}
+.vc-avatar[data-size="lg"] {
+  --s: calc(64 * var(--vc-u));
+}
+.vc-avatar[data-size="xl"] {
+  --s: calc(96 * var(--vc-u));
+}
 
 .vc-avatar[data-shape="square"],
 .vc-avatar[data-shape="square"] .vc-avatar__clip {
@@ -30,11 +38,15 @@
 }
 
 .vc-avatar:is([data-ring="sunset"], [data-ring="teal"]) {
-  box-shadow: 0 0 0 calc(2 * var(--vc-u)) var(--vc-panel), 0 0 0 calc(4 * var(--vc-u)) #fff;
+  box-shadow:
+    0 0 0 calc(2 * var(--vc-u)) var(--vc-panel),
+    0 0 0 calc(4 * var(--vc-u)) #fff;
 }
 
 .vc-avatar[data-ring="pink"] {
-  box-shadow: 0 0 0 calc(2 * var(--vc-u)) var(--vc-panel), 0 0 0 calc(4 * var(--vc-u)) var(--vc-pink);
+  box-shadow:
+    0 0 0 calc(2 * var(--vc-u)) var(--vc-panel),
+    0 0 0 calc(4 * var(--vc-u)) var(--vc-pink);
 }
 
 .vc-avatar[data-shape="square"]:not([data-ring="none"]) {
@@ -73,14 +85,34 @@
 }
 
 /* Status reads by fill: pink online, white busy, hollow away, the HUD's evidence red for wanted. */
-.vc-avatar[data-status="busy"]::after { background: #fff; }
-.vc-avatar[data-status="away"]::after { background: var(--vc-panel); box-shadow: 0 0 0 2px var(--vc-panel), inset 0 0 0 2px #fff; }
-.vc-avatar[data-status="wanted"]::after { background: #811b19; box-shadow: 0 0 0 2px var(--vc-panel), inset 0 0 0 1px #5f1817; }
+.vc-avatar[data-status="busy"]::after {
+  background: #fff;
+}
+.vc-avatar[data-status="away"]::after {
+  background: var(--vc-panel);
+  box-shadow:
+    0 0 0 2px var(--vc-panel),
+    inset 0 0 0 2px #fff;
+}
+.vc-avatar[data-status="wanted"]::after {
+  background: #811b19;
+  box-shadow:
+    0 0 0 2px var(--vc-panel),
+    inset 0 0 0 1px #5f1817;
+}
 
-.vc-avatar-group[data-size="xs"] { --avatar-size: calc(28 * var(--vc-u)); }
-.vc-avatar-group[data-size="sm"] { --avatar-size: calc(40 * var(--vc-u)); }
-.vc-avatar-group[data-size="lg"] { --avatar-size: calc(64 * var(--vc-u)); }
-.vc-avatar-group[data-size="xl"] { --avatar-size: calc(96 * var(--vc-u)); }
+.vc-avatar-group[data-size="xs"] {
+  --avatar-size: calc(28 * var(--vc-u));
+}
+.vc-avatar-group[data-size="sm"] {
+  --avatar-size: calc(40 * var(--vc-u));
+}
+.vc-avatar-group[data-size="lg"] {
+  --avatar-size: calc(64 * var(--vc-u));
+}
+.vc-avatar-group[data-size="xl"] {
+  --avatar-size: calc(96 * var(--vc-u));
+}
 
 .vc-avatar-group {
   display: inline-flex;

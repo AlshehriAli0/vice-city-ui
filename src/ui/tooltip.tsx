@@ -4,15 +4,17 @@ import {
   TooltipContent as TooltipContentRoot,
   TooltipShortcut,
   TooltipTrigger as TooltipTriggerRoot,
-} from "@ui-sdk/react/tooltip"
-import type { ComponentProps, ReactElement, ReactNode } from "react"
-import { merge, styled } from "./cx"
-import "./base.css"
-import "./tooltip.css"
+} from "@ui-sdk/react/tooltip";
+import type { ComponentProps, ReactElement, ReactNode } from "react";
 
-const TooltipTrigger = styled(TooltipTriggerRoot, "vc-tooltip-trigger")
+import { merge, styled } from "./cx";
 
-type TooltipContentProps = Omit<ComponentProps<typeof TooltipContentRoot>, "children"> & { children?: ReactNode }
+import "./base.css";
+import "./tooltip.css";
+
+const TooltipTrigger = styled(TooltipTriggerRoot, "vc-tooltip-trigger");
+
+type TooltipContentProps = Omit<ComponentProps<typeof TooltipContentRoot>, "children"> & { children?: ReactNode };
 
 function TooltipContent({ className, children, sideOffset = 8, ...props }: TooltipContentProps): ReactElement {
   return (
@@ -21,7 +23,7 @@ function TooltipContent({ className, children, sideOffset = 8, ...props }: Toolt
       {children}
       <TooltipShortcut className="vc-tooltip__shortcut" />
     </TooltipContentRoot>
-  )
+  );
 }
 
-export { Tooltip, TooltipContent, TooltipTrigger }
+export { Tooltip, TooltipContent, TooltipTrigger };
