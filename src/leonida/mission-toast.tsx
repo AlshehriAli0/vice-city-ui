@@ -49,13 +49,16 @@ function TextNotification({
   children,
   ...props
 }: Omit<ToastProps, "children"> & { avatar?: string; name?: string; children?: ReactNode }): ReactElement {
+  const contact = [avatar, name].some(Boolean);
   return (
     <Toast {...props} className={merge("ld-text", className)}>
-      <DpadHint />
+      {contact && <DpadHint />}
       <span className="ld-text__head" data-slot="notification-head">
-        <span className="ld-text__avatar" data-slot="notification-avatar" aria-hidden="true">
-          {avatar ? <img src={avatar} alt="" /> : name?.slice(0, 1)}
-        </span>
+        {contact && (
+          <span className="ld-text__avatar" data-slot="notification-avatar" aria-hidden="true">
+            {avatar ? <img src={avatar} alt="" /> : name?.slice(0, 1)}
+          </span>
+        )}
         <ToastTitle className="ld-text__name" />
       </span>
       <ToastDescription className="ld-text__body" />
@@ -134,7 +137,7 @@ function renderNotification(item: { title?: unknown; data?: unknown }): ReactEle
         onHangUp={data.onHangUp}
       />
     );
-  return <TextNotification avatar={data.avatar} name={name} />;
+  return <TextNotification avatar={data.avatar} name={data.kind === "message" ? name : undefined} />;
 }
 
 type NotificationSlotProps = Omit<ComponentProps<typeof ToastRegion>, "children"> & {

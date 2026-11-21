@@ -78,6 +78,7 @@ function WeaponWheel({
   }
 
   function setOpen(next: boolean) {
+    if (!next && ui.current?.contains(document.activeElement)) canvas.current?.focus({ preventScroll: true });
     setOwnOpen(next);
     onOpenChange?.(next);
     if (canEquip(next, focused, tab)) {
@@ -114,7 +115,13 @@ function WeaponWheel({
 
   return (
     <GameFrame className="ld-wheel">
-      <div ref={canvas} className="ld-wheel__stage" data-phase={phase} onPointerMove={isOpen ? aim : undefined}>
+      <div
+        ref={canvas}
+        className="ld-wheel__stage"
+        data-phase={phase}
+        tabIndex={-1}
+        onPointerMove={isOpen ? aim : undefined}
+      >
         <MenuBackdrop phase={phase} />
         {phase !== "closed" && (
           <form

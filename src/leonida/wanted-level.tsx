@@ -1,6 +1,6 @@
 import type { ChangeDetails } from "@ui-sdk/core";
 import { Rating, RatingItem, type RatingValueChangeReason } from "@ui-sdk/react/rating";
-import { CarFront, Cctv, UsersRound, type LucideIcon } from "lucide-react";
+import { Cctv, UsersRound, type LucideIcon } from "lucide-react";
 import { useState, type ComponentProps, type HTMLAttributes, type ReactElement } from "react";
 
 import { cssVariables } from "../ui/css-variables";
@@ -54,13 +54,29 @@ function Head(): ReactElement {
   );
 }
 
-const FILLED: Partial<Record<Evidence, LucideIcon>> = { vehicle: CarFront, cctv: Cctv, witness: UsersRound };
+function Car(): ReactElement {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" fillRule="evenodd">
+      <path d="M6.2 5h11.6l2.2 5.6H4zM7.4 6.7l-1.1 2.6h11.4l-1.1-2.6z" />
+      <path d="M4 10.6h16a1.5 1.5 0 0 1 1.5 1.5v4.4a1.5 1.5 0 0 1-1.5 1.5H4a1.5 1.5 0 0 1-1.5-1.5v-4.4A1.5 1.5 0 0 1 4 10.6zm2.4 2a1.4 1.4 0 1 0 0 2.8 1.4 1.4 0 0 0 0-2.8zm11.2 0a1.4 1.4 0 1 0 0 2.8 1.4 1.4 0 0 0 0-2.8z" />
+      <rect x="4" y="17" width="3.6" height="3.4" rx="1" />
+      <rect x="16.4" y="17" width="3.6" height="3.4" rx="1" />
+    </svg>
+  );
+}
 
-const OUTLINED = { clothing: Hanger, face: Head, weapon: Pistol };
+const FILLED: Partial<Record<Evidence, LucideIcon>> = { cctv: Cctv, witness: UsersRound };
+
+const DRAWN: Partial<Record<Evidence, () => ReactElement>> = {
+  clothing: Hanger,
+  face: Head,
+  weapon: Pistol,
+  vehicle: Car,
+};
 
 function EvidenceDisc({ item, className = "ld-evidence__disc" }: { item: Evidence; className?: string }): ReactElement {
   const FilledIcon = FILLED[item];
-  const Icon = item === "clothing" || item === "face" || item === "weapon" ? OUTLINED[item] : undefined;
+  const Icon = DRAWN[item];
   return (
     <span className={className} data-slot="evidence-disc" data-evidence={item} aria-hidden="true">
       {FilledIcon && <FilledIcon fill="currentColor" stroke="var(--disc)" strokeWidth={1.4} />}

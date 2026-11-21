@@ -57,8 +57,8 @@
   fill: #909090;
 }
 
-/* Hiding in the search area: a slow sine breath between full and 20%. */
-.ld-wanted[data-state="search"] .ld-wanted__star[data-filled] .ld-wanted__glyph {
+/* Hiding in the search area: a slow sine breath between full and 20%. It runs on the path, so leaving the search never replays the glyph's entry. */
+.ld-wanted[data-state="search"] .ld-wanted__star[data-filled] .ld-wanted__glyph > path {
   animation: ld-star-search 1.25s ease-in-out infinite;
 }
 
@@ -138,10 +138,17 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ld-wanted[data-state="search"] .ld-wanted__star[data-filled] .ld-wanted__glyph {
+  .ld-wanted[data-state="search"] .ld-wanted__star[data-filled] .ld-wanted__glyph > path {
     animation: none;
     opacity: 0.6;
     stroke: #fff;
     stroke-dasharray: 2 2;
   }
+}
+
+[data-motion="still"] .ld-wanted[data-state="search"] .ld-wanted__star[data-filled] .ld-wanted__glyph > path {
+  animation: none;
+  opacity: 0.6;
+  stroke: #fff;
+  stroke-dasharray: 2 2;
 }

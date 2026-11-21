@@ -55,6 +55,11 @@
   isolation: isolate;
 }
 
+/* A notice with no message body is just its header line. */
+.ld-text:not(:has(.ld-text__body)) {
+  min-height: 0;
+}
+
 .ld-text::before {
   --r: calc(10 * var(--u));
   --c: calc(2.9 * var(--u));

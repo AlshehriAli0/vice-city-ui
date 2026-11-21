@@ -98,6 +98,7 @@ function RadioDial({
   const [show, setShow] = useState(SHOWS[1].value);
   const [strip] = useState(() => createRadioGroupController());
   const ui = useRef<HTMLDivElement>(null);
+  const stage = useRef<HTMLDivElement>(null);
   const station = value ?? ownValue;
   const playing = on ?? ownOn;
   const isOpen = open ?? ownOpen;
@@ -132,6 +133,7 @@ function RadioDial({
   }
 
   function setOpen(next: boolean) {
+    if (!next && ui.current?.contains(document.activeElement)) stage.current?.focus({ preventScroll: true });
     setOwnOpen(next);
     onOpenChange?.(next);
   }
@@ -156,7 +158,7 @@ function RadioDial({
 
   return (
     <GameFrame className="ld-radio">
-      <div className="ld-radio__stage" data-phase={phase}>
+      <div ref={stage} className="ld-radio__stage" data-phase={phase} tabIndex={-1}>
         <MenuBackdrop phase={phase} />
         {phase !== "closed" && (
           <div

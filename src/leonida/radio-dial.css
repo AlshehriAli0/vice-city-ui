@@ -9,6 +9,11 @@
   color: #fdfcff;
 }
 
+/* Holds focus after the menu closes; it isn't a control, so it draws no ring. */
+.ld-radio__stage:focus {
+  outline: none;
+}
+
 /* Source rail: labels right-aligned to x 567, a 2px line at x 602 joining three nodes. */
 .ld-radio__rail {
   position: absolute;

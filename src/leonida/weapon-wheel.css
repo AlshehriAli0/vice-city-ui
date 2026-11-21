@@ -14,6 +14,11 @@
   color: #eaecf0;
 }
 
+/* Holds focus after the menu closes; it isn't a control, so it draws no ring. */
+.ld-wheel__stage:focus {
+  outline: none;
+}
+
 .ld-wheel__guide {
   position: absolute;
   inset: 0;

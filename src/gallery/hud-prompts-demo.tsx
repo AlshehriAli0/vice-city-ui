@@ -10,12 +10,11 @@ import {
   HintTooltipContent,
   HintTooltipTrigger,
 } from "../leonida/hint-tooltip";
-import { HudFeed, Objective } from "../leonida/hud-feed";
+import { Objective } from "../leonida/hud-feed";
 import { HudStage } from "../leonida/hud-stage";
 import { toast } from "../leonida/mission-toast.store";
 import { optionValue } from "./options";
 import type { Demo, Playground } from "./types";
-import { useFeed } from "./use-feed";
 
 const HELP_ANCHOR = "hud-help-anchor";
 
@@ -111,13 +110,11 @@ function HintDemo({ values, set }: Playground) {
 }
 
 function PromptsDemo({ values }: Playground) {
-  const feed = useFeed("map");
   return (
     <HudStage label="Button prompts demo">
-      <HudFeed lines={feed.lines} onDone={feed.done} />
       <div data-hud="prompts">
         <ButtonPrompts label="Screen prompts" stack={Boolean(values.stack)}>
-          <ButtonPrompt glyph="square" onClick={feed.push}>
+          <ButtonPrompt glyph="square" onClick={() => toast("Reminders")}>
             Reminders
           </ButtonPrompt>
           <ButtonPrompt
@@ -190,8 +187,7 @@ const hudPromptsDemos: Demo[] = [
     name: "Button Prompts",
     sdk: "Button",
     wide: true,
-    caption:
-      "Bottom-right prompts: outlined condensed caps and a white button disc, stacked 52px apart. Reminders adds a feed line.",
+    caption: "Bottom-right prompts: outlined condensed caps and a white button disc, stacked 52px apart.",
     keys: [
       ["Tab", "Move between prompts"],
       ["Space / Enter", "Press the prompt"],
