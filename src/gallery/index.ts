@@ -5,6 +5,7 @@ import { menus } from "./menus";
 import { modShopDemos } from "./mod-shop";
 import { official } from "./official";
 import { phone } from "./phone";
+import { saveScreenDemos } from "./save-screen";
 import type { Demo, Section } from "./types";
 
 type Chapter = Omit<Section, "demos"> & { ids: string[] };
@@ -24,7 +25,7 @@ const CHAPTERS: Chapter[] = [
     theme: "dustyNeon",
     kicker: "Pause, settings and map",
     scene: true,
-    ids: ["pause-menu", "settings-screen", "map-screen", "mod-shop"],
+    ids: ["pause-menu", "save-screen", "settings-screen", "map-screen", "mod-shop"],
   },
   {
     id: "wheel-radio",
@@ -51,6 +52,7 @@ const HOMES: [Demo[], string][] = [
   [hud, "hud"],
   [menus, "menus"],
   [modShopDemos, "menus"],
+  [saveScreenDemos, "menus"],
   [phone, "phone"],
   [official, "leonida"],
   [coreForms, "forms"],

@@ -1,0 +1,133 @@
+/* Confirms at 1080p. Full screen: a sunset gradient, one big palm top right, the block centred on y 550 from x 480.
+   It cuts in 150ms after the press. Sheet: a dark band from y 758 that fades in over 130ms under a 45% scrim. */
+.ld-confirm {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  color: #f5f2f7;
+  outline: none;
+}
+
+.ld-confirm[data-variant="screen"] {
+  overflow: hidden;
+  background:
+    radial-gradient(
+      1400px 1150px at 100% 0%,
+      #bf6165 0%,
+      rgb(191 97 101 / 0.85) 40%,
+      rgb(191 97 101 / 0.65) 69%,
+      rgb(191 97 101 / 0.2) 92%,
+      rgb(191 97 101 / 0.07) 137%,
+      rgb(191 97 101 / 0) 166%
+    ),
+    #6f3a5b;
+  animation: ld-confirm-cut 1ms 150ms backwards;
+}
+
+.ld-confirm__palm {
+  position: absolute;
+  top: -184px;
+  left: 1114px;
+  width: 1980px;
+  height: 1720px;
+  background: #6a3758;
+  mask:
+    url("/vc/ui-palms.webp") 0 0 / 100% 100% no-repeat,
+    linear-gradient(180deg, #000 52%, rgb(0 0 0 / 0.25) 72%, transparent 92%),
+    linear-gradient(90deg, transparent 0, #000 320px);
+  mask-composite: intersect;
+  pointer-events: none;
+}
+
+.ld-confirm[data-variant="screen"] .ld-confirm__block {
+  position: absolute;
+  top: 554px;
+  left: 478px;
+  width: 640px;
+  translate: 0 -50%;
+}
+
+.ld-confirm__title {
+  margin: 0;
+  padding: 0 0 26px 3px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 80px;
+  line-height: 62px;
+  letter-spacing: 1.1px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  background: linear-gradient(90deg, #ef8db8 0%, #ef8db8 58%, rgb(239 141 184 / 0) 100%) bottom left / 640px 1px
+    no-repeat;
+}
+
+.ld-confirm__body {
+  margin: 24px 0 0 2px;
+  max-width: 620px;
+  font-family: var(--font-ui);
+  font-size: 26px;
+  line-height: 40px;
+  color: rgb(245 242 247 / 0.92);
+}
+
+.ld-confirm__prompts {
+  position: absolute;
+  right: 40px;
+  bottom: 28px;
+  gap: 20px;
+  --u: calc(30px / 26);
+}
+
+.ld-confirm__prompts .ld-prompt:active .ld-btnglyph {
+  opacity: 0.4;
+}
+
+/* The Load sheet: no slide, a 4-frame fade, and the list above it dimmed toward the panel ink. */
+.ld-confirm__scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 19;
+  background: rgb(31 32 45 / 0.45);
+  animation: ld-screen-in 130ms linear 120ms both;
+}
+
+.ld-confirm[data-variant="sheet"] {
+  top: 757px;
+  border-top: 1px solid #4c4859;
+  background: #1f202d;
+  animation: ld-screen-in 130ms linear 120ms both;
+}
+
+.ld-confirm[data-variant="sheet"] .ld-confirm__block {
+  position: absolute;
+  top: 78px;
+  left: 64px;
+}
+
+.ld-confirm[data-variant="sheet"] .ld-confirm__title {
+  padding-bottom: 20px;
+  font-size: 57px;
+  line-height: 46px;
+  letter-spacing: 0;
+  background-image: linear-gradient(90deg, #d39ab8 0%, #d39ab8 62%, rgb(211 154 184 / 0) 100%);
+  background-size: 624px 2px;
+}
+
+.ld-confirm[data-variant="sheet"] .ld-confirm__body {
+  margin-top: 25px;
+  max-width: 985px;
+  line-height: 39px;
+}
+
+.ld-confirm[data-variant="sheet"] .ld-confirm__prompts {
+  bottom: 28px;
+}
+
+@keyframes ld-confirm-cut {
+  from {
+    opacity: 0;
+  }
+}

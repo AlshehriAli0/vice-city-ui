@@ -1,11 +1,13 @@
 import { Button } from "@ui-sdk/react/button";
 import { Toolbar, ToolbarButton } from "@ui-sdk/react/toolbar";
-import { useEffect, useEffectEvent, useState, type ReactElement } from "react";
+import { useEffect, useEffectEvent, useRef, useState, type ReactElement } from "react";
 
 import { cssVariables } from "../ui/css-variables";
 import { ButtonPrompt, ButtonPrompts } from "./button-prompt";
+import { GameMenu, type GameMenuProps } from "./game-menu";
 import { GameScreen } from "./game-screen";
 import { PAUSE_ROWS } from "./pause-menu.data";
+import { PauseWorld } from "./pause-world";
 
 import "./pause-menu.css";
 
@@ -19,22 +21,8 @@ type PauseMenuProps = {
   onAction?: (action: "retry" | "restart") => void;
   onResume?: () => void;
   badges?: string[];
+  game?: Omit<GameMenuProps, "onBack" | "autoFocus"> | false;
 };
-
-function World(): ReactElement {
-  return (
-    <div className="ld-pause__world" aria-hidden="true">
-      <div className="ld-pause__sky" />
-      <div className="ld-pause__lights">
-        <i data-l="1" />
-        <i data-l="2" />
-        <i data-l="3" />
-        <i data-l="4" />
-        <i data-l="5" />
-      </div>
-    </div>
-  );
-}
 
 function Status({ chapter, title, onAction }: Pick<PauseMenuProps, "chapter" | "title" | "onAction">): ReactElement {
   return (
@@ -63,9 +51,12 @@ function PauseMenu({
   onAction,
   onResume,
   badges = [],
+  game = {},
 }: PauseMenuProps): ReactElement {
   const [ownValue, setOwnValue] = useState(defaultValue);
   const [closing, setClosing] = useState(false);
+  const [page, setPage] = useState<"pause" | "game" | "back">("pause");
+  const refocus = useRef(false);
   const current = value ?? ownValue;
 
   const resume = useEffectEvent(() => onResume?.());
@@ -82,15 +73,42 @@ function PauseMenu({
     onValueChange?.(next);
   };
 
+  const open = (row: string) => {
+    onSelect?.(row);
+    if (row === "game" && game) setPage("game");
+  };
+
+  if (page === "game" && game) {
+    return (
+      <GameMenu
+        {...game}
+        autoFocus
+        onBack={() => {
+          refocus.current = true;
+          setPage("back");
+        }}
+      />
+    );
+  }
+
   return (
-    <GameScreen className="ld-pause" data-closing={closing || undefined}>
-      <World />
+    <GameScreen className="ld-pause" data-closing={closing || undefined} data-return={page === "back" || undefined}>
+      <PauseWorld />
       <div className="ld-pause__body">
         <div className="ld-pause__panel">
           <span className="ld-pause__mark" aria-hidden="true">
             VC
           </span>
-          <Toolbar className="ld-pause__list" orientation="vertical" aria-label="Pause menu">
+          <Toolbar
+            ref={element => {
+              if (!element || !refocus.current) return;
+              refocus.current = false;
+              element.querySelector<HTMLElement>("[data-current]")?.focus();
+            }}
+            className="ld-pause__list"
+            orientation="vertical"
+            aria-label="Pause menu"
+          >
             {PAUSE_ROWS.map(({ value: row, label, Icon }, index) => (
               <ToolbarButton
                 key={row}
@@ -98,7 +116,7 @@ function PauseMenu({
                 data-current={row === current || undefined}
                 style={cssVariables({ "--i": index })}
                 onFocus={() => point(row)}
-                onClick={() => onSelect?.(row)}
+                onClick={() => open(row)}
               >
                 <span className="ld-pause__icon" data-icon={row} aria-hidden="true">
                   <Icon absoluteStrokeWidth strokeWidth={2.4} />
@@ -117,7 +135,7 @@ function PauseMenu({
         <ButtonPrompt glyph="square" onClick={() => onSelect?.("photo")}>
           Photo Studio
         </ButtonPrompt>
-        <ButtonPrompt glyph="cross" onClick={() => onSelect?.(current)}>
+        <ButtonPrompt glyph="cross" onClick={() => open(current)}>
           Select
         </ButtonPrompt>
         <ButtonPrompt glyph="circle" onClick={() => setClosing(true)}>

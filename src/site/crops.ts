@@ -8,6 +8,7 @@ const CROPS: Partial<Record<string, Crop>> = {
   "hint-tooltip": { x: 0, y: 230, w: 640, h: 220 },
   "button-prompt": { x: 1468, y: 890, w: 452, h: 190 },
   "pause-menu": FULL,
+  "save-screen": FULL,
   "settings-screen": FULL,
   "map-screen": FULL,
   "mod-shop": FULL,

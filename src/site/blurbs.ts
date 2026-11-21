@@ -4,6 +4,7 @@ const BLURBS: Partial<Record<string, string>> = {
   "hint-tooltip": "The quiet box in the corner that tells you what to press next.",
   "button-prompt": "Condensed caps and a button disc for every action on screen.",
   "pause-menu": "The world blurs, the panel slides in, and time stops.",
+  "save-screen": "Fifteen slots, one autosave, and no spinner. Pick a slot and keep going.",
   "settings-screen": "Every option on one screen, with a preview of the row you're on.",
   "map-screen": "All of Leonida behind four tabs and a pink underline.",
   "mod-shop": "Pick a paint, watch the car change, then pay for it.",
