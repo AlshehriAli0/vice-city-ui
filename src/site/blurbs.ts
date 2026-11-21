@@ -6,6 +6,7 @@ const BLURBS: Partial<Record<string, string>> = {
   "pause-menu": "The world blurs, the panel slides in, and time stops.",
   "settings-screen": "Every option on one screen, with a preview of the row you're on.",
   "map-screen": "All of Leonida behind four tabs and a pink underline.",
+  "mod-shop": "Pick a paint, watch the car change, then pay for it.",
   "weapon-wheel": "Hold, flick, release. Eight slots while the world slows down.",
   "radio-dial": "Flip through the stations without taking your eyes off the road.",
   "phone-drawer": "Contacts, messages and calls, one cut to black away.",

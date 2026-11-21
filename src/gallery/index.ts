@@ -2,6 +2,7 @@ import { coreDisplay } from "./core-display";
 import { coreForms } from "./core-forms";
 import { hud } from "./hud";
 import { menus } from "./menus";
+import { modShopDemos } from "./mod-shop";
 import { official } from "./official";
 import { phone } from "./phone";
 import type { Demo, Section } from "./types";
@@ -23,7 +24,7 @@ const CHAPTERS: Chapter[] = [
     theme: "dustyNeon",
     kicker: "Pause, settings and map",
     scene: true,
-    ids: ["pause-menu", "settings-screen", "map-screen"],
+    ids: ["pause-menu", "settings-screen", "map-screen", "mod-shop"],
   },
   {
     id: "wheel-radio",
@@ -49,6 +50,7 @@ const CHAPTERS: Chapter[] = [
 const HOMES: [Demo[], string][] = [
   [hud, "hud"],
   [menus, "menus"],
+  [modShopDemos, "menus"],
   [phone, "phone"],
   [official, "leonida"],
   [coreForms, "forms"],
