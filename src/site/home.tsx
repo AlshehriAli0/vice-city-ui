@@ -3,7 +3,11 @@ import type { ReactElement } from "react";
 
 import { Button } from "../ui/button";
 import { ViceText } from "../ui/vice-text";
+import { DemoBoundary } from "./boundary";
 import { ENTRIES, entriesOf, sections, type Entry } from "./catalog";
+import { CropStage } from "./crop-stage";
+import { FitStage } from "./fit-stage";
+import { staticPlayground } from "./playground-state";
 import { hrefOf } from "./route";
 
 function Masthead(): ReactElement {
@@ -30,6 +34,15 @@ function Masthead(): ReactElement {
   );
 }
 
+const CAPTURING_PREVIEWS = typeof location !== "undefined" && new URLSearchParams(location.search).has("live");
+
+function LivePreview({ entry }: { entry: Entry }): ReactElement {
+  if (entry.preview) return <FitStage width={760}>{entry.preview()}</FitStage>;
+  const content = entry.render(staticPlayground(entry));
+  if (entry.crop) return <CropStage crop={entry.crop}>{content}</CropStage>;
+  return <FitStage width={entry.wide ? 860 : 600}>{content}</FitStage>;
+}
+
 function CatalogCard({ entry }: { entry: Entry }): ReactElement {
   return (
     <article className="cat-card" data-id={entry.id}>
@@ -43,15 +56,23 @@ function CatalogCard({ entry }: { entry: Entry }): ReactElement {
         <span className="cat-card__rule" aria-hidden="true" />
       </header>
       <div className="cat-card__stage" data-scene={entry.scene ? "" : undefined}>
-        <img
-          className="cat-card__shot"
-          src={`/previews/${entry.id}.webp`}
-          alt=""
-          width={722}
-          height={420}
-          loading="lazy"
-          decoding="async"
-        />
+        {CAPTURING_PREVIEWS ? (
+          <div className="cat-card__preview" inert aria-hidden="true">
+            <DemoBoundary name={entry.name}>
+              <LivePreview entry={entry} />
+            </DemoBoundary>
+          </div>
+        ) : (
+          <img
+            className="cat-card__shot"
+            src={`/previews/${entry.id}.webp`}
+            alt=""
+            width={722}
+            height={420}
+            loading="lazy"
+            decoding="async"
+          />
+        )}
       </div>
       <p className="cat-card__caption">{entry.pitch}</p>
     </article>

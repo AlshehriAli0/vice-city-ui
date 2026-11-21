@@ -20,7 +20,7 @@ def js(expr):
 
 os.makedirs(OUT, exist_ok=True)
 ab("set", "viewport", "1280", "900", str(SCALE))
-ab("open", f"{URL}/#/")
+ab("open", f"{URL}/?live#/")
 ab("wait", "2500")
 ab("eval", "document.documentElement.dataset.motion = 'still'")
 ids = js("[...document.querySelectorAll('.cat-card')].map(c => c.dataset.id)")
