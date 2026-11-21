@@ -1,4 +1,4 @@
-import { act, render, screen, within } from "@testing-library/react";
+import { act, render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { settle } from "@ui-sdk/core/testing";
 import { createAgent } from "@ui-sdk/react/agent";
@@ -253,9 +253,13 @@ test("the hand's sway stops in Still mode", async () => {
   expect(hold).toHaveAttribute("data-sway", "on");
 });
 
+const waitForPhoneBehindTheCutToBlack = () =>
+  waitFor(() => expect(agent.snapshot().some(entry => entry.label === "Phone")).toBe(true));
+
 test("an agent finds the phone by name and opens apps through it", async () => {
   render(<PlaygroundView demo={phone.find(demo => demo.id === "phone-drawer")!} />);
   await act(() => settle());
+  await waitForPhoneBehindTheCutToBlack();
   const entries = agent.snapshot().filter(entry => !entry.offPage && entry.component !== "more");
   for (const entry of entries) expect(entry.label, `${entry.component} ${entry.ref} has no name`).toBeTruthy();
   const labels = entries.map(entry => entry.label);
