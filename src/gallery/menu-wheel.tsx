@@ -1,9 +1,13 @@
-import { RadioDial, type RadioSource } from "../leonida/radio-dial";
+import { lazy } from "react";
+
+import type { RadioSource } from "../leonida/radio-dial";
 import { STATIONS } from "../leonida/radio-dial.data";
-import { WeaponWheel } from "../leonida/weapon-wheel";
 import { WEAPONS, ITEMS } from "./menu-equipment";
 import { optionValue, options as labeledOptions } from "./options";
 import type { Demo } from "./types";
+
+const RadioDial = lazy(() => import("../leonida/radio-dial").then(module => ({ default: module.RadioDial })));
+const WeaponWheel = lazy(() => import("../leonida/weapon-wheel").then(module => ({ default: module.WeaponWheel })));
 
 const WHEEL_TABS = labeledOptions(["weapons", "Weapons"], ["items", "Items"]);
 

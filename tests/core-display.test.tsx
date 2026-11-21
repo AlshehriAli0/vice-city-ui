@@ -2,6 +2,7 @@ import { act, render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { settle } from "@ui-sdk/core/testing";
 import { createAgent } from "@ui-sdk/react/agent";
+import { Suspense } from "react";
 import { expect, test, vi } from "vitest";
 
 import type { Demo as DemoType, Values } from "../src/gallery/types";
@@ -41,7 +42,9 @@ function Page() {
     <>
       {coreDisplay.map(item => (
         <section key={item.id}>
-          <Live entry={item} />
+          <Suspense>
+            <Live entry={item} />
+          </Suspense>
         </section>
       ))}
     </>
@@ -74,6 +77,7 @@ test("usage snippets spell out only the props that differ from the component's d
 
 test("an agent can find every core display control by name", async () => {
   render(<Page />);
+  await screen.findByRole("button", { name: "Quick menu" });
   await act(() => settle());
   const entries = agent.snapshot().filter(entry => !entry.offPage && entry.component !== "more");
   for (const entry of entries) expect(entry.label, `${entry.component} ${entry.ref} has no name`).toBeTruthy();
@@ -93,6 +97,7 @@ test("an agent can find every core display control by name", async () => {
 
 test("an agent can switch tabs, open a help topic, page results and open the save dialog", async () => {
   render(<Page />);
+  await screen.findByRole("button", { name: "Quick menu" });
   await act(() => settle());
   const result = await agent.act({
     steps: [
@@ -173,7 +178,7 @@ test("an example opens the side sheet without its trigger, on the side the panel
 test("the quick menu toggles a checkbox item and keeps the menu open", async () => {
   const user = userEvent.setup();
   render(<Demo id="core-menu" />);
-  await user.click(screen.getByRole("button", { name: "Quick menu" }));
+  await user.click(await screen.findByRole("button", { name: "Quick menu" }));
   const subtitles = await screen.findByRole("menuitemcheckbox", { name: "Subtitles" });
   expect(subtitles).toHaveAttribute("aria-checked", "false");
   await user.click(subtitles);
@@ -195,7 +200,7 @@ test("a right click opens the photo's context menu and runs an item", async () =
   const user = userEvent.setup();
   render(<Demo id="core-menu" />);
   await user.click(example("Context menu"));
-  await user.pointer({ keys: "[MouseRight]", target: screen.getByLabelText("Photo options area") });
+  await user.pointer({ keys: "[MouseRight]", target: await screen.findByLabelText("Photo options area") });
   await user.click(await screen.findByRole("menuitem", { name: "Delete" }));
   expect(toast).toHaveBeenCalledWith("Deleted the photo");
 });
@@ -377,7 +382,7 @@ test("an idle vital dims, and brightens for three seconds when its value changes
 test("the calendar switches to several days, and the scroll area takes its row count from the panel", async () => {
   const user = userEvent.setup();
   render(<Demo id="core-data" />);
-  expect(screen.getByRole("grid")).toBeInTheDocument();
+  expect(await screen.findByRole("grid")).toBeInTheDocument();
   await user.click(example("Long list"));
   const log = screen.getByRole("region", { name: "Message log" });
   expect(within(log).getAllByRole("listitem")).toHaveLength(30);

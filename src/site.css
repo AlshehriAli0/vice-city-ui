@@ -30,6 +30,7 @@
 
 html {
   scroll-padding-top: calc(var(--bar-h) + 32px);
+  scrollbar-gutter: stable;
 }
 
 body {
@@ -39,6 +40,10 @@ body {
   font-weight: 500;
   letter-spacing: -0.01em;
   color: var(--text);
+}
+
+#root {
+  display: flow-root;
 }
 
 main:focus {
@@ -196,6 +201,10 @@ main:focus {
 
 .masthead__title:focus {
   outline: none;
+}
+
+.masthead__title .vc-vice-text {
+  will-change: transform;
 }
 
 .masthead__lede {
@@ -577,6 +586,15 @@ main:focus {
   max-width: 100%;
 }
 
+.detail__frame-placeholder {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+}
+
+.detail__frame-placeholder[data-phone] {
+  margin-bottom: 54px;
+}
+
 .detail__notes {
   max-width: 72ch;
   margin: 14px 0 0;
@@ -733,6 +751,11 @@ main:focus {
 .src__code:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
+}
+
+.src-placeholder {
+  /* The first source file fills the 480px viewport. Reserve the tab and action rows too. */
+  height: 555px;
 }
 
 .pager {
@@ -1244,6 +1267,7 @@ main:focus {
 
 /* ---------- Cropped game previews ---------- */
 .crop {
+  container-type: size;
   display: grid;
   place-items: center;
   width: 100%;
@@ -1253,6 +1277,7 @@ main:focus {
 }
 
 .crop__window {
+  --crop-s: clamp(0.05, min(tan(atan2(100cqw, var(--crop-w))), tan(atan2(100cqh, var(--crop-h)))), var(--crop-limit));
   position: relative;
   width: calc(var(--crop-w) * var(--crop-s, 0.3));
   height: calc(var(--crop-h) * var(--crop-s, 0.3));
@@ -1275,9 +1300,11 @@ main:focus {
 }
 
 .frame-crop {
+  container-type: inline-size;
   min-width: 0;
   --crop-r: calc(1920px - var(--crop-x) - var(--crop-w));
   --crop-b: calc(1080px - var(--crop-y) - var(--crop-h));
+  --crop-s: clamp(0.05, min(tan(atan2(100cqw, var(--crop-w))), tan(atan2(62dvh, var(--crop-h)))), var(--crop-limit));
   display: grid;
   justify-items: center;
   width: 100%;
@@ -1409,20 +1436,39 @@ main:focus {
 
 /* ---------- Code: sugar-high tokens in the site palette ---------- */
 .code {
-  --sh-keyword: #ff7ab8;
-  --sh-string: #ffc08a;
-  --sh-class: #9fb8ff;
-  --sh-entity: #89f5e3;
-  --sh-property: #fff9cb;
-  --sh-jsxliterals: #e8e2f6;
-  --sh-identifier: #e8e2f6;
-  --sh-sign: #a39cb4;
-  --sh-comment: #7d7598;
-  --sh-break: #e8e2f6;
-  --sh-space: #e8e2f6;
+  --sh-text: #e8e2f6;
+}
+
+.code .sh__line {
+  color: var(--sh-text);
+}
+
+.code .sh__token--keyword {
+  color: #ff7ab8;
+}
+
+.code .sh__token--string {
+  color: #ffc08a;
+}
+
+.code .sh__token--class {
+  color: #9fb8ff;
+}
+
+.code .sh__token--entity {
+  color: #89f5e3;
+}
+
+.code .sh__token--property {
+  color: #fff9cb;
+}
+
+.code .sh__token--sign {
+  color: #a39cb4;
 }
 
 .code .sh__token--comment {
+  color: #7d7598;
   font-style: italic;
 }
 

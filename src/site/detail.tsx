@@ -1,5 +1,5 @@
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { useEffect, useRef, type ReactElement } from "react";
+import { useEffect, useLayoutEffect, useRef, type ReactElement } from "react";
 
 import { DemoBoundary } from "./boundary";
 import { BY_ID, ENTRIES, entriesOf, sections, type Entry } from "./catalog";
@@ -101,24 +101,50 @@ function UnknownComponent(): null {
   return null;
 }
 
-function DetailContent({ entry }: { entry: Entry }): ReactElement {
+function DetailPlayground({ entry }: { entry: Entry }): ReactElement {
   const playground = usePlayground(entry);
+  const phone = entry.id === "phone-drawer";
+  const fullFrame = entry.section.id === "menus" || entry.section.id === "wheel-radio" || phone;
+  const fallback = fullFrame ? (
+    <div className="detail__frame-placeholder" data-phone={phone || undefined} />
+  ) : undefined;
+
+  return (
+    <>
+      <Examples demo={entry} values={playground.values} apply={playground.apply} reset={playground.reset} />
+      <Stage className="detail__stage" scene={entry.scene}>
+        <DemoBoundary name={entry.name} fallback={fallback}>
+          {entry.stageCrop ? (
+            <FrameCrop crop={entry.stageCrop}>{entry.render(playground)}</FrameCrop>
+          ) : (
+            entry.render(playground)
+          )}
+        </DemoBoundary>
+      </Stage>
+      <ControlsPanel demo={entry} state={playground} />
+      <p className="detail__notes">{entry.caption}</p>
+      <Usage demo={entry} values={playground.values} />
+    </>
+  );
+}
+
+function DetailContent({ entry }: { entry: Entry }): ReactElement {
   const title = useRef<HTMLHeadingElement>(null);
   const side = useRef<HTMLElement>(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     window.scrollTo(0, 0);
     title.current?.focus({ preventScroll: true });
-    const current = side.current?.querySelector<HTMLElement>('[aria-current="page"]');
+    const current = side.current?.querySelector<HTMLElement>(`a[href="${hrefOf(entry.id)}"]`);
     if (side.current && current) side.current.scrollTop = current.offsetTop - side.current.clientHeight / 2;
-  }, []);
+  }, [entry.id]);
 
   return (
     <div className="detail">
       <aside className="detail__side" ref={side}>
         <ComponentNav current={entry.id} />
       </aside>
-      <article className="detail__main" aria-labelledby="detail-title">
+      <article key={entry.id} className="detail__main" aria-labelledby="detail-title">
         <header className="detail__head">
           <p className="detail__eyebrow">
             <span className="detail__no">{entry.label}</span> {entry.section.title}
@@ -130,19 +156,7 @@ function DetailContent({ entry }: { entry: Entry }): ReactElement {
           <p className="detail__pitch">{entry.pitch}</p>
         </header>
 
-        <Examples demo={entry} state={playground} />
-        <Stage className="detail__stage" scene={entry.scene}>
-          <DemoBoundary name={entry.name}>
-            {entry.stageCrop ? (
-              <FrameCrop crop={entry.stageCrop}>{entry.render(playground)}</FrameCrop>
-            ) : (
-              entry.render(playground)
-            )}
-          </DemoBoundary>
-        </Stage>
-        <ControlsPanel demo={entry} state={playground} />
-        <p className="detail__notes">{entry.caption}</p>
-        <Usage demo={entry} values={playground.values} />
+        <DetailPlayground entry={entry} />
 
         {entry.states && entry.states.length > 0 && (
           <section className="detail__section" aria-labelledby="states-title">

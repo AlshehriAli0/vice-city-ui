@@ -279,6 +279,16 @@
   background: #171822;
 }
 
+.cd-calendar-placeholder {
+  block-size: calc(410 * var(--vc-u));
+}
+
+@media (max-width: 760px) {
+  .cd-calendar-placeholder {
+    block-size: 292.3125px;
+  }
+}
+
 .cd-log {
   margin: 0;
   padding: 0;

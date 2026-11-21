@@ -2,7 +2,7 @@ import { act, render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { checkDirection, checkPattern, checkServer, mount } from "@ui-sdk/core/testing";
 import { createAgent } from "@ui-sdk/react/agent";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { describe, expect, test } from "vitest";
 
 import { coreForms } from "../src/gallery/core-forms";
@@ -47,7 +47,9 @@ function All() {
   return (
     <>
       {coreForms.map(demo => (
-        <section key={demo.id}>{demo.render(staticPlayground(demo))}</section>
+        <section key={demo.id}>
+          <Suspense>{demo.render(staticPlayground(demo))}</Suspense>
+        </section>
       ))}
     </>
   );
@@ -58,6 +60,7 @@ const cycleRow = (label: string) => screen.getByRole("radiogroup", { name: label
 describe("agents", () => {
   test("find every core form control by name and change them", async () => {
     render(<All />);
+    await screen.findByRole("combobox", { name: "Destination" });
     await tick();
     const entries = agent.snapshot().filter(entry => !entry.offPage && entry.component !== "more");
     for (const entry of entries) expect(entry.label, `${entry.component} ${entry.ref} has no name`).toBeTruthy();

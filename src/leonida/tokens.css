@@ -3,37 +3,37 @@
 /* Rockstar's GTA VI typefaces, as served by rockstargames.com/VI. */
 @font-face {
   font-family: "GTA Art Deco";
-  src: url("/fonts/GTAArtDeco_Regular.woff") format("woff");
+  src: url("/fonts/GTAArtDeco_Regular.woff2") format("woff2");
   font-weight: 400;
   font-display: swap;
 }
 @font-face {
   font-family: "GTA Art Deco";
-  src: url("/fonts/GTAArtDeco_Medium.woff") format("woff");
+  src: url("/fonts/GTAArtDeco_Medium.woff2") format("woff2");
   font-weight: 500 600;
   font-display: swap;
 }
 @font-face {
   font-family: "GTA Art Deco";
-  src: url("/fonts/GTAArtDeco_Bold.woff") format("woff");
+  src: url("/fonts/GTAArtDeco_Bold.woff2") format("woff2");
   font-weight: 700;
   font-display: swap;
 }
 @font-face {
   font-family: "GTA Art Deco Condensed";
-  src: url("/fonts/GTAArtDeco_CondensedBold.woff") format("woff");
+  src: url("/fonts/GTAArtDeco_CondensedBold.woff2") format("woff2");
   font-weight: 400 700;
   font-display: swap;
 }
 @font-face {
   font-family: "GTA Art Deco Condensed";
-  src: url("/fonts/GTAArtDeco_CondensedHeavy.woff") format("woff");
+  src: url("/fonts/GTAArtDeco_CondensedHeavy.woff2") format("woff2");
   font-weight: 800 900;
   font-display: swap;
 }
 @font-face {
   font-family: "Rage Italic";
-  src: url("/fonts/RageItalicStd.otf") format("opentype");
+  src: url("/fonts/RageItalicStd.woff2") format("woff2");
   font-display: swap;
 }
 

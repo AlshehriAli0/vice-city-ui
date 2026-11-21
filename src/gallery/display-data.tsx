@@ -1,7 +1,6 @@
 import { Eye, Heart, Zap } from "lucide-react";
-import type { ReactElement } from "react";
+import { lazy, Suspense, type ReactElement } from "react";
 
-import { Calendar } from "../ui/calendar";
 import { Meter, MeterIcon, MeterIndicator, MeterTrack } from "../ui/meter";
 import { Progress, ProgressIcon, ProgressIndicator, ProgressLabel, ProgressTrack, ProgressValue } from "../ui/progress";
 import {
@@ -15,6 +14,8 @@ import { Skeleton } from "../ui/skeleton";
 import { attrs } from "./display-options";
 import { optionValue, options as opts } from "./options";
 import type { Demo, Playground } from "./types";
+
+const Calendar = lazy(() => import("../ui/calendar").then(module => ({ default: module.Calendar })));
 
 const TONE_ICON = { health: Heart, stamina: Zap, focus: Eye };
 
@@ -111,11 +112,13 @@ function DataDemo({ values: v }: Playground): ReactElement {
   };
   return (
     <div className="cd-data">
-      {v.multiple ? (
-        <Calendar key="multiple" mode="multiple" defaultValue={["2026-11-21", "2026-11-24"]} {...shared} />
-      ) : (
-        <Calendar key="single" defaultValue="2026-11-21" {...shared} />
-      )}
+      <Suspense fallback={<div className="cd-calendar-placeholder" aria-hidden="true" />}>
+        {v.multiple ? (
+          <Calendar key="multiple" mode="multiple" defaultValue={["2026-11-21", "2026-11-24"]} {...shared} />
+        ) : (
+          <Calendar key="single" defaultValue="2026-11-21" {...shared} />
+        )}
+      </Suspense>
     </div>
   );
 }

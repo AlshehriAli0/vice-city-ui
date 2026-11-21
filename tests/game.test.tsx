@@ -42,6 +42,7 @@ test("every game control is named and an agent can raise the wanted level", asyn
       ))}
     </>
   );
+  await screen.findByRole("menu", { name: "Apps" });
   await act(() => settle());
   const entries = agent.snapshot().filter(entry => !entry.offPage && entry.component !== "more");
   for (const entry of entries) expect(entry.label, `${entry.component} ${entry.ref} has no name`).toBeTruthy();
@@ -245,7 +246,7 @@ test("the radio playground: examples, power, station and source stay in sync wit
   const user = userEvent.setup();
   render(<PlaygroundView demo={menus.find(demo => demo.id === "radio-dial")!} />);
   const panel = within(screen.getByRole("region", { name: "Controls" }));
-  expect(screen.getByText("Good Ones")).toBeInTheDocument();
+  expect(await screen.findByText("Good Ones")).toBeInTheDocument();
   await user.click(within(screen.getByRole("radiogroup", { name: "Examples" })).getByRole("radio", { name: "Off" }));
   expect(screen.getByText("Off", { selector: ".ld-radio__now span" })).toBeInTheDocument();
   await user.click(screen.getByRole("button", { name: /Turn on/ }));

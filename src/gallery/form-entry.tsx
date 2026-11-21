@@ -1,6 +1,5 @@
-import { useState, type ReactElement } from "react";
+import { lazy, useState, type ReactElement } from "react";
 
-import { DatePicker } from "../ui/date-picker";
 import { Field, FieldDescription, FieldLabel, FieldList } from "../ui/field";
 import {
   NumberInput,
@@ -16,6 +15,8 @@ import { str, flag } from "./form-options";
 import { FormStage } from "./form-stage";
 import { optionValue, options as labeledOptions } from "./options";
 import type { Demo, Playground } from "./types";
+
+const DatePicker = lazy(() => import("../ui/date-picker").then(module => ({ default: module.DatePicker })));
 
 const ENTRY_KINDS = [
   { value: "number", label: "Number" },

@@ -38,7 +38,7 @@ function AppearanceControls(): ReactElement {
   const [hour, setHour] = useState<Hour>(savedHour);
   const [still, setStill] = useState(false);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     document.documentElement.dataset.theme = hour;
     document.documentElement.dataset.sky = SKY[hour];
     try {
@@ -124,7 +124,7 @@ function App(): ReactElement {
       </header>
 
       <main id="main" tabIndex={-1}>
-        {route.page === "component" ? <DetailPage key={route.id} id={route.id} /> : <HomePage />}
+        {route.page === "component" ? <DetailPage id={route.id} /> : <HomePage />}
       </main>
     </>
   );

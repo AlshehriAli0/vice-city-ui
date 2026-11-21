@@ -17,6 +17,7 @@ import {
 } from "../ui/select";
 import { Slider } from "../ui/slider";
 import { Switch, SwitchState, SwitchThumb } from "../ui/switch";
+import { DemoBoundary } from "./boundary";
 import { CopyButton } from "./copy-button";
 import { HighlightedCode } from "./highlighted-code";
 import { usePlayground, type PlaygroundState } from "./playground-state";
@@ -105,20 +106,25 @@ function ControlRow({
   );
 }
 
-function Examples({ demo, state }: { demo: Demo; state: PlaygroundState }): ReactElement | null {
-  const examples = demo.examples ?? [];
-  const current = examples.find(example => same(state.values, example.values, demo.defaults))?.label ?? null;
-  if (!examples.length && !demo.controls?.length) return null;
+function Examples({
+  demo,
+  values,
+  apply,
+  reset,
+}: { demo: Demo } & Pick<PlaygroundState, "values" | "apply" | "reset">): ReactElement | null {
+  const examples = demo.examples;
+  const current = examples?.find(example => same(values, example.values, demo.defaults))?.label ?? null;
+  if (!examples?.length && !demo.controls?.length) return null;
   return (
     <div className="pg-bar">
-      {examples.length > 0 && (
+      {examples && examples.length > 0 && (
         <SegmentedControl
           aria-label="Examples"
           size="sm"
           value={current}
           onValueChange={label => {
             const example = examples.find(item => item.label === label);
-            if (example) state.apply(example.values);
+            if (example) apply(example.values);
           }}
         >
           {examples.map(example => (
@@ -129,7 +135,7 @@ function Examples({ demo, state }: { demo: Demo; state: PlaygroundState }): Reac
         </SegmentedControl>
       )}
       {demo.controls?.length ? (
-        <Button className="pg-bar__reset" size="sm" variant="ghost" onClick={state.reset}>
+        <Button className="pg-bar__reset" size="sm" variant="ghost" onClick={reset}>
           <RotateCcw aria-hidden="true" /> Reset
         </Button>
       ) : null}
@@ -182,8 +188,8 @@ function PlaygroundView({ demo }: { demo: Demo }): ReactElement {
   const state = usePlayground(demo);
   return (
     <>
-      <Examples demo={demo} state={state} />
-      {demo.render(state)}
+      <Examples demo={demo} values={state.values} apply={state.apply} reset={state.reset} />
+      <DemoBoundary name={demo.name}>{demo.render(state)}</DemoBoundary>
       <ControlsPanel demo={demo} state={state} />
     </>
   );

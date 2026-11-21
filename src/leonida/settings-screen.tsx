@@ -93,7 +93,7 @@ function SettingsScreen({
 
   return (
     <GameScreen className="ld-set" data-tab={tab}>
-      <img className="ld-set__palms" src="/vc/ui-palms.png" alt="" aria-hidden="true" />
+      <img className="ld-set__palms" src="/vc/ui-palms.webp" alt="" aria-hidden="true" />
       <p className="ld-set__title" aria-hidden="true">
         Settings
       </p>

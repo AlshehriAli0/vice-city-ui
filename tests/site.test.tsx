@@ -41,10 +41,13 @@ test("a card opens its detail page with the title focused, and prev/next move th
   expect(title).toHaveFocus();
   expect(document.title).toBe("Wanted Level · Vice City UI");
   expect(screen.getByRole("table")).toBeInTheDocument();
+  const sidebar = screen.getByRole("navigation", { name: "Components" });
 
   const next = screen.getByRole("link", { name: /Next HUD/ });
   await go(next.getAttribute("href")!);
   expect(screen.getByRole("heading", { level: 1, name: "HUD" })).toHaveFocus();
+  expect(screen.getByRole("navigation", { name: "Components" })).toBe(sidebar);
+  expect(within(sidebar).getByRole("link", { current: "page" })).toHaveAttribute("href", "#/c/hud-meters");
   const prev = screen.getByRole("link", { name: /Previous Wanted Level/ });
   expect(prev).toHaveAttribute("href", "#/c/wanted-level");
 });

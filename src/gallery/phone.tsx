@@ -1,17 +1,16 @@
-import { useEffect, useState } from "react";
+import { lazy, useEffect, useState } from "react";
 
-import { HudCash } from "../leonida/hud-meters";
 import { GameFrame, NeutralScene } from "../leonida/menu-backdrop";
 import { NotificationSlot, TextCardStill } from "../leonida/mission-toast";
 import { createSlot, type CallState, type Slot } from "../leonida/mission-toast.store";
-import type { PhoneApp } from "../leonida/phone-data";
-import { PhoneDrawer, PhoneDrawerContent, PhoneDrawerTrigger } from "../leonida/phone-drawer";
 
 import "./overlays.css";
 import { optionValue } from "./options";
+import { APP_OPTIONS } from "./phone-options";
 import type { Demo, Playground } from "./types";
 import { useAction } from "./use-action";
-import { useMirroredControl } from "./use-mirrored-control";
+
+const PhoneDemo = lazy(() => import("./phone-demo").then(module => ({ default: module.PhoneDemo })));
 
 type Card = "text" | CallState;
 
@@ -78,41 +77,6 @@ function NotificationDemo({ values, subscribeAction }: Playground) {
     </div>
   );
 }
-
-function PhoneDemo({ values, set }: Playground) {
-  const [slot] = useState(createSlot);
-  const [open, setOpen] = useMirroredControl(Boolean(values.open), next => set("open", next));
-  const [app, setApp] = useMirroredControl(optionValue(values.app, APP_OPTIONS) ?? "home", next => set("app", next));
-  return (
-    <div className="ov-demo">
-      <PhoneDrawer open={open} onOpenChange={setOpen} app={app} onAppChange={setApp} slot={slot}>
-        <div className="ov-demo__frame">
-          <GameFrame className="ov-phone-frame">
-            <NeutralScene />
-            <HudCash className="ov-phone-cash" wallet={0} bank={3880} />
-            <PhoneDrawerContent time={String(values.time)} inCar={Boolean(values.inCar)} />
-            <NotificationSlot toaster={slot.toaster} inline />
-          </GameFrame>
-        </div>
-        <div className="ov-demo__trigger">
-          <PhoneDrawerTrigger className="g-btn">{open ? "Put phone away" : "Open phone"}</PhoneDrawerTrigger>
-        </div>
-      </PhoneDrawer>
-    </div>
-  );
-}
-
-const APP_OPTIONS: { value: PhoneApp; label: string }[] = [
-  { value: "home", label: "Home" },
-  { value: "whatup", label: "WhatUp" },
-  { value: "contacts", label: "Contacts" },
-  { value: "fitness", label: "Fitness" },
-  { value: "snapmatic", label: "Snapmatic" },
-  { value: "news", label: "News" },
-  { value: "weather", label: "Weather" },
-  { value: "waink", label: "WAiNK" },
-  { value: "settings", label: "Settings" },
-];
 
 const CARDS: { value: Card; label: string }[] = [
   { value: "text", label: "Text" },

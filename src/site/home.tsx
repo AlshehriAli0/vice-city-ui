@@ -1,5 +1,5 @@
 import { ArrowDown, ArrowRight } from "lucide-react";
-import type { ReactElement } from "react";
+import { startTransition, useState, type ReactElement } from "react";
 
 import { Button } from "../ui/button";
 import { ViceText } from "../ui/vice-text";
@@ -9,6 +9,27 @@ import { CropStage } from "./crop-stage";
 import { FitStage } from "./fit-stage";
 import { staticPlayground } from "./playground-state";
 import { hrefOf } from "./route";
+
+const pendingPreviews = new Map<Element, () => void>();
+let previewObserver: IntersectionObserver | undefined;
+
+function observePreview(element: Element, reveal: () => void): () => void {
+  previewObserver ??= new IntersectionObserver(
+    entries =>
+      startTransition(() => {
+        for (const { target, isIntersecting } of entries) {
+          if (isIntersecting) pendingPreviews.get(target)?.();
+        }
+      }),
+    { rootMargin: "1024px 0px" }
+  );
+  pendingPreviews.set(element, reveal);
+  previewObserver.observe(element);
+  return () => {
+    pendingPreviews.delete(element);
+    previewObserver?.unobserve(element);
+  };
+}
 
 function Masthead(): ReactElement {
   return (
@@ -44,8 +65,14 @@ function CatalogPreview({ entry }: { entry: Entry }): ReactElement {
 }
 
 function CatalogCard({ entry }: { entry: Entry }): ReactElement {
+  const [visible, setVisible] = useState(() => typeof IntersectionObserver === "undefined");
+  const watch = (element: HTMLElement | null) => {
+    if (element && !visible) return observePreview(element, () => setVisible(true));
+    return undefined;
+  };
+
   return (
-    <article className="cat-card" data-id={entry.id}>
+    <article className="cat-card" data-id={entry.id} ref={watch}>
       <header className="cat-card__head">
         <span className="cat-card__no">{entry.label}</span>
         <h3 className="cat-card__name">
@@ -57,9 +84,11 @@ function CatalogCard({ entry }: { entry: Entry }): ReactElement {
       </header>
       <div className="cat-card__stage" data-scene={entry.scene ? "" : undefined}>
         <div className="cat-card__preview" inert aria-hidden="true">
-          <DemoBoundary name={entry.name}>
-            <CatalogPreview entry={entry} />
-          </DemoBoundary>
+          {visible && (
+            <DemoBoundary name={entry.name}>
+              <CatalogPreview entry={entry} />
+            </DemoBoundary>
+          )}
         </div>
       </div>
       <p className="cat-card__caption">{entry.pitch}</p>

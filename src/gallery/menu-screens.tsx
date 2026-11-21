@@ -1,16 +1,19 @@
-import { useState } from "react";
+import { lazy, useState } from "react";
 
-import { MapScreen } from "../leonida/map-screen";
-import { MAX_ZOOM } from "../leonida/map-screen.camera";
+import { MAX_ZOOM } from "../leonida/map-screen.camera.geometry";
 import { MAP_CATEGORIES, MAP_TABS } from "../leonida/map-screen.data";
 import { toast } from "../leonida/mission-toast.store";
-import { PauseMenu } from "../leonida/pause-menu";
 import { PAUSE_ROWS } from "../leonida/pause-menu.data";
-import { SettingsScreen } from "../leonida/settings-screen";
 import { CATEGORIES } from "../leonida/settings-screen.data";
 import { optionValue, options as labeledOptions } from "./options";
 import type { Demo, Playground } from "./types";
 import { useAction } from "./use-action";
+
+const MapScreen = lazy(() => import("../leonida/map-screen").then(module => ({ default: module.MapScreen })));
+const PauseMenu = lazy(() => import("../leonida/pause-menu").then(module => ({ default: module.PauseMenu })));
+const SettingsScreen = lazy(() =>
+  import("../leonida/settings-screen").then(module => ({ default: module.SettingsScreen }))
+);
 
 const MAP_VIEWS = labeledOptions(["3d", "3D"], ["2d", "2D"]);
 

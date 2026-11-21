@@ -10,46 +10,46 @@ const FILES: Partial<Record<string, () => Promise<string>>> = import.meta.glob<s
   { query: "?raw", import: "default" }
 );
 
-const loadSourceFiles = (file: string) =>
-  Promise.all(
-    ["tsx", "css"].flatMap(ext => {
-      const load = FILES[`../${file}.${ext}`];
-      const name = `${file.split("/").at(-1)}.${ext}`;
-      return load ? [load().then(text => ({ ext, name, text }))] : [];
-    })
-  );
+const sourceFiles = (file: string) =>
+  ["tsx", "css"].flatMap(ext => {
+    const load = FILES[`../${file}.${ext}`];
+    const name = `${file.split("/").at(-1)}.${ext}`;
+    return load ? [{ ext, name, load }] : [];
+  });
 
 function Source({ file }: { file: string }): ReactElement | null {
-  const [code, setCode] = useState<Awaited<ReturnType<typeof loadSourceFiles>>>([]);
+  const files = sourceFiles(file);
+  const [code, setCode] = useState<string[] | undefined>();
 
   useEffect(() => {
-    const controller = new AbortController();
-    loadSourceFiles(file)
-      .then(files => {
-        if (!controller.signal.aborted) setCode(files);
-      })
-      .catch(() => {
-        if (!controller.signal.aborted) setCode([]);
-      });
-    return () => controller.abort();
+    let active = true;
+    const load = async () => {
+      const text = await Promise.all(sourceFiles(file).map(item => item.load())).catch(() => []);
+      if (active) setCode(text);
+    };
+    void load();
+    return () => {
+      active = false;
+    };
   }, [file]);
 
-  const first = code.at(0);
-  if (!first) return null;
+  const first = files.at(0);
+  if (!first || code?.length === 0) return null;
+  if (!code) return <div className="src-placeholder" aria-hidden="true" />;
 
   return (
     <Tabs className="src" defaultValue={first.ext}>
       <TabsList className="src__tabs" aria-label="Source files">
-        {code.map(item => (
+        {files.map(item => (
           <TabsTab key={item.ext} value={item.ext} className="src__tab">
             {item.name}
           </TabsTab>
         ))}
       </TabsList>
-      {code.map(item => (
+      {files.map((item, index) => (
         <TabsPanel key={item.ext} value={item.ext} className="src__panel">
           <div className="src__actions">
-            <CopyButton text={item.text} label={`Copy ${item.name}`} />
+            <CopyButton text={code[index]} label={`Copy ${item.name}`} />
           </div>
           <ScrollArea>
             <ScrollAreaViewport
@@ -58,7 +58,7 @@ function Source({ file }: { file: string }): ReactElement | null {
               role="region"
               aria-label={`${item.name} source`}
             >
-              <HighlightedCode text={item.text} />
+              <HighlightedCode text={code[index]} />
             </ScrollAreaViewport>
           </ScrollArea>
         </TabsPanel>

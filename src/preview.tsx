@@ -8,6 +8,7 @@ import { LeonidaToasts } from "./leonida/mission-toast";
 
 import "./leonida/tokens.css";
 import "./leonida/parts.css";
+import { DemoBoundary } from "./site/boundary";
 import { staticPlayground } from "./site/playground-state";
 
 import "./site.css";
@@ -39,7 +40,9 @@ createRoot(root).render(
                 <h3 className="card__title">{demo.name}</h3>
                 <span className="card__sdk">{demo.sdk}</span>
               </header>
-              <div className="card__stage">{demo.render(staticPlayground(demo))}</div>
+              <div className="card__stage">
+                <DemoBoundary name={demo.name}>{demo.render(staticPlayground(demo))}</DemoBoundary>
+              </div>
               <p className="card__caption">{demo.caption}</p>
             </article>
           ))}

@@ -524,6 +524,7 @@ test("every menu demo has a clean stage, a controls panel, examples and a usage 
 test("the pause playground: the panel moves the bar, a focused row moves the panel, replay reopens", async () => {
   const user = userEvent.setup();
   render(<PlaygroundView demo={demo("pause-menu")} />);
+  await screen.findByRole("toolbar", { name: "Pause menu" });
   const rows = () => within(screen.getByRole("toolbar", { name: "Pause menu" })).getAllByRole("button");
   expect(rows()[0]).toHaveAttribute("data-current");
   await choose(user, "Selected row", "Help");
@@ -544,7 +545,7 @@ test("the pause playground: the panel moves the bar, a focused row moves the pan
 test("the settings playground switches category both ways", async () => {
   const user = userEvent.setup();
   render(<PlaygroundView demo={demo("settings-screen")} />);
-  expect(screen.getByRole("tab", { name: "Controller" })).toHaveAttribute("aria-selected", "true");
+  expect(await screen.findByRole("tab", { name: "Controller" })).toHaveAttribute("aria-selected", "true");
   await user.click(examples().getByRole("radio", { name: "Display" }));
   expect(screen.getByRole("tab", { name: "Display" })).toHaveAttribute("aria-selected", "true");
   await user.click(screen.getByRole("tab", { name: "UI" }));
@@ -557,7 +558,7 @@ test("the map playground drives the tab, cash, clock, zoom, destination and view
   const user = userEvent.setup();
   document.documentElement.dataset.motion = "still";
   render(<PlaygroundView demo={demo("map-screen")} />);
-  expect(screen.getByLabelText("Cash $601")).toBeInTheDocument();
+  expect(await screen.findByLabelText("Cash $601")).toBeInTheDocument();
   const zoom = panel().getByRole("slider", { name: "Zoom" });
   expect(zoom).toHaveValue("1");
   act(() => zoom.focus());

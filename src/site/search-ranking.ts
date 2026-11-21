@@ -1,5 +1,16 @@
 import { ENTRIES, type Entry } from "./catalog";
 
+const index = ENTRIES.map(entry => {
+  const name = entry.name.toLowerCase();
+  return {
+    entry,
+    name,
+    words: name.split(/[\s/&,]+/).filter(Boolean),
+    sdk: entry.sdk.toLowerCase(),
+    section: entry.section.title.toLowerCase(),
+  };
+});
+
 const editDistanceRow = (a: string, b: string, row: number, grid: number[][]) => {
   const previous = grid[row - 1];
   const result = [row];
@@ -42,19 +53,17 @@ const nameScore = (name: string, words: string[], query: string): number => {
   return subsequence(query, name) ? 2 : 0;
 };
 
-const score = (entry: Entry, query: string): number => {
-  const name = entry.name.toLowerCase();
-  const words = name.split(/[\s/&,]+/).filter(Boolean);
+const score = ({ name, words, sdk, section }: (typeof index)[number], query: string): number => {
   const title = nameScore(name, words, query);
   if (title) return title;
-  if (entry.sdk.toLowerCase().includes(query)) return 1;
-  if (entry.section.title.toLowerCase().includes(query)) return 0.5;
+  if (sdk.includes(query)) return 1;
+  if (section.includes(query)) return 0.5;
   return 0;
 };
 
 const rank = (query: string): Entry[] => {
   const needle = query.trim().toLowerCase();
-  const scored = ENTRIES.map(entry => [entry, score(entry, needle)] as const).filter(([, points]) => points > 0);
+  const scored = index.map(item => [item.entry, score(item, needle)] as const).filter(([, points]) => points > 0);
   const titled = scored.some(([, points]) => points >= 2);
   return scored
     .filter(([, points]) => !titled || points >= 1)
