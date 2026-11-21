@@ -1,0 +1,522 @@
+/* iFruit phone (specs/phone2). Laid out at 1080p inside a GameFrame; the handset's own sizes are local px before its 3D pose. */
+.ld-phone-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: auto;
+  max-width: none;
+  height: auto;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: #000;
+  color: #fff;
+  overflow: hidden;
+  outline: none;
+}
+
+.ld-phone-world {
+  position: absolute;
+  inset: 0;
+}
+
+/* Black over the world but under the prompts, which are already on during the hold (A 0:54.85). */
+.ld-phone-curtain {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  background: #000;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Open: hard cut, a 100ms hold (167 in a car), then a 200ms fade (183) with the whole scene defocused until its last 70ms. */
+.ld-phone-layer:is([data-phase="black"], [data-phase="out"]) .ld-phone-curtain {
+  opacity: 1;
+}
+
+.ld-phone-layer[data-phase="fade"] .ld-phone-curtain {
+  transition: opacity 200ms cubic-bezier(0.3, 0.3, 0.7, 1);
+}
+
+.ld-phone-layer[data-pose="car"][data-phase="fade"] .ld-phone-curtain {
+  transition-duration: 183ms;
+}
+
+.ld-phone-layer[data-phase="black"] .ld-phone-world {
+  filter: blur(25px);
+}
+
+.ld-phone-layer[data-phase="fade"] .ld-phone-world {
+  transition: filter 70ms linear 100ms;
+}
+
+.ld-phone-layer[data-pose="car"][data-phase="fade"] .ld-phone-world {
+  transition-delay: 83ms;
+}
+
+/* Close: cut to black with the prompts gone (cash stays), hold, then fade into the world behind while it comes back into focus. */
+.ld-phone-layer[data-phase="out"] .ld-phone-prompts {
+  visibility: hidden;
+}
+
+.ld-phone-layer[data-ending-style] {
+  background: transparent;
+  animation: ld-phone-refocus 200ms linear both;
+}
+
+/* display: none also stops the sway, so the exit can finish. */
+.ld-phone-layer[data-ending-style] > :not(.ld-phone-curtain) {
+  display: none;
+}
+
+.ld-phone-layer[data-ending-style] .ld-phone-curtain {
+  opacity: 1;
+  animation: ld-phone-unblack 200ms cubic-bezier(0.3, 0.3, 0.7, 1) both;
+}
+
+.ld-phone-layer[data-exit="call"][data-ending-style],
+.ld-phone-layer[data-exit="call"][data-ending-style] .ld-phone-curtain {
+  animation-duration: 170ms;
+}
+
+@keyframes ld-phone-unblack {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes ld-phone-refocus {
+  0%,
+  80% {
+    backdrop-filter: blur(24px);
+  }
+  100% {
+    backdrop-filter: blur(0);
+  }
+}
+
+/* Hand motion: a 1.7s settle about 18px right and down with one quicker shift near +1s, then a ±6px loop every 7.5s. */
+.ld-phone-hold {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.ld-phone-layer[data-phase="up"] .ld-phone-hold[data-sway="on"] {
+  animation:
+    ld-phone-settle 1700ms cubic-bezier(0.3, 0.1, 0.3, 1) both,
+    ld-phone-sway 7.5s linear 1700ms infinite;
+}
+
+@keyframes ld-phone-settle {
+  0% {
+    translate: -18px -16px;
+  }
+  52% {
+    translate: -13px -11px;
+  }
+  64% {
+    translate: -3px -2px;
+  }
+  100% {
+    translate: 0 0;
+  }
+}
+
+/* An ellipse through the rest point, x leading y. */
+@keyframes ld-phone-sway {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  12.5% {
+    translate: 4.2px 4.4px;
+  }
+  25% {
+    translate: 6px 8.5px;
+  }
+  37.5% {
+    translate: 4.2px 9.8px;
+  }
+  50% {
+    translate: 0 7.7px;
+  }
+  62.5% {
+    translate: -4.2px 3.3px;
+  }
+  75% {
+    translate: -6px -0.7px;
+  }
+  87.5% {
+    translate: -4.2px -2.1px;
+  }
+}
+
+
+/* The handset: a lavender-grey glass front in a thin dark case. Local box 422×851; the screen is 364×683 at (29, 69).
+   Posed by the homography of the measured screen quad (A 11:58): TL 780,190 · TR 1139,209 · BR 1037,902 · BL 671,855. */
+.ld-phone {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 422px;
+  height: 851px;
+  border-radius: 52px;
+  background: #19181d;
+  transform-origin: 0 0;
+  transform: matrix3d(0.866163, 0.0301601, 0, -0.000105444, -0.188888, 0.936313, 0, -0.0000436635, 0, 0, 1, 0, 780, 190, 0, 1) translate(-29px, -69px);
+  pointer-events: auto;
+  box-shadow: 18px 22px 24px rgb(0 0 0 / 0.35);
+}
+
+/* In a car: upright and right of centre, over the wheel (B 0:12). */
+.ld-phone-layer[data-pose="car"] .ld-phone {
+  transform: matrix3d(0.966338, -0.0382754, 0, -0.0000702474, 0.00314098, 1.00457, 0, 0, 0, 0, 1, 0, 1106, 240, 0, 1) translate(-29px, -69px);
+}
+
+.ld-phone::before {
+  content: "";
+  position: absolute;
+  inset: 9px;
+  border-radius: 43px;
+  background:
+    linear-gradient(100deg, rgb(255 255 255 / 0.28), transparent 30%),
+    linear-gradient(165deg, #c9c7d2 0%, #afadbb 40%, #9896a6 75%, #aba9b7 100%);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.5);
+}
+
+/* Earpiece slot with a sensor dot to its right. */
+.ld-phone__speaker {
+  position: absolute;
+  left: 181px;
+  top: 34px;
+  width: 60px;
+  height: 8px;
+  border-radius: 4px;
+  background: #26252c;
+}
+
+.ld-phone__speaker::after {
+  content: "";
+  position: absolute;
+  left: 76px;
+  top: -1px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #26252c;
+}
+
+.ld-phone__pill {
+  position: absolute;
+  left: 188px;
+  bottom: 44px;
+  width: 46px;
+  height: 10px;
+  border-radius: 5px;
+  background: #26252c;
+}
+
+/* Square display corners inside the rounded body. Emissive, so it reads brighter than the scene. */
+.ld-phone__screen {
+  position: absolute;
+  left: 29px;
+  top: 69px;
+  width: 364px;
+  height: 683px;
+  border-radius: 1px;
+  overflow: hidden;
+  background: #e9e9ee;
+  color: #1e1e24;
+  font-family: var(--font-ui);
+  font-size: 17px;
+  line-height: 1.25;
+  letter-spacing: 0;
+  text-transform: none;
+  isolation: isolate;
+}
+
+.ld-phone__screen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  background: linear-gradient(118deg, rgb(255 255 255 / 0.1), transparent 34%, transparent 70%, rgb(255 255 255 / 0.05));
+  pointer-events: none;
+}
+
+.ld-phone__view {
+  position: absolute;
+  inset: 0;
+  outline: none;
+}
+
+/* Home. */
+.ld-home {
+  position: absolute;
+  inset: 0;
+  color: #fff;
+}
+
+.ld-wallpaper {
+  overflow: hidden;
+  background: #85919e;
+}
+
+.ld-wallpaper > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Default "circles" wallpaper (A, G): mid-tone mauve, blue-grey, teal and warm grey, one huge ring from off the left edge,
+   and a soft diagonal band of light. Not pastel. */
+.ld-wallpaper[data-wallpaper="default"] {
+  background:
+    radial-gradient(circle 404px at -196px 372px, transparent 0 340px, rgb(140 214 204 / 0.22) 398px, rgb(255 255 255 / 0.42) 400px 403px, rgb(255 255 255 / 0.08) 405px, transparent 416px),
+    linear-gradient(-30deg, transparent 35%, rgb(255 255 255 / 0.3) 40%, rgb(255 255 255 / 0.12) 46%, transparent 53%),
+    radial-gradient(70% 45% at 0% 62%, #6ca19c 0%, rgb(108 161 156 / 0.6) 45%, transparent 80%),
+    radial-gradient(60% 40% at 100% 100%, #929799, transparent 80%),
+    linear-gradient(115deg, #76667e 0%, #7d7b8f 32%, #85919e 60%, #8d9599 100%);
+}
+
+.ld-wallpaper[data-wallpaper="spectrum"] {
+  background:
+    radial-gradient(circle 60px at 30% 85%, rgb(255 255 255 / 0.35), transparent 70%),
+    linear-gradient(160deg, #1c1f6e 0%, #2a5bd8 30%, #2fae7a 60%, #e9d23a 100%);
+}
+
+.ld-wallpaper[data-wallpaper="dusk"] {
+  background:
+    radial-gradient(circle 300px at 120% 20%, rgb(255 200 150 / 0.4), transparent 70%),
+    linear-gradient(180deg, #2b2350 0%, #7a3f7a 50%, #e07a5a 100%);
+}
+
+.ld-home__wall {
+  position: absolute;
+  inset: 0;
+}
+
+.ld-home__status {
+  position: absolute;
+  left: 22px;
+  right: 20px;
+  top: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 26px;
+  line-height: 30px;
+  text-shadow: 0 1px 2px rgb(0 0 0 / 0.18);
+}
+
+.ld-home__temp {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ld-home__weather {
+  width: 14px;
+  height: 14px;
+}
+
+/* Reminders: dark navy-violet, insets 10% / 7% W, rows 14–27% H. */
+.ld-home__widget {
+  position: absolute;
+  left: 36px;
+  right: 25px;
+  top: 74px;
+  height: 104px;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  grid-template-rows: auto auto;
+  align-content: center;
+  column-gap: 12px;
+  row-gap: 4px;
+  padding: 0 14px;
+  border-radius: 14px;
+  background: rgb(40 38 58 / 0.88);
+  backdrop-filter: blur(6px);
+}
+
+.ld-home__pinwheel {
+  width: 22px;
+  height: 22px;
+  align-self: center;
+}
+
+.ld-home__widget b {
+  font-weight: 700;
+  font-size: 26px;
+  line-height: 30px;
+}
+
+.ld-home__widget small {
+  grid-column: 1 / -1;
+  font-size: 18px;
+  line-height: 24px;
+}
+
+/* 4 columns, left-aligned to the widget inset; 55px discs on a 73 × 75 pitch, first row centred at 33% H. */
+.ld-home__grid {
+  position: absolute;
+  left: 34px;
+  top: 216px;
+  display: grid;
+  grid-template-columns: repeat(4, 57px);
+  column-gap: 17px;
+  row-gap: 21px;
+}
+
+.ld-home__app {
+  position: relative;
+  width: 57px;
+  height: 57px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  cursor: pointer;
+  outline: none;
+}
+
+/* Focus: one thin near-white ring with a 4–5px gap, no scale. It jumps in one frame. */
+.ld-home__app:focus-visible {
+  outline: none;
+}
+
+.ld-home__app[data-focused]::after {
+  content: "";
+  position: absolute;
+  inset: -7px;
+  border: 2px solid rgb(236 236 242 / 0.9);
+  border-radius: 50%;
+}
+
+.ld-app-icon {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #888;
+  box-shadow:
+    inset 0 -4px 6px rgb(0 0 0 / 0.22),
+    0 1px 2px rgb(0 0 0 / 0.25);
+}
+
+/* Glossy disc: a soft top highlight. */
+.ld-app-icon::before {
+  content: "";
+  position: absolute;
+  inset: 2px 6px 50%;
+  border-radius: 50% 50% 45% 45%;
+  background: linear-gradient(rgb(255 255 255 / 0.32), rgb(255 255 255 / 0));
+  pointer-events: none;
+}
+
+.ld-app-icon svg {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+[data-slot="phone-app-icon"][data-app="whatup"] { background: linear-gradient(160deg, #9ee0fb, #3b98e0); }
+[data-slot="phone-app-icon"][data-app="contacts"] { background: linear-gradient(160deg, #56d877, #15933c); }
+[data-slot="phone-app-icon"][data-app="fitness"] { background: linear-gradient(160deg, #3d33a8, #17134f); }
+[data-slot="phone-app-icon"][data-app="snapmatic"] { background: linear-gradient(200deg, #ffd23c, #ff7d2b 70%); }
+[data-slot="phone-app-icon"][data-app="news"] { background: linear-gradient(160deg, #f04850, #b4142a); }
+[data-slot="phone-app-icon"][data-app="weather"] { background: linear-gradient(160deg, #86d3ff, #2a8ce0); }
+[data-slot="phone-app-icon"][data-app="waink"] { background: linear-gradient(150deg, #ff92d2, #c873f0 50%, #6f9cff); }
+[data-slot="phone-app-icon"][data-app="settings"] { background: linear-gradient(160deg, #acacb4, #696971); }
+
+/* Unread: a red dot on the rim at 10–11 o'clock. */
+.ld-app-icon__badge {
+  position: absolute;
+  left: 4px;
+  top: 2px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #d8223a;
+}
+
+/* The focused app's name, centred at 85% H. */
+.ld-home__pill {
+  position: absolute;
+  left: 50%;
+  top: 568px;
+  translate: -50% 0;
+  height: 36px;
+  padding: 0 14px;
+  border-radius: 18px;
+  background: rgb(48 50 58 / 0.88);
+  color: #fff;
+  font-size: 19px;
+  line-height: 36px;
+  white-space: nowrap;
+}
+
+/* Prompts: glyph centres at x 1866, rows 52px apart, the last at y 1037. */
+.ld-phone-prompts {
+  position: absolute;
+  z-index: 6;
+  right: 39px;
+  bottom: 28px;
+}
+
+.ld-phone-prompt[data-muted] {
+  opacity: 1;
+  color: #8d8d94;
+}
+
+.ld-phone-prompt[data-muted] .ld-btnglyph__disc,
+.ld-phone-prompt[data-muted] .ld-stick {
+  fill: #8d8d94;
+  background: #8d8d94;
+}
+
+.ld-phone-prompt[aria-disabled] {
+  cursor: default;
+}
+
+/* Stick and D-pad glyphs, sized with the prompt text like the face buttons. */
+.ld-stick {
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  box-sizing: border-box;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 0 2px #141414;
+  color: #000;
+  font-family: var(--font-cond);
+  font-weight: 800;
+  font-size: 15px;
+  -webkit-text-stroke: 0;
+}
+
+.ld-dpad {
+  flex: none;
+  width: calc(30 / 26 * 1em);
+  height: calc(30 / 26 * 1em);
+  overflow: visible;
+}
+
+.ld-dpad path {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 1px #000);
+}
+
+.ld-dpad path[data-on] {
+  fill: #fff;
+}

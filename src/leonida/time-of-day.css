@@ -1,0 +1,48 @@
+.ld-tod {
+  display: inline-flex;
+}
+
+.ld-tod__item {
+  position: relative;
+  height: 30px;
+  padding: 0 12px;
+  border: 0;
+  background: color-mix(in srgb, var(--text) 12%, transparent);
+  color: var(--text);
+  font-family: var(--font-cond);
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color var(--dur-fast) var(--ease),
+    color var(--dur-fast) var(--ease);
+}
+
+.ld-tod__item + .ld-tod__item::before {
+  content: "";
+  position: absolute;
+  left: -1px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--bg);
+  transform: skewX(-14deg);
+}
+
+.ld-tod__item:hover:not([data-checked]) {
+  background: color-mix(in srgb, var(--text) 22%, transparent);
+}
+
+.ld-tod__item[data-checked] {
+  background: var(--text);
+  color: var(--bg);
+}
+
+.ld-tod__item:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 2px;
+  z-index: 1;
+}

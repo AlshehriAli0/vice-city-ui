@@ -1,0 +1,30 @@
+/* The HUD help box: rgba(14,12,13,.8), 12x16 padding, 24px text face, max 420 wide. */
+.vc-tooltip {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(10 * var(--vc-u));
+  max-width: calc(420 * var(--vc-u));
+  margin: 0;
+  padding: calc(12 * var(--vc-u)) calc(16 * var(--vc-u));
+  border: 0;
+  border-radius: 0;
+  background: rgb(14 12 13 / 0.8);
+  color: #fff;
+  font-family: var(--font-ui);
+  font-size: calc(24 * var(--vc-u));
+  line-height: 1.3;
+  overflow: visible;
+  transition: opacity 150ms linear;
+}
+
+.vc-tooltip[data-starting-style],
+.vc-tooltip[data-ending-style] {
+  opacity: 0;
+}
+
+.vc-tooltip__shortcut {
+  font-family: var(--font-cond);
+  font-weight: 700;
+  font-size: calc(22 * var(--vc-u));
+  opacity: 0.8;
+}

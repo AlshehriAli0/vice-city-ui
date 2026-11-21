@@ -1,0 +1,1264 @@
+/* Phone apps (spec §3). Local px inside the 364×683 display. No status bar in apps: each fills the display. */
+.ld-phone__view {
+  --focus: #5650c0;
+}
+
+.ld-phone__view[data-focus="green"] {
+  --focus: #319d4a;
+}
+
+.ld-phone__view[data-focus="rose"] {
+  --focus: #d2475a;
+}
+
+.ld-phone__view[data-focus="white"] {
+  --focus: rgb(236 236 242 / 0.85);
+}
+
+.ld-app {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  background: #e9e9ee;
+  color: #1e1e24;
+}
+
+.ld-app[data-tone="dark"] {
+  background: #121014;
+  color: #fff;
+}
+
+.ld-app[data-tone="blue"] {
+  background: linear-gradient(180deg, #1f4c92 0%, #3570b8 55%, #22529a 100%);
+  color: #fff;
+}
+
+.ld-app[data-tone="pink"] {
+  background: linear-gradient(160deg, #ff92d2, #9b6cff 60%, #5f8cf0);
+  color: #fff;
+}
+
+/* Opening an app cuts to its empty page; the text fades in ~100ms after ~60ms, and pictures land last. Back is a plain cut. */
+.ld-phone__view[data-motion="in"] .ld-app :is(b, small, p, h2, h3, em, time) {
+  animation: ld-app-ink 100ms linear 60ms both;
+}
+
+.ld-phone__view[data-motion="in"] .ld-app .ld-pic {
+  animation: ld-app-pop 1ms linear 170ms both;
+}
+
+@keyframes ld-app-ink {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes ld-app-pop {
+  from {
+    visibility: hidden;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ld-phone__view[data-motion="in"] .ld-app :is(b, small, p, h2, h3, em, time),
+  .ld-phone__view[data-motion="in"] .ld-app .ld-pic {
+    animation: none;
+  }
+}
+
+.ld-app :is(b, small, p, h2, h3, em, time) {
+  margin: 0;
+  font-style: normal;
+}
+
+/* Lists jump, never glide; a thin grey bar marks long lists. */
+.ld-app__scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 10px 12px 14px;
+  scroll-behavior: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgb(130 130 140 / 0.7) transparent;
+}
+
+.ld-app__scroll::-webkit-scrollbar {
+  width: 3px;
+}
+
+.ld-app__scroll::-webkit-scrollbar-thumb {
+  border-radius: 2px;
+  background: rgb(130 130 140 / 0.7);
+}
+
+/* Header: white bar with a hairline, a decorative "<" (Back is Circle), the bold title, an optional avatar. */
+.ld-app__head {
+  flex: none;
+  display: grid;
+  grid-template-columns: 48px 1fr 48px;
+  align-items: center;
+  height: 58px;
+  background: #fff;
+  border-bottom: 1px solid rgb(0 0 0 / 0.08);
+}
+
+.ld-app__head h2 {
+  overflow: hidden;
+  font-weight: 700;
+  font-size: 21px;
+  text-align: center;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.ld-app__chev {
+  justify-self: center;
+  width: 22px;
+  height: 22px;
+  color: #3a3a44;
+}
+
+[data-screen="thread"] .ld-app__chev {
+  color: #5650c0;
+}
+
+.ld-app__head-end {
+  display: grid;
+  justify-items: center;
+}
+
+.ld-app__head[data-tone="dark"] {
+  background: transparent;
+  border-bottom-color: rgb(255 255 255 / 0.08);
+  color: #fff;
+}
+
+.ld-app__head[data-tone="dark"] .ld-app__chev {
+  color: #a3a1aa;
+}
+
+.ld-app__head-end svg {
+  width: 22px;
+  height: 22px;
+}
+
+/* Rows and cards: white, ~9px radius, 7px apart. */
+.ld-app__card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0 0 7px;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 9px;
+  background: #fff;
+  box-shadow: 0 1px 1px rgb(0 0 0 / 0.06), inset 0 0 0 1px rgb(0 0 0 / 0.04);
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+/* Focus: a 2px outline in the app's accent round the whole card. The fill doesn't change. */
+.ld-app [data-slot="phone-menu-item"],
+.ld-app [data-slot="phone-menu-item"]:focus-visible {
+  outline: none;
+}
+
+.ld-app [data-slot="phone-menu-item"][data-focused] {
+  outline: 2px solid var(--focus);
+  outline-offset: -2px;
+}
+
+.ld-app__lines {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+  flex: 1;
+}
+
+.ld-app__lines b {
+  font-weight: 700;
+  font-size: 21px;
+}
+
+.ld-app__lines small {
+  overflow: hidden;
+  color: #8a8a93;
+  font-size: 19px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.ld-app__section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 6px 4px 8px;
+  color: #8a8a93;
+  font-weight: 400;
+  font-size: 19px;
+}
+
+.ld-app__pinwheel {
+  width: 22px;
+  height: 22px;
+}
+
+.ld-face {
+  position: relative;
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  overflow: hidden;
+  border-radius: 50%;
+  background: var(--tone, #8c8794);
+}
+
+.ld-face[data-size="sm"] {
+  width: 28px;
+  height: 28px;
+}
+
+.ld-face[data-size="lg"] {
+  width: 72px;
+  height: 72px;
+}
+
+.ld-face__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 52% 24%;
+  scale: 2.6;
+  transform-origin: 52% 30%;
+}
+
+.ld-face__fallback {
+  color: #fff;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.ld-face[data-size="sm"] .ld-face__fallback {
+  font-size: 13px;
+}
+
+.ld-face[data-size="lg"] .ld-face__fallback {
+  font-size: 30px;
+}
+
+/* WhatUp. */
+.ld-whatup__row {
+  min-height: 76px;
+  margin-bottom: 6px;
+}
+
+.ld-whatup__row[data-unread]::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  left: 12px;
+  top: 11px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #d8223a;
+}
+
+.ld-whatup__send {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #46a8e0;
+  color: #fff;
+}
+
+.ld-whatup__send svg {
+  width: 11px;
+  height: 11px;
+  margin-left: 2px;
+  fill: currentColor;
+  stroke-width: 0;
+}
+
+.ld-whatup__pin {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  color: #3f7fe0;
+}
+
+/* Thread: a faint doodle page, a periwinkle "encrypted" line, white received bubbles, indigo-to-blue sent ones. */
+.ld-thread {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background:
+    radial-gradient(circle 2px at 20px 20px, rgb(0 0 0 / 0.05) 98%, transparent),
+    radial-gradient(circle 1.5px at 55px 48px, rgb(0 0 0 / 0.04) 98%, transparent) #ecebf0;
+  background-size: 70px 70px;
+}
+
+.ld-thread .ld-thread__lock {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: auto;
+  padding: 4px 0;
+  color: #6f7bdb;
+  font-size: 19px;
+}
+
+.ld-thread__lock svg {
+  width: 17px;
+  height: 17px;
+}
+
+.ld-bubble {
+  max-width: 88%;
+  box-sizing: border-box;
+  padding: 11px 14px;
+  border: 1px solid rgb(0 0 0 / 0.07);
+  border-radius: 10px;
+  background: #fff;
+  color: #1e1e24;
+  font: inherit;
+  font-size: 20px;
+  line-height: 1.3;
+  text-align: left;
+}
+
+.ld-bubble[data-from="me"],
+.ld-bubble[data-from="pending"] {
+  align-self: flex-end;
+  border: 0;
+  border-radius: 14px;
+  background: linear-gradient(90deg, #4c55d0, #3b7ed8);
+  color: #fff;
+}
+
+.ld-bubble[data-from="pending"] {
+  max-width: none;
+  background: linear-gradient(90deg, #2f4fc4, #3a84cf);
+  cursor: pointer;
+}
+
+.ld-app .ld-bubble[data-from="pending"][data-focused] {
+  outline: 2px solid #8ec8f0;
+  outline-offset: 0;
+}
+
+.ld-bubble__place {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  padding: 9px 10px;
+  border: 1px solid rgb(0 0 0 / 0.1);
+  border-radius: 6px;
+}
+
+.ld-bubble__place svg {
+  width: 18px;
+  color: #d2475a;
+}
+
+.ld-thread__reply {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  max-width: 100%;
+  padding-left: 15%;
+}
+
+/* Contacts. */
+.ld-contacts__all {
+  min-height: 62px;
+}
+
+.ld-contacts__all b {
+  font-weight: 400;
+  font-size: 18px;
+}
+
+.ld-contacts__people {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #319d4a;
+  color: #fff;
+}
+
+.ld-contacts__people svg {
+  width: 22px;
+}
+
+/* The letter index: green-ringed 34px chips, the section showing filled. */
+.ld-contacts__index {
+  flex: none;
+  display: flex;
+  gap: 6px;
+  padding: 10px 12px 6px;
+  overflow: hidden;
+}
+
+.ld-contacts__index i {
+  flex: none;
+  display: grid;
+  place-items: center;
+  box-sizing: border-box;
+  width: 42px;
+  height: 42px;
+  border: 2px solid #319d4a;
+  border-radius: 50%;
+  color: #319d4a;
+  font-style: normal;
+  font-size: 18px;
+}
+
+.ld-contacts__index i[data-active] {
+  background: #319d4a;
+  color: #fff;
+}
+
+.ld-contacts__section h3 {
+  margin: 22px 8px 18px;
+  color: #8a8a93;
+  font-weight: 400;
+  font-size: 20px;
+}
+
+.ld-contacts__row {
+  min-height: 72px;
+  font-size: 20px;
+}
+
+/* The action sheet: slides over the list, a grab handle, three outlined rows. */
+.ld-sheet {
+  position: absolute;
+  z-index: 3;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 10px 10px 14px;
+  border-radius: 14px 14px 0 0;
+  background: #f6f6f8;
+  box-shadow: 0 -2px 10px rgb(0 0 0 / 0.12);
+}
+
+.ld-sheet__grab {
+  display: block;
+  width: 64px;
+  height: 4px;
+  margin: 0 auto 10px;
+  border-radius: 2px;
+  background: #c8c8d0;
+}
+
+.ld-sheet__row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-sizing: border-box;
+  width: 100%;
+  height: 46px;
+  margin-bottom: 6px;
+  padding: 0 12px;
+  border: 1px solid #e0e0e6;
+  border-radius: 8px;
+  background: #fff;
+  color: #1e1e24;
+  font: inherit;
+  font-size: 18px;
+  cursor: pointer;
+  outline: none;
+}
+
+.ld-sheet__row[data-focused] {
+  outline: 2px solid #319d4a;
+  outline-offset: -2px;
+}
+
+.ld-sheet__icon {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  color: #fff;
+}
+
+.ld-sheet__icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.ld-sheet__icon[data-app="contacts"] svg {
+  width: 12px;
+  fill: currentColor;
+  stroke-width: 0;
+}
+
+.ld-sheet__out {
+  width: 18px;
+  margin-left: auto;
+  color: #555;
+}
+
+/* Fitness, dark: skill cards with accent titles and ring gauges. */
+.ld-fit__head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 4px 12px;
+}
+
+.ld-fit__head b {
+  font-size: 22px;
+}
+
+.ld-fit__head small {
+  color: #59d27a;
+}
+
+.ld-fit__card {
+  display: grid;
+  gap: 10px;
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0 0 8px;
+  padding: 14px;
+  border: 0;
+  border-radius: 10px;
+  background: #1d1b21;
+  color: #fff;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.ld-app[data-tone="dark"] [data-slot="phone-menu-item"][data-focused] {
+  outline-width: 1.5px;
+}
+
+.ld-fit__top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ld-fit__card .ld-app__lines b {
+  color: #fff;
+}
+
+.ld-fit__card[data-kind="skill"] .ld-app__lines b {
+  color: var(--skill);
+  font-weight: 400;
+}
+
+.ld-fit__card .ld-app__lines small {
+  color: #fff;
+  white-space: normal;
+}
+
+.ld-ring {
+  position: relative;
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  color: var(--skill);
+}
+
+.ld-ring svg:first-child {
+  position: absolute;
+  inset: 0;
+  rotate: -90deg;
+}
+
+.ld-ring circle {
+  fill: none;
+  stroke-width: 3.2;
+}
+
+.ld-ring__track {
+  stroke: #2c2a31;
+}
+
+.ld-ring__fill {
+  stroke: var(--skill);
+  stroke-linecap: round;
+}
+
+.ld-ring > svg:last-child {
+  width: 16px;
+  height: 16px;
+}
+
+.ld-fit__window {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 8px 6px;
+  padding: 9px 10px 10px;
+  border-radius: 8px;
+  background: #29272e;
+}
+
+.ld-fit__window small {
+  color: var(--skill);
+  font-size: 16px;
+}
+
+.ld-fit__window svg {
+  width: 14px;
+  color: var(--skill);
+}
+
+.ld-fit__window i {
+  grid-column: 1 / -1;
+  height: 6px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--skill) calc(var(--p) * 100%), #3a3840 0);
+}
+
+.ld-fit__detail p {
+  margin: 0 0 14px;
+  font-size: 17px;
+  line-height: 1.4;
+}
+
+/* Snapmatic: a white feed over a white tab bar with a yellow active underline. */
+.ld-app[data-app="snapmatic"],
+.ld-app[data-app="comments"],
+.ld-app[data-app="profile"] {
+  background: #fff;
+}
+
+.ld-snap {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+.ld-snap__panel {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  flex-direction: column;
+}
+
+.ld-snap__panel:not([data-selected]) {
+  display: none;
+}
+
+.ld-snap__panel .ld-app__scroll {
+  padding: 0;
+}
+
+.ld-snap__post {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+  padding: 0 0 12px;
+  border: 0;
+  background: #fff;
+  color: #1e1e24;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.ld-snap__media {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 16 / 11;
+  background: var(--media);
+}
+
+.ld-snap__play {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border: 3px solid #f2c230;
+  border-radius: 50%;
+  background: rgb(20 20 24 / 0.7);
+  color: #fff;
+}
+
+.ld-snap__play svg {
+  width: 18px;
+  margin-left: 3px;
+}
+
+.ld-snap__meta {
+  display: grid;
+  gap: 6px;
+  padding: 10px 14px 0;
+}
+
+.ld-snap__handle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 18px;
+}
+
+.ld-snap__dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: linear-gradient(140deg, #f0947a, #a24a5a);
+}
+
+.ld-snap__meta small {
+  overflow: hidden;
+  color: #5a5a63;
+  font-size: 16px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.ld-snap__counts {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #5a5a63;
+  font-size: 16px;
+}
+
+.ld-snap__counts svg {
+  width: 16px;
+}
+
+.ld-snap__counts svg:last-of-type {
+  margin-left: 12px;
+}
+
+.ld-snap__end {
+  padding: 16px 0 20px;
+  color: #8a8a93;
+  text-align: center;
+}
+
+.ld-snap__tabs {
+  flex: none;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  height: 52px;
+  border-top: 1px solid rgb(0 0 0 / 0.08);
+  background: #fff;
+}
+
+.ld-snap__tab {
+  position: relative;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #3a3a44;
+  cursor: pointer;
+}
+
+.ld-snap__tab svg {
+  width: 21px;
+  height: 21px;
+}
+
+.ld-snap__tab[data-selected] svg {
+  fill: currentColor;
+  stroke: #fff;
+}
+
+.ld-snap__tab[data-selected]::after {
+  content: "";
+  position: absolute;
+  left: 28%;
+  right: 28%;
+  bottom: 4px;
+  height: 3px;
+  border-radius: 2px;
+  background: #f2c230;
+}
+
+.ld-snap__tab:focus-visible {
+  outline: 2px solid #5650c0;
+  outline-offset: -4px;
+}
+
+.ld-snap__empty {
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+  margin: auto;
+  padding: 0 40px;
+  color: #8a8a93;
+  text-align: center;
+}
+
+.ld-snap__empty svg {
+  width: 72px;
+  height: 72px;
+  stroke-width: 1.2;
+  color: #b8b8c0;
+}
+
+.ld-snap__sheet {
+  position: absolute;
+  z-index: 3;
+  inset: auto 10px 62px;
+  padding: 12px;
+  border-radius: 12px;
+  background: rgb(28 28 34 / 0.96);
+  color: #fff;
+  box-shadow: 0 0 0 400px rgb(0 0 0 / 0.35);
+}
+
+
+.ld-snap__group h3 {
+  margin: 4px 4px 8px;
+  color: #a3a3ab;
+  font-weight: 400;
+  font-size: 15px;
+}
+
+.ld-snap__option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-sizing: border-box;
+  width: 100%;
+  height: 44px;
+  margin-bottom: 6px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 8px;
+  background: #2a2a31;
+  color: #fff;
+  font: inherit;
+  font-size: 17px;
+  cursor: pointer;
+  outline: none;
+}
+
+.ld-snap__option[data-focused] {
+  outline: 2px solid #f2c230;
+  outline-offset: -2px;
+}
+
+.ld-snap__like {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border: 2px solid #f2c230;
+  border-radius: 50%;
+}
+
+.ld-snap__like svg {
+  width: 13px;
+}
+
+.ld-snap__chev {
+  width: 18px;
+  margin-left: auto;
+  color: #a3a3ab;
+}
+
+.ld-snap__comment {
+  display: grid;
+  gap: 4px;
+  cursor: default;
+  background: #f1f1f4;
+}
+
+.ld-snap__profile {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 14px 0;
+}
+
+.ld-snap__ring {
+  padding: 3px;
+  border: 2px solid #f2c230;
+  border-radius: 50%;
+}
+
+.ld-snap__stats {
+  display: grid;
+  justify-items: center;
+}
+
+.ld-snap__stats small {
+  color: #8a8a93;
+}
+
+.ld-snap__bio {
+  background: #f1f1f4;
+}
+
+.ld-snap__bio svg {
+  width: 18px;
+  margin-left: auto;
+}
+
+/* News: no header; two-line headlines, the outlet row and a square thumbnail. Rose focus. */
+.ld-news__row {
+  align-items: stretch;
+  min-height: 112px;
+}
+
+.ld-news__row .ld-app__lines {
+  align-content: center;
+}
+
+.ld-news__row p {
+  font-weight: 400;
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  font-size: 18px;
+  line-height: 1.3;
+}
+
+.ld-news__source {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #8a8a93;
+  font-size: 16px;
+}
+
+.ld-news__source i {
+  width: 16px;
+  height: 16px;
+  border-radius: 2px;
+  background: linear-gradient(135deg, #3a3a44, #8a8a93);
+}
+
+.ld-news__thumb {
+  flex: none;
+  align-self: center;
+  width: 90px;
+  height: 90px;
+  border-radius: 4px;
+  background: var(--media);
+}
+
+.ld-news__article {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  background: #fff;
+}
+
+.ld-news__back {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  color: #d2475a;
+  font-size: 17px;
+}
+
+.ld-news__back svg {
+  width: 18px;
+}
+
+.ld-news__article h2 {
+  font-size: 21px;
+  line-height: 1.25;
+}
+
+.ld-news__hero {
+  display: block;
+  aspect-ratio: 16 / 10;
+  border-radius: 6px;
+  background: var(--media);
+}
+
+.ld-news__article > small {
+  color: #8a8a93;
+}
+
+.ld-news__article p {
+  font-size: 17px;
+  line-height: 1.4;
+}
+
+/* Weather: full-bleed blue, all white. */
+.ld-wx {
+  display: grid;
+  align-content: start;
+  gap: 12px;
+  padding: 16px 14px;
+}
+
+.ld-wx sup {
+  font-size: 0.55em;
+}
+
+.ld-wx__place {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-weight: 700;
+  font-size: 22px;
+}
+
+.ld-wx__place svg {
+  width: 18px;
+}
+
+.ld-wx__now {
+  position: relative;
+  display: grid;
+  padding: 6px 12px 14px;
+  border-radius: 10px;
+  background: rgb(255 255 255 / 0.08);
+}
+
+.ld-wx__now small {
+  font-size: 16px;
+  opacity: 0.85;
+}
+
+.ld-wx__now b {
+  font-weight: 400;
+  font-size: 88px;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.ld-wx__now em {
+  font-size: 17px;
+}
+
+.ld-wx__big {
+  position: absolute;
+  right: 18px;
+  top: 34px;
+  width: 72px;
+  height: 72px;
+  color: #f6c443;
+  stroke: #f6c443;
+}
+
+.ld-wx__hours {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+}
+
+.ld-wx__hours > span {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  padding: 10px 0;
+  border-radius: 8px;
+  background: rgb(255 255 255 / 0.12);
+  font-size: 17px;
+}
+
+.ld-wx__hours b {
+  font-weight: 400;
+}
+
+.ld-wx__icon {
+  width: 20px;
+  height: 20px;
+  color: #f6c443;
+  stroke: #f6c443;
+  vertical-align: -4px;
+}
+
+.ld-wx__band {
+  display: grid;
+  gap: 6px;
+  padding: 8px 14px 12px;
+  border-radius: 8px;
+  background: rgb(255 255 255 / 0.16);
+}
+
+.ld-wx__band h3 {
+  font-weight: 400;
+  font-size: 18px;
+  text-align: center;
+}
+
+.ld-wx__band p,
+.ld-wx__sunset {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 17px;
+}
+
+.ld-wx__band p .ld-wx__icon {
+  margin-left: auto;
+}
+
+.ld-wx__band b {
+  font-weight: 400;
+}
+
+.ld-wx__sunset {
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: rgb(255 255 255 / 0.12);
+}
+
+.ld-wx__sunset time {
+  margin-left: auto;
+}
+
+/* Settings: the profile sits on the page; plain rows; the wallpaper grid and ringtone radios. */
+.ld-set__profile {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 16px 12px;
+  border-bottom: 1px solid rgb(0 0 0 / 0.07);
+}
+
+.ld-set__profile .ld-face {
+  width: 44px;
+  height: 44px;
+}
+
+.ld-set__profile b {
+  font-size: 20px;
+}
+
+.ld-set__row {
+  justify-content: space-between;
+  min-height: 46px;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 17px;
+}
+
+.ld-radio-dot {
+  width: 16px;
+  height: 16px;
+  box-sizing: border-box;
+  border: 1.5px solid #a3a3ab;
+  border-radius: 50%;
+}
+
+.ld-radio-dot[data-checked] {
+  border-color: #564ebc;
+  background: radial-gradient(circle, #564ebc 0 3.5px, transparent 4px);
+}
+
+.ld-wall__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  padding-bottom: 40px;
+}
+
+.ld-wall__thumb {
+  position: relative;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  cursor: pointer;
+}
+
+.ld-wall__art {
+  display: block;
+  aspect-ratio: 9 / 16;
+  border-radius: 8px;
+}
+
+.ld-wall__check {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #5650c0;
+  color: #fff;
+}
+
+.ld-wall__check svg {
+  width: 14px;
+  stroke-width: 3;
+}
+
+.ld-wall__caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 10px 0 12px;
+  background: rgb(255 255 255 / 0.96);
+  font-size: 18px;
+  text-align: center;
+}
+
+/* Reminders and the scanner's placeholder. */
+.ld-rem__row {
+  min-height: 62px;
+}
+
+.ld-rem__icon {
+  position: relative;
+  flex: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+}
+
+.ld-rem__icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.ld-waink {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 14px;
+  height: 100%;
+}
+
+.ld-waink__icon {
+  display: grid;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+}
+
+.ld-waink h2 {
+  font-size: 24px;
+}

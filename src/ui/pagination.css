@@ -1,0 +1,62 @@
+/* Page numbers in the text face; the current page is the white chip, like a settings tab. */
+.vc-pagination__list {
+  display: flex;
+  align-items: center;
+  gap: calc(4 * var(--vc-u));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.vc-pagination__link,
+.vc-pagination__step {
+  display: grid;
+  place-items: center;
+  min-width: calc(44 * var(--vc-u));
+  height: calc(44 * var(--vc-u));
+  padding: 0 calc(8 * var(--vc-u));
+  border: 0;
+  background: none;
+  color: var(--vc-text);
+  font-family: var(--font-ui);
+  font-size: calc(24 * var(--vc-u));
+  font-variant-numeric: tabular-nums;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.vc-pagination__link:hover:not([data-current]),
+.vc-pagination__step:hover:not([data-disabled]) {
+  background: var(--vc-muted);
+}
+
+.vc-pagination__link:focus-visible,
+.vc-pagination__step:focus-visible {
+  outline: 2px solid var(--vc-focus);
+  outline-offset: 2px;
+}
+
+.vc-pagination__link[data-current] {
+  background: #fff;
+  color: var(--vc-ink);
+}
+
+.vc-pagination__step[data-disabled] {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.vc-pagination__chev {
+  width: calc(22 * var(--vc-u));
+  height: calc(22 * var(--vc-u));
+}
+
+.vc-pagination__chev:dir(rtl) {
+  scale: -1 1;
+}
+
+.vc-pagination__gap {
+  min-width: calc(24 * var(--vc-u));
+  text-align: center;
+  opacity: 0.55;
+}

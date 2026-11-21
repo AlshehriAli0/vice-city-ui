@@ -1,0 +1,78 @@
+/* Measured on the settings screen: value text ends at x 755, the index runs 778–848 with a dimmed
+   slash and total, then bare 14px chevrons at x 892 and 929. */
+.vc-cycle {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-ui);
+  font-size: calc(26 * var(--vc-u));
+  color: inherit;
+}
+
+.vc-cycle__value {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.vc-cycle__value:focus-visible {
+  outline: none;
+}
+
+.vc-cycle__value[data-unchecked] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+.vc-cycle__count {
+  display: inline-flex;
+  gap: calc(18 * var(--vc-u));
+  margin-inline-start: calc(23 * var(--vc-u));
+  font-variant-numeric: tabular-nums;
+}
+
+.vc-cycle__count i {
+  font-style: normal;
+}
+
+.vc-cycle__count i:first-of-type {
+  opacity: 0.55;
+}
+
+.vc-cycle__arrow {
+  display: grid;
+  cursor: pointer;
+}
+
+/* 36px after the count, 9px between the chevrons. The glyph sits inside its box; pull the last
+   box out so the glyph lands on the value edge. */
+.vc-cycle__count + .vc-cycle__arrow {
+  margin-inline-start: calc(36 * var(--vc-u));
+}
+
+.vc-cycle__arrow + .vc-cycle__arrow {
+  margin-inline-start: calc(9 * var(--vc-u));
+}
+
+.vc-cycle__arrow:last-of-type {
+  margin-inline-end: calc(-10 * var(--vc-u));
+}
+
+.vc-cycle__arrow svg {
+  width: calc(28 * var(--vc-u));
+  height: calc(28 * var(--vc-u));
+  stroke-width: 1.8;
+}
+
+[dir="rtl"] .vc-cycle__arrow svg {
+  scale: -1 1;
+}
+
+.vc-cycle[data-disabled] {
+  opacity: 0.45;
+}

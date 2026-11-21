@@ -1,0 +1,71 @@
+/* Settings rows that open: 67px plus a hairline, the bar on hover and focus, content fading in. */
+.vc-accordion {
+  display: grid;
+  width: 100%;
+}
+
+.vc-accordion__item {
+  border-bottom: 1px solid var(--vc-hair);
+}
+
+.vc-accordion__header {
+  margin: 0;
+}
+
+.vc-accordion__trigger {
+  display: flex;
+  align-items: center;
+  gap: calc(16 * var(--vc-u));
+  width: 100%;
+  min-height: calc(67 * var(--vc-u));
+  padding: 0 calc(33 * var(--vc-u)) 0 calc(17 * var(--vc-u));
+  border: 0;
+  background: none;
+  color: var(--vc-text);
+  font-family: var(--font-ui);
+  font-weight: 400;
+  font-size: calc(26 * var(--vc-u));
+  text-align: start;
+  cursor: pointer;
+}
+
+.vc-accordion__trigger:hover,
+.vc-accordion__trigger:focus-visible {
+  background: var(--vc-row);
+  color: var(--vc-ink);
+  outline: none;
+}
+
+.vc-accordion__chevron {
+  flex: none;
+  margin-inline-start: auto;
+  width: calc(22 * var(--vc-u));
+  height: calc(22 * var(--vc-u));
+}
+
+.vc-accordion__trigger[data-open] .vc-accordion__chevron {
+  rotate: 180deg;
+}
+
+.vc-accordion__panel {
+  height: var(--accordion-panel-height);
+  overflow: hidden;
+}
+
+.vc-accordion__panel[data-starting-style],
+.vc-accordion__panel[data-ending-style] {
+  height: 0;
+}
+
+.vc-accordion__content {
+  padding: calc(4 * var(--vc-u)) calc(33 * var(--vc-u)) calc(22 * var(--vc-u)) calc(17 * var(--vc-u));
+  font-size: calc(24 * var(--vc-u));
+  line-height: 1.45;
+  color: var(--vc-text);
+  animation: vc-fade 167ms linear both;
+}
+
+.vc-accordion__content b,
+.vc-accordion__content strong {
+  font-weight: 700;
+}

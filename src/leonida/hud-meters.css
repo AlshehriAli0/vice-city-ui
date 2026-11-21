@@ -1,0 +1,189 @@
+/* Vitals, 1080p: rows centred at y36/66/96, 20px icon discs centred at x44, 10px bars from x62. */
+.ld-vitals {
+  display: grid;
+  padding: calc(21 * var(--u, 1px)) 0 0 calc(34 * var(--u, 1px));
+  opacity: 0.4;
+  transition: opacity 200ms ease-out;
+}
+
+.ld-vitals[data-lit],
+.ld-vitals[data-show="stamina"] {
+  opacity: 1;
+}
+
+.ld-vitals__row {
+  --bar: #f8b8d0;
+  --empty: #886878;
+  --glyph: #f8c0d0;
+  display: flex;
+  align-items: center;
+  gap: calc(7 * var(--u, 1px));
+  height: calc(30 * var(--u, 1px));
+}
+
+.ld-vitals__row[hidden] {
+  display: none;
+}
+
+.ld-vitals__row[data-kind="stamina"] {
+  --bar: #60e0e0;
+  --empty: #285878;
+  --glyph: #70e8d8;
+}
+
+.ld-vitals__row[data-kind="focus"] {
+  --bar: #a088f8;
+  --empty: #403468;
+  --glyph: #a890f8;
+}
+
+.ld-vitals__icon {
+  display: grid;
+  place-items: center;
+  width: calc(22 * var(--u, 1px));
+  height: calc(22 * var(--u, 1px));
+  margin-left: calc(-1 * var(--u, 1px));
+  border-radius: 50%;
+  background: rgb(48 48 48 / 0.7);
+  box-shadow: 0 0 0 calc(1 * var(--u, 1px)) rgb(0 0 0 / 0.35);
+  color: var(--glyph);
+}
+
+.ld-vitals__icon svg {
+  width: calc(14 * var(--u, 1px));
+  height: calc(14 * var(--u, 1px));
+}
+
+.ld-vitals__track {
+  position: relative;
+  width: calc(var(--len) * var(--u, 1px));
+  height: calc(11 * var(--u, 1px));
+  background: var(--empty);
+  box-shadow: 0 0 0 calc(1 * var(--u, 1px)) #28252a;
+}
+
+.ld-vitals__fill {
+  height: 100%;
+  background: var(--bar);
+  transition: width 200ms ease-out;
+}
+
+/* Health has a light divider at x152, framed by dark gaps, where extra health begins. */
+.ld-vitals__cuts {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(89 * var(--u, 1px));
+  width: calc(3 * var(--u, 1px));
+  background: linear-gradient(90deg, #28252a 33%, #f0e4ea 33% 67%, #28252a 67%);
+}
+
+/* Money: blocky numerals, cap height 24, a 2px dark outline, then a 30px icon disc. Rows 38px apart. */
+.ld-cash {
+  display: grid;
+  justify-items: end;
+  row-gap: calc(8 * var(--u, 1px));
+  margin: 0;
+}
+
+.ld-cash__row {
+  display: flex;
+  align-items: center;
+  gap: calc(12 * var(--u, 1px));
+  height: calc(30 * var(--u, 1px));
+}
+
+.ld-cash dd,
+.ld-ammo__count {
+  margin: 0;
+  color: #f8f8f8;
+  font-family: "Black Han Sans", var(--font-cond);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0;
+  -webkit-text-stroke: calc(4 * var(--u, 1px)) #101010;
+  paint-order: stroke fill;
+}
+
+.ld-cash dd {
+  font-size: calc(34 * var(--u, 1px));
+  translate: 0 calc(1 * var(--u, 1px));
+}
+
+/* The game's numerals are narrower than Black Han Sans. */
+.ld-cash dd > span,
+.ld-ammo__count > span {
+  display: inline-block;
+  transform: scaleX(0.84);
+  transform-origin: right;
+}
+
+.ld-cash__icon {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: calc(30 * var(--u, 1px));
+  height: calc(30 * var(--u, 1px));
+  border-radius: 50%;
+  background: rgb(48 48 48 / 0.8);
+  color: #70d078;
+}
+
+.ld-cash__icon svg {
+  width: calc(16 * var(--u, 1px));
+  height: calc(16 * var(--u, 1px));
+}
+
+.ld-cash__row[data-kind="bank"] .ld-cash__icon {
+  color: #00e0e0;
+}
+
+/* The bank disc's sync arc, top-right. */
+.ld-cash__row[data-kind="bank"] .ld-cash__icon::after {
+  content: "";
+  position: absolute;
+  inset: calc(-3 * var(--u, 1px));
+  border-radius: 50%;
+  border: calc(2 * var(--u, 1px)) solid transparent;
+  border-top-color: #00e0e0;
+  rotate: 35deg;
+}
+
+.ld-cash__sign {
+  position: absolute;
+  top: 52%;
+  left: 50%;
+  translate: -50% -50%;
+  font-family: "Black Han Sans", var(--font-cond);
+  font-size: calc(9 * var(--u, 1px));
+  line-height: 1;
+  color: #1a1a1a;
+}
+
+/* Ammo: clip white, reserve grey, 16px apart with no slash; the weapon under them. */
+.ld-ammo {
+  display: grid;
+  justify-items: end;
+  row-gap: calc(8 * var(--u, 1px));
+}
+
+/* Cap height about 20px: Black Han Sans caps are 0.59em. */
+.ld-ammo__count {
+  display: flex;
+  gap: calc(10 * var(--u, 1px));
+  font-size: calc(34 * var(--u, 1px));
+}
+
+.ld-ammo__count [data-kind="reserve"] {
+  color: #c0c0c0;
+}
+
+/* The equipped weapon: an official render cut out of its background, muzzle left, with a thin dark outline. */
+.ld-ammo__weapon {
+  display: block;
+  width: calc(160 * var(--u, 1px));
+  height: calc(60 * var(--u, 1px));
+  object-fit: contain;
+  object-position: right center;
+  filter: brightness(1.2) drop-shadow(0 0 calc(1 * var(--u, 1px)) #000) drop-shadow(0 0 calc(1 * var(--u, 1px)) rgb(0 0 0 / 0.8));
+}

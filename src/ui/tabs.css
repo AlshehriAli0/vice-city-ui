@@ -1,0 +1,137 @@
+.vc-tabs {
+  display: grid;
+  gap: calc(24 * var(--vc-u));
+  min-width: 0;
+}
+
+.vc-tabs__bar {
+  display: flex;
+  align-items: center;
+  gap: calc(16 * var(--vc-u));
+  min-width: 0;
+}
+
+.vc-tabs__bar > .vc-bumper {
+  flex: none;
+}
+
+.vc-tabs__list {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.vc-tabs__tab {
+  position: relative;
+  z-index: 1;
+  flex: none;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--vc-text);
+  font-family: var(--font-cond);
+  font-weight: 700;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.vc-tabs__tab[data-disabled] {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.vc-tabs__tab:focus-visible {
+  outline: 2px solid var(--vc-focus);
+  outline-offset: 2px;
+}
+
+/* Underline: the map screen's tabs. 32px caps 45px apart; the active one turns pink with a 2x40px
+   #ff6b9f rule 9px under the caps, fading at its ends. */
+.vc-tabs[data-variant="underline"] .vc-tabs__list {
+  gap: calc(45 * var(--vc-u));
+  padding-bottom: calc(14 * var(--vc-u));
+}
+
+.vc-tabs[data-variant="underline"] .vc-tabs__tab {
+  height: calc(40 * var(--vc-u));
+  font-size: calc(32 * var(--vc-u));
+}
+
+.vc-tabs[data-variant="underline"] .vc-tabs__tab[data-selected] {
+  color: var(--vc-pink-hot);
+}
+
+.vc-tabs[data-variant="underline"] .vc-tabs__tab[data-selected]::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: calc(-6 * var(--vc-u));
+  width: calc(40 * var(--vc-u));
+  height: calc(2 * var(--vc-u));
+  translate: -50% 0;
+  background: linear-gradient(90deg, transparent, var(--vc-pink-hot) 20%, var(--vc-pink-hot) 80%, transparent);
+}
+
+.vc-tabs[data-variant="underline"] .vc-tabs__tab:hover:not([data-selected]) {
+  color: #fff;
+}
+
+/* Chips: the settings tab strip. 33px boxes with 16px padding and 26px caps, each a faint
+   parallelogram split by a slanted hairline; the active chip is solid white with dark text. */
+.vc-tabs:is([data-variant="chips"], [data-variant="pill"], [data-variant="slant"]) .vc-tabs__list {
+  gap: calc(4 * var(--vc-u));
+  padding-inline: calc(4 * var(--vc-u));
+}
+
+.vc-tabs:is([data-variant="chips"], [data-variant="pill"], [data-variant="slant"]) .vc-tabs__tab {
+  height: calc(33 * var(--vc-u));
+  padding: 0 calc(16 * var(--vc-u));
+  font-size: calc(28 * var(--vc-u));
+  isolation: isolate;
+}
+
+.vc-tabs:is([data-variant="chips"], [data-variant="pill"], [data-variant="slant"]) .vc-tabs__tab::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  transform: skewX(-8deg);
+  background: rgb(255 255 255 / 0.06);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.14);
+}
+
+.vc-tabs:is([data-variant="chips"], [data-variant="pill"], [data-variant="slant"]) .vc-tabs__tab:hover::before {
+  background: rgb(255 255 255 / 0.14);
+}
+
+.vc-tabs:is([data-variant="chips"], [data-variant="pill"], [data-variant="slant"]) .vc-tabs__tab[data-selected] {
+  color: var(--vc-ink);
+}
+
+.vc-tabs:is([data-variant="chips"], [data-variant="pill"], [data-variant="slant"]) .vc-tabs__tab[data-selected]::before {
+  background: #fff;
+  box-shadow: none;
+}
+
+/* Tab content fades in over 167ms, linear, after the tab itself has snapped. */
+.vc-tabs__panel {
+  min-width: 0;
+  outline: none;
+  animation: vc-fade 167ms linear both;
+}
+
+.vc-tabs__panel:focus-visible {
+  outline: 2px solid var(--vc-focus);
+  outline-offset: 2px;
+}
+
+.vc-tabs[data-variant="underline"] .vc-tabs__bar {
+  gap: calc(45 * var(--vc-u));
+}

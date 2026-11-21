@@ -1,0 +1,43 @@
+/* Tags are the settings chip in small: square, condensed caps. White is the default; pink marks new. */
+.vc-badge {
+  --c: var(--vc-text);
+  display: inline-flex;
+  align-items: center;
+  gap: calc(6 * var(--vc-u));
+  height: calc(28 * var(--vc-u));
+  padding: 0 calc(10 * var(--vc-u));
+  border-radius: 0;
+  font-family: var(--font-cond);
+  font-weight: 700;
+  font-size: calc(20 * var(--vc-u));
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.vc-badge[data-tone="pink"] {
+  --c: var(--vc-pink);
+}
+
+.vc-badge:is([data-variant="solid"], [data-variant="sunset"]) {
+  background: var(--c);
+  color: var(--vc-ink);
+}
+
+.vc-badge[data-variant="soft"] {
+  background: rgb(255 255 255 / 0.1);
+  color: var(--c);
+}
+
+.vc-badge:is([data-variant="outline"], [data-variant="neon"]) {
+  box-shadow: inset 0 0 0 1px var(--c);
+  color: var(--c);
+}
+
+/* A small diamond, the shape the menus use to mark new items. */
+.vc-badge__dot {
+  width: calc(9 * var(--vc-u));
+  height: calc(9 * var(--vc-u));
+  rotate: 45deg;
+  background: currentColor;
+}

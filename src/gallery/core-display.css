@@ -1,0 +1,315 @@
+/* Demos stand on the pause panel's flat #1f202d, or on the settings plum where the screen uses it. */
+.cd-list,
+.cd-stack,
+.cd-center,
+.cd-data,
+.cd-vitals {
+  width: 100%;
+  color: var(--vc-text);
+  font-family: var(--font-ui);
+  font-weight: 400;
+}
+
+.cd-list {
+  display: grid;
+  align-content: start;
+  gap: 0;
+  padding: calc(32 * var(--vc-u));
+  background: var(--vc-panel);
+}
+
+.cd-list--center {
+  justify-items: center;
+}
+
+.cd-list__title {
+  margin: 0 0 calc(14 * var(--vc-u));
+  font-family: var(--font-cond);
+  font-weight: 700;
+  font-size: calc(36 * var(--vc-u));
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--vc-section);
+}
+
+.cd-stack {
+  display: grid;
+  gap: calc(28 * var(--vc-u));
+  padding: calc(32 * var(--vc-u));
+  background: var(--vc-panel);
+}
+
+.cd-stack--plum {
+  background: linear-gradient(32deg, #402b50 0%, #603c67 50%, #8e5085 100%);
+}
+
+.cd-panel {
+  font-size: calc(26 * var(--vc-u));
+}
+
+.cd-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: calc(20 * var(--vc-u));
+  min-height: calc(68 * var(--vc-u));
+  padding: calc(6 * var(--vc-u)) calc(33 * var(--vc-u)) calc(6 * var(--vc-u)) calc(17 * var(--vc-u));
+  border: 0;
+  border-bottom: 1px solid var(--vc-hair);
+  background: none;
+  color: var(--vc-text);
+  font: inherit;
+  font-size: calc(26 * var(--vc-u));
+  text-align: start;
+  outline: none;
+}
+
+.cd-line:is(:hover, :focus-visible, :focus-within, [data-open]) {
+  background: var(--vc-row);
+  color: var(--vc-ink);
+}
+
+.cd-line--button {
+  width: 100%;
+  cursor: pointer;
+}
+
+.cd-line--bar:is(:hover, :focus-within) {
+  background: none;
+  color: inherit;
+}
+
+.cd-line__lead {
+  display: flex;
+  align-items: center;
+  gap: calc(16 * var(--vc-u));
+  min-width: 0;
+}
+
+.cd-line__main {
+  display: grid;
+  min-width: 0;
+}
+
+.cd-line__main small {
+  font-size: calc(20 * var(--vc-u));
+  opacity: 0.6;
+}
+
+.cd-line__meta {
+  display: flex;
+  align-items: center;
+  gap: calc(10 * var(--vc-u));
+  flex: none;
+}
+
+/* Card, dialog and sheet: one thing centred on a dark scene. */
+.cd-center {
+  display: grid;
+  place-items: center;
+  min-height: calc(420 * var(--vc-u));
+  padding: calc(32 * var(--vc-u));
+  background: radial-gradient(ellipse at 60% 45%, #3a4660 0%, #232838 55%, #151722 100%);
+}
+
+.cd-center--card {
+  background: #1d2437;
+}
+
+.cd-card {
+  width: min(100%, calc(420 * var(--vc-u)));
+}
+
+.cd-push {
+  margin-inline-start: auto;
+}
+
+/* Navigation */
+.cd-pager {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: calc(14 * var(--vc-u));
+}
+
+.cd-count {
+  margin: 0;
+  font-size: calc(26 * var(--vc-u));
+}
+
+.cd-count i {
+  font-style: normal;
+  opacity: 0.55;
+}
+
+.cd-pause__rows {
+  display: grid;
+  width: min(100%, calc(544 * var(--vc-u)));
+  align-content: start;
+  gap: calc(8 * var(--vc-u));
+  padding: calc(32 * var(--vc-u));
+  background: var(--vc-panel);
+}
+
+.cd-pause__row {
+  display: flex;
+  align-items: center;
+  gap: calc(12 * var(--vc-u));
+  height: calc(64 * var(--vc-u));
+  padding: 0 calc(18 * var(--vc-u));
+  border: 0;
+  background: none;
+  color: var(--vc-text);
+  font-family: var(--font-ui);
+  font-size: calc(26 * var(--vc-u));
+  text-align: start;
+  cursor: pointer;
+}
+
+.cd-pause__row svg {
+  width: calc(26 * var(--vc-u));
+  height: calc(26 * var(--vc-u));
+  stroke-width: 1.8;
+}
+
+.cd-pause__row:is(:hover, :focus-visible, [data-open]) {
+  background: var(--vc-row);
+  color: var(--vc-ink);
+  outline: none;
+}
+
+.cd-pause__row:is(:hover, :focus-visible, [data-open]) svg {
+  fill: currentColor;
+}
+
+/* Floating */
+.cd-map {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+
+.cd-map__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cd-map__center {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+
+.cd-map__note {
+  padding: calc(16 * var(--vc-u)) calc(24 * var(--vc-u));
+  background: var(--vc-panel);
+}
+
+.cd-text {
+  margin: 0;
+  font-size: calc(26 * var(--vc-u));
+}
+
+.cd-hover {
+  display: flex;
+  align-items: center;
+  gap: calc(16 * var(--vc-u));
+}
+
+.cd-hover__name {
+  margin: 0;
+  font-family: var(--font-cond);
+  font-weight: 700;
+  font-size: calc(34 * var(--vc-u));
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.cd-hover__meta {
+  margin: calc(6 * var(--vc-u)) 0 0;
+  font-size: calc(24 * var(--vc-u));
+}
+
+/* Menu: a narrow panel at the start, so the menu has room to open beside it. */
+.cd-list--menu {
+  width: min(100%, calc(440 * var(--vc-u)));
+  margin-inline: 0 auto;
+}
+
+.cd-thumb {
+  width: calc(64 * var(--vc-u));
+  height: calc(48 * var(--vc-u));
+  object-fit: cover;
+}
+
+/* Vitals on a dark game-style scene at their 1080p size. */
+.cd-vitals {
+  display: grid;
+  place-items: center;
+  min-height: calc(200 * var(--vc-u));
+  padding: calc(21 * var(--vc-u)) calc(34 * var(--vc-u)) calc(30 * var(--vc-u));
+  background: radial-gradient(120% 140% at 30% 0%, #3b3a46 0%, #1c1b22 70%);
+}
+
+.cd-vitals .vc-vitals {
+  width: calc(212 * var(--vc-u));
+}
+
+.cd-skeleton {
+  justify-content: flex-start;
+}
+
+.cd-skeleton__text {
+  display: grid;
+  flex: 1;
+  gap: calc(10 * var(--vc-u));
+}
+
+/* Data */
+.cd-data {
+  display: grid;
+  justify-items: center;
+  padding: calc(32 * var(--vc-u));
+  background: #171822;
+}
+
+.cd-log {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cd-log li {
+  display: flex;
+  align-items: center;
+  min-height: calc(68 * var(--vc-u));
+  padding: 0 calc(17 * var(--vc-u));
+  border-bottom: 1px solid var(--vc-hair);
+  font-size: calc(24 * var(--vc-u));
+}
+
+.cd-log-scroll {
+  --vc-scroll-height: 320px;
+  width: 100%;
+}
+
+.cd-vice {
+  display: grid;
+  justify-items: center;
+  gap: 32px;
+  width: min(100%, 860px);
+  padding: 24px 0;
+  text-align: center;
+  /* The demo caps the font size by this width so long text still fits. */
+  container-type: inline-size;
+}
+
+.cd-vice__text {
+  max-width: 100%;
+}

@@ -1,0 +1,177 @@
+/* Settings preview selector: a 14px hollow circle; the chosen one fills with a pink dot. */
+.vc-radios {
+  display: grid;
+  font-family: var(--font-ui);
+  font-size: calc(26 * var(--vc-u));
+}
+
+.vc-radio-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: calc(14 * var(--vc-u));
+  line-height: 1.3;
+  color: inherit;
+  cursor: pointer;
+}
+
+.vc-radio-item:has(.vc-radio[data-disabled]) {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.vc-radio-item__text {
+  display: grid;
+  gap: calc(2 * var(--vc-u));
+  min-width: 0;
+}
+
+.vc-radio-item__hint {
+  font-size: calc(22 * var(--vc-u));
+  opacity: 0.6;
+}
+
+.vc-radio {
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: calc(14 * var(--vc-u));
+  height: calc(14 * var(--vc-u));
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  box-shadow: inset 0 0 0 calc(1.5 * var(--vc-u)) currentColor;
+  cursor: pointer;
+}
+
+.vc-radio:focus-visible {
+  outline: 2px solid var(--vc-focus);
+  outline-offset: 3px;
+}
+
+.vc-radio[data-checked] {
+  box-shadow: inset 0 0 0 calc(1.5 * var(--vc-u)) var(--vc-pink);
+}
+
+.vc-radio__dot {
+  width: calc(8 * var(--vc-u));
+  height: calc(8 * var(--vc-u));
+  border-radius: 50%;
+  background: var(--vc-pink);
+}
+
+/* Stacked: one settings row per option, the circle at the row's end. */
+.vc-radios[data-variant="stacked"] .vc-radio-item {
+  min-height: calc(68 * var(--vc-u));
+  padding: calc(8 * var(--vc-u)) calc(33 * var(--vc-u)) calc(8 * var(--vc-u)) calc(17 * var(--vc-u));
+  border-bottom: 1px solid var(--vc-hair);
+}
+
+.vc-radios[data-variant="stacked"] .vc-radio-item__text {
+  flex: 1;
+  order: 1;
+}
+
+.vc-radios[data-variant="stacked"] .vc-radio-item__meta {
+  order: 2;
+}
+
+.vc-radios[data-variant="stacked"] .vc-radio {
+  order: 3;
+}
+
+.vc-radios[data-variant="stacked"] .vc-radio-item:is(:hover, :focus-within) {
+  background: var(--vc-row);
+  color: var(--vc-ink);
+}
+
+.vc-radios[data-variant="stacked"] .vc-radio:focus-visible {
+  outline: none;
+}
+
+.vc-radios[data-variant="inline"] {
+  display: flex;
+  flex-wrap: wrap;
+  gap: calc(8 * var(--vc-u)) calc(32 * var(--vc-u));
+}
+
+.vc-radio-item__meta {
+  margin-inline-start: auto;
+  font-family: var(--font-cond);
+  font-weight: 700;
+  font-size: calc(22 * var(--vc-u));
+  text-transform: uppercase;
+}
+
+/* Cards: the PROGRESS tiles. Checked carries the cards' 3px pink top rule; focus is a 3px white outline. */
+.vc-radios[data-variant="cards"] {
+  grid-template-columns: repeat(auto-fit, minmax(calc(220 * var(--vc-u)), 1fr));
+  gap: calc(16 * var(--vc-u));
+}
+
+.vc-radios[data-variant="cards"] .vc-radio-item {
+  flex-direction: column;
+  align-items: stretch;
+  gap: calc(12 * var(--vc-u));
+  padding: 0 0 calc(16 * var(--vc-u));
+  overflow: hidden;
+  background: var(--vc-card);
+  color: var(--vc-text);
+}
+
+.vc-radios[data-variant="cards"] .vc-radio-item:has([data-checked])::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  inset: 0 0 auto;
+  height: calc(3 * var(--vc-u));
+  background: var(--vc-rule);
+}
+
+.vc-radios[data-variant="cards"] .vc-radio-item:has(:focus-visible) {
+  outline: calc(3 * var(--vc-u)) solid #ffedff;
+}
+
+.vc-radios[data-variant="cards"] .vc-radio:focus-visible {
+  outline: none;
+}
+
+.vc-radios[data-variant="cards"] .vc-radio {
+  position: absolute;
+  z-index: 1;
+  top: calc(14 * var(--vc-u));
+  inset-inline-end: calc(14 * var(--vc-u));
+  background: rgb(0 0 0 / 0.45);
+}
+
+.vc-radios[data-variant="cards"] .vc-radio-item__text,
+.vc-radios[data-variant="cards"] .vc-radio-item__meta {
+  padding-inline: calc(20 * var(--vc-u));
+}
+
+.vc-radios[data-variant="cards"] .vc-radio-item__meta {
+  margin-inline-start: 0;
+}
+
+.vc-radio-item__media {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+
+.vc-radio-item__media > * {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.vc-radios[data-variant="cards"] .vc-radio-item__label {
+  font-family: var(--font-cond);
+  font-weight: 700;
+  font-size: calc(36 * var(--vc-u));
+  line-height: 1;
+  text-transform: uppercase;
+}

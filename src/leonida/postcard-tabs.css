@@ -1,0 +1,160 @@
+.ld-postcards {
+  display: grid;
+  justify-items: start;
+  gap: 18px;
+  width: 100%;
+}
+
+/* The media page's frosted tab bar: a pill track with a white active pill. */
+.ld-postcards__list {
+  position: relative;
+  display: flex;
+  gap: 2px;
+  max-width: 100%;
+  padding: 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  border-radius: 1000px;
+  background: rgb(255 255 255 / 0.08);
+  backdrop-filter: blur(25px);
+}
+
+.ld-postcards__tab {
+  position: relative;
+  z-index: 1;
+  flex: none;
+  height: 34px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 1000px;
+  background: none;
+  color: #e5ddff;
+  font-family: var(--font-ui);
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: -0.015em;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 0.15s ease-in-out;
+}
+
+.ld-postcards__tab:hover {
+  color: #fff9cb;
+}
+
+.ld-postcards__tab[data-selected] {
+  color: #0c0d1b;
+}
+
+.ld-postcards__tab:focus-visible {
+  outline: 3px solid #fff9cb;
+  outline-offset: -3px;
+  border-radius: 1000px;
+}
+
+.ld-postcards__indicator {
+  position: absolute;
+  top: 4px;
+  left: var(--active-tab-left);
+  width: var(--active-tab-width);
+  height: 34px;
+  border-radius: 1000px;
+  background: #fff;
+  transition:
+    left 0.4s cubic-bezier(0.455, 0.03, 0.515, 0.955),
+    width 0.4s cubic-bezier(0.455, 0.03, 0.515, 0.955);
+}
+
+/* ---------- The postcard: a place-page overlay in the place's theme ---------- */
+.ld-postcard {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 48px;
+  width: 100%;
+  padding: 44px 44px 44px 52px;
+  overflow: hidden;
+  border-radius: 25px;
+  background:
+    radial-gradient(circle at 40% 25%, var(--sky-l2, #38365d) 0%, transparent 55%),
+    var(--sky-1, linear-gradient(189deg, #2f2e52, #18182d));
+  color: #fff;
+  transition: opacity 0.5s ease-out;
+}
+
+.ld-postcard[data-starting-style] {
+  opacity: 0;
+}
+
+/* Settles at -4deg like the place overlay; hover tips it to .5deg with the site's soft shadow. */
+.ld-postcard__card {
+  position: relative;
+  margin: 0;
+  aspect-ratio: 3 / 2;
+  rotate: -4deg;
+  filter: drop-shadow(18px 16px 24px rgb(0 0 0 / 0.45));
+  transition:
+    rotate 0.4s cubic-bezier(0.455, 0.03, 0.515, 0.955),
+    scale 0.4s cubic-bezier(0.455, 0.03, 0.515, 0.955);
+}
+
+.ld-postcard:hover .ld-postcard__card {
+  rotate: 0.5deg;
+  scale: 1.015;
+}
+
+.ld-postcard__photo,
+.ld-postcard__frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.ld-postcard__photo {
+  object-fit: cover;
+}
+
+.ld-postcard__frame {
+  object-fit: fill;
+}
+
+.ld-postcard__name {
+  margin: 0;
+  font-family: var(--font-cond);
+  font-weight: 700;
+  font-size: clamp(40px, 4.4vw, 72px);
+  line-height: 0.9;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  color: var(--sky-accent, #ffd4a8);
+}
+
+.ld-postcard__region {
+  margin: 14px 0 0;
+  font-family: var(--font-cond);
+  font-weight: 700;
+  font-size: 21.6px;
+  line-height: 1.1;
+  letter-spacing: 0.015em;
+  text-transform: uppercase;
+  color: #fff9cb;
+}
+
+.ld-postcard__blurb {
+  max-width: 26ch;
+  margin: 14px 0 0;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+  color: #fff;
+}
+
+@media (max-width: 700px) {
+  .ld-postcard {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding: 32px 24px;
+  }
+}

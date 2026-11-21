@@ -1,0 +1,109 @@
+.ld-prompts {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+/* HUD stack: right-aligned rows, the last one at the bottom, 52px apart. */
+.ld-prompts[data-stack] {
+  flex-direction: column;
+  align-items: flex-end;
+  gap: calc(22 * var(--u, 1px));
+}
+
+.ld-prompt {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(10 / 26 * 1em);
+  height: calc(30 / 26 * 1em);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #fff;
+  font-family: var(--font-cond);
+  font-weight: 800;
+  font-size: calc(26 * var(--u, 1px));
+  line-height: 1;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+/* A 2px black outline painted under the fill, as on the game's prompt labels. */
+.ld-prompt__label {
+  -webkit-text-stroke: calc(4 / 26 * 1em) #000;
+  paint-order: stroke fill;
+  translate: 0 calc(1 / 26 * 1em);
+}
+
+.ld-prompt[data-muted] {
+  opacity: 0.4;
+}
+
+.ld-prompt:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+/* Canonical button glyph: 30px white disc at 26px text, 2px dark rim, solid black symbol. */
+.ld-btnglyph {
+  flex: none;
+  width: calc(30 / 26 * 1em);
+  height: calc(30 / 26 * 1em);
+  vertical-align: middle;
+  overflow: visible;
+}
+
+.ld-btnglyph__disc {
+  fill: #fff;
+  stroke: #141414;
+  stroke-width: 2.2;
+}
+
+.ld-btnglyph__shape {
+  fill: #000;
+}
+
+.ld-btnglyph[data-glyph="touchpad"] .ld-btnglyph__disc {
+  fill: #111;
+  stroke: #9a9a9a;
+  stroke-width: 3.6;
+}
+
+.ld-btnglyph[data-glyph="touchpad"] .ld-btnglyph__shape {
+  fill: #fff;
+}
+
+/* Shoulder key: a solid white rounded tile, dark condensed text, the same 2px dark rim. */
+span.ld-btnglyph--shoulder {
+  display: inline-grid;
+  place-items: center;
+  box-sizing: border-box;
+  width: auto;
+  min-width: calc(30 / 26 * 1em);
+  height: calc(26 / 26 * 1em);
+  padding: 0 calc(4 / 26 * 1em);
+  border-radius: calc(6 / 26 * 1em);
+  background: #fff;
+  box-shadow: 0 0 0 calc(2 / 26 * 1em) #141414;
+  color: #000;
+  font-family: var(--font-cond);
+  font-weight: 800;
+  font-size: 1em;
+  line-height: 1;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  -webkit-text-stroke: 0;
+}
+
+.ld-btnglyph__key {
+  font-size: calc(20 / 26 * 1em);
+  translate: 0 calc(1 / 26 * 1em);
+}
+
+/* Game screens read best full width in the catalogue grid. */
+.grid > .card:has(.ld-pause),
+.grid > .card:has(.ld-set) {
+  grid-column: 1 / -1;
+}

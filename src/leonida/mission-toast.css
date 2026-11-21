@@ -1,0 +1,335 @@
+/* Bottom-right notification slot (specs/notify). 1080p sizes scaled by --u to the viewport, kept readable on small screens. */
+.ld-slot {
+  --u: clamp(0.8px, calc(100vh / 1080), 1.4px);
+  position: fixed;
+  z-index: 80;
+  right: calc(36 * var(--u));
+  bottom: calc(28 * var(--u));
+  width: calc(390 * var(--u));
+  height: var(--toast-front-height);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  pointer-events: none;
+}
+
+/* Instant in (well under 60ms), a 130ms linear fade out, no movement. */
+.ld-text,
+.ld-call {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  pointer-events: auto;
+  transition: opacity 130ms linear;
+  user-select: none;
+}
+
+.ld-text[data-starting-style],
+.ld-call[data-starting-style] {
+  opacity: 0;
+  transition-duration: 40ms;
+}
+
+.ld-text[data-ending-style],
+.ld-call[data-ending-style] {
+  opacity: 0;
+}
+
+.ld-call[data-ending-style] {
+  transition-duration: 150ms;
+}
+
+/* Message: frosted light card, 298×127 for one line, growing up and left to ~385 wide.
+   The card and its 12px tail are one shape: a single clip-path on the surface behind the content. */
+.ld-text {
+  box-sizing: border-box;
+  min-width: calc(298 * var(--u));
+  max-width: calc(385 * var(--u));
+  min-height: calc(127 * var(--u));
+  padding: calc(14 * var(--u)) calc(16 * var(--u)) calc(16 * var(--u));
+  color: #141016;
+  font-family: var(--font-ui);
+  font-size: calc(22 * var(--u));
+  line-height: calc(29 * var(--u));
+  text-transform: none;
+  isolation: isolate;
+}
+
+.ld-text::before {
+  --r: calc(10 * var(--u));
+  --c: calc(2.9 * var(--u));
+  --t: calc(12 * var(--u));
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  right: 0;
+  bottom: calc(-1 * var(--t));
+  left: calc(-1 * var(--t));
+  background: rgb(236 232 234 / 0.68);
+  backdrop-filter: blur(16px) saturate(1.1);
+  clip-path: polygon(
+    var(--t) var(--r),
+    calc(var(--t) + var(--c)) var(--c),
+    calc(var(--t) + var(--r)) 0,
+    calc(100% - var(--r)) 0,
+    calc(100% - var(--c)) var(--c),
+    100% var(--r),
+    100% calc(100% - var(--t) - var(--r)),
+    calc(100% - var(--c)) calc(100% - var(--t) - var(--c)),
+    calc(100% - var(--r)) calc(100% - var(--t)),
+    calc(var(--t) + var(--t)) calc(100% - var(--t)),
+    0 100%,
+    var(--t) calc(100% - var(--t) - var(--t))
+  );
+}
+
+.ld-text__hint {
+  position: absolute;
+  right: calc(100% + 24 * var(--u));
+  bottom: calc(12 * var(--u));
+  width: calc(24 * var(--u));
+  height: calc(24 * var(--u));
+  filter: drop-shadow(0 1px 1px rgb(0 0 0 / 0.5));
+}
+
+.ld-text__hint svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.ld-text__head {
+  display: flex;
+  align-items: center;
+  gap: calc(22 * var(--u));
+  min-height: calc(34 * var(--u));
+}
+
+/* 30px round contact portrait; an initial on grey until there's one. It fills a frame after the card. */
+.ld-text__avatar {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: calc(30 * var(--u));
+  height: calc(30 * var(--u));
+  border-radius: 50%;
+  overflow: hidden;
+  background: #8c8794;
+  color: #fff;
+  font-weight: 700;
+  font-size: calc(16 * var(--u));
+  animation: ld-text-avatar 1ms linear 33ms both;
+}
+
+.ld-text__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@keyframes ld-text-avatar {
+  from {
+    opacity: 0;
+  }
+}
+
+.ld-text__name {
+  margin: 0;
+  font-weight: 700;
+  font-size: calc(22 * var(--u));
+  color: #100810;
+}
+
+.ld-text__body {
+  margin: calc(4 * var(--u)) 0 0;
+  font-size: calc(22 * var(--u));
+}
+
+.ld-text__action {
+  margin-top: calc(8 * var(--u));
+  padding: calc(4 * var(--u)) calc(10 * var(--u));
+  border: 0;
+  border-radius: calc(6 * var(--u));
+  background: rgb(20 16 22 / 0.1);
+  color: #141016;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.ld-text__action:empty {
+  display: none;
+}
+
+.ld-text__action:focus-visible {
+  outline: 2px solid #141016;
+}
+
+/* Call card (C 1:45): a dark bar fading out to the right, a 62px icon inset 8px, the name over the status line.
+   The hang-up or answer glyph sits 22px left of the card. */
+.ld-call {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: calc(16 * var(--u));
+  width: calc(390 * var(--u));
+  height: calc(78 * var(--u));
+  padding: 0 calc(16 * var(--u)) 0 calc(8 * var(--u));
+  border-radius: calc(10 * var(--u)) 0 0 calc(10 * var(--u));
+  background: linear-gradient(90deg, rgb(22 22 26 / 0.6), rgb(22 22 26 / 0.45) 55%, rgb(22 22 26 / 0));
+  color: #fff;
+  font-family: var(--font-ui);
+  font-size: calc(21 * var(--u));
+  line-height: 1.3;
+  text-transform: none;
+}
+
+.ld-call__key {
+  position: absolute;
+  right: calc(100% + 18 * var(--u));
+  bottom: calc(4 * var(--u));
+  display: grid;
+  place-items: center;
+  width: calc(32 * var(--u));
+  height: calc(32 * var(--u));
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  cursor: pointer;
+  font-size: calc(26 * var(--u));
+}
+
+.ld-call__key:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.ld-call__key .ld-btnglyph {
+  width: calc(28 * var(--u));
+  height: calc(28 * var(--u));
+}
+
+.ld-call__dpad {
+  width: calc(30 * var(--u));
+  height: calc(30 * var(--u));
+  filter: drop-shadow(0 1px 1px rgb(0 0 0 / 0.6));
+}
+
+.ld-call__dpad path {
+  fill: rgb(255 255 255 / 0.35);
+}
+
+.ld-call__dpad path[data-on] {
+  fill: #fff;
+}
+
+/* Dialing: a green disc with a white handset. Ringing or connected: the avatar, with a small green handset badge. */
+.ld-call__icon {
+  position: relative;
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: calc(62 * var(--u));
+  height: calc(62 * var(--u));
+  border-radius: 50%;
+  background: radial-gradient(circle at 42% 30%, #3fcb68, #1c9a42 62%, #127a32);
+  box-shadow: inset 0 -3px 5px rgb(0 0 0 / 0.2);
+}
+
+.ld-call__icon[data-face] {
+  background: #8c8794;
+  box-shadow: none;
+}
+
+.ld-call__icon img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.ld-call__icon b {
+  font-weight: 700;
+  font-size: calc(26 * var(--u));
+}
+
+.ld-call__icon i {
+  display: grid;
+  place-items: center;
+}
+
+.ld-call__icon svg {
+  width: calc(32 * var(--u));
+  height: calc(32 * var(--u));
+  color: #fff;
+  fill: #fff;
+  stroke-width: 0;
+}
+
+.ld-call__icon[data-face] i {
+  position: absolute;
+  right: calc(-3 * var(--u));
+  bottom: calc(-3 * var(--u));
+  width: calc(24 * var(--u));
+  height: calc(24 * var(--u));
+  border-radius: 50%;
+  background: #22a24a;
+}
+
+.ld-call__icon[data-face] svg {
+  width: calc(13 * var(--u));
+  height: calc(13 * var(--u));
+}
+
+.ld-call__copy {
+  display: grid;
+  min-width: 0;
+}
+
+.ld-call__name {
+  margin: 0;
+  font-weight: 700;
+}
+
+.ld-call__copy > span {
+  color: rgb(255 255 255 / 0.92);
+}
+
+.ld-call__clock {
+  font-variant-numeric: tabular-nums;
+}
+
+/* A card replaced by a newer one goes at once, so two never show together. */
+.ld-slot:has(:is(.ld-text, .ld-call):not([data-ending-style])) :is(.ld-text, .ld-call)[data-ending-style] {
+  transition: none;
+  visibility: hidden;
+}
+
+/* Inside a 1080p GameFrame (demos): the same corner, in frame pixels. */
+.ld-slot[data-inline] {
+  --u: 1px;
+  position: absolute;
+  z-index: 2;
+}
+
+.ld-slot[data-still] {
+  height: auto;
+}
+
+.ld-slot[data-still] .ld-text {
+  position: absolute;
+}
+
+/* The slot lives in the top layer, so on a demo stage it would sit at the window's corner. Anchor it to its frame instead. */
+.ld-frame:has(> .ld-frame__canvas > .ld-slot[data-inline]) {
+  anchor-name: --slot-frame;
+}
+
+.ld-slot[data-inline]:popover-open {
+  position: fixed;
+  position-anchor: --slot-frame;
+  right: calc(anchor(right) + 36px);
+  bottom: calc(anchor(bottom) + 28px);
+}

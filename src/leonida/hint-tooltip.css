@@ -1,0 +1,75 @@
+/* Help box, 1080p: x32 y288, 80% near-black, square corners, no border or blur, 12/16 padding. */
+.ld-help {
+  box-sizing: border-box;
+  width: max-content;
+  max-width: calc(421 * var(--u, 1px));
+  margin: 0;
+  padding: calc(12 * var(--u, 1px)) calc(16 * var(--u, 1px));
+  border: 0;
+  border-radius: 0;
+  background: rgb(14 12 13 / 0.8);
+  color: #f8f8f8;
+  font-family: var(--font-ui);
+  font-weight: 400;
+  font-size: calc(24 * var(--u, 1px));
+  line-height: calc(31 * var(--u, 1px));
+  box-shadow: none;
+  animation: ld-help-in 100ms linear both;
+}
+
+.ld-help[data-slot="tooltip-content"] {
+  transition: opacity 150ms linear;
+}
+
+.ld-help[data-slot="tooltip-content"][data-ending-style] {
+  opacity: 0;
+}
+
+.ld-help__icon {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(4 * var(--u, 1px));
+  height: calc(27 * var(--u, 1px));
+  margin: 0 calc(3 * var(--u, 1px));
+  vertical-align: middle;
+  translate: 0 calc(-1 * var(--u, 1px));
+}
+
+.ld-help__star {
+  width: calc(26 * var(--u, 1px));
+  height: calc(26 * var(--u, 1px));
+  fill: #c0201c;
+}
+
+.ld-help__disc {
+  --disc: #811b19;
+  display: grid;
+  place-items: center;
+  width: calc(25 * var(--u, 1px));
+  height: calc(25 * var(--u, 1px));
+  border-radius: 50%;
+  background: var(--disc);
+  box-shadow: 0 0 0 calc(1.5 * var(--u, 1px)) #e8d8d8;
+  color: #fff;
+}
+
+.ld-help__disc svg {
+  width: 62%;
+  height: 62%;
+}
+
+/* Inline glyphs sit a little smaller than in prompt rows, as in the game's help text. */
+.ld-help__icon svg.ld-btnglyph {
+  width: calc(27 * var(--u, 1px));
+  height: calc(27 * var(--u, 1px));
+}
+
+.ld-help__icon span.ld-btnglyph--shoulder {
+  font-size: calc(23 * var(--u, 1px));
+}
+
+@keyframes ld-help-in {
+  from {
+    opacity: 0;
+  }
+}

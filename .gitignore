@@ -1,0 +1,21 @@
+# Dependencies and generated output
+node_modules/
+/dist/
+/coverage/
+*.tsbuildinfo
+
+# Local configuration and machine files
+.env
+.env.*
+!.env.example
+.DS_Store
+/.vscode/
+*.log
+
+# Local design references and screenshots
+/DESIGN.md
+/f1.png
+/fl-Hovercard.png
+/fl-Popover.png
+/fl-Tooltip.png
+/tweet/

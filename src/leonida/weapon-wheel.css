@@ -1,0 +1,487 @@
+@font-face {
+  font-family: "Black Han Sans";
+  src: url("/fonts/BlackHanSans-Latin.woff2") format("woff2");
+  font-display: swap;
+}
+
+/* GTA VI weapon wheel at 1080p (specs/wheel). Eight square tiles in two staggered columns round (960, 526). */
+.ld-wheel__stage {
+  position: absolute;
+  inset: 0;
+  font-family: var(--font-cond);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: #eaecf0;
+}
+
+.ld-wheel__guide {
+  position: absolute;
+  inset: 0;
+  width: 1920px;
+  height: 1080px;
+  pointer-events: none;
+}
+
+.ld-wheel__guide circle {
+  fill: none;
+  stroke: rgb(255 255 255 / 0.12);
+  stroke-width: 1.5;
+}
+
+/* Tabs: R1 keycap over WEAPONS | ITEMS, centred on x 960, top at y 96. */
+.ld-wheel__r1 {
+  position: absolute;
+  left: 944px;
+  top: 56px;
+  font-size: 22px;
+}
+
+.ld-wheel__tablist {
+  position: absolute;
+  left: 860px;
+  top: 96px;
+  display: flex;
+  margin-left: -2px;
+  height: 32px;
+  gap: 2px;
+}
+
+.ld-wheel__tab {
+  height: 32px;
+  padding: 0 12px;
+  border: 0;
+  background: rgb(29 29 33 / 0.8);
+  color: #969698;
+  font: inherit;
+  font-weight: 700;
+  font-size: 26px;
+  line-height: 33px;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.ld-wheel__tab[data-selected] {
+  padding-right: 18px;
+  background: #fff;
+  color: #131313;
+  clip-path: polygon(0 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+}
+
+.ld-wheel__tab:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+/* Tiles. Idle ≈ white 9% over the dimmed blur, square corners, a faint 1px edge. */
+.ld-wheel__tile {
+  position: absolute;
+  display: block;
+  width: 188px;
+  height: 120px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: rgb(255 255 255 / 0.09);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.06);
+  cursor: pointer;
+  overflow: visible;
+}
+
+/* Clockwise from the top: two staggered columns around (960, 526). */
+.ld-wheel__tile:nth-child(1 of .ld-wheel__tile) {
+  top: 195px;
+  left: 866px;
+}
+
+.ld-wheel__tile:nth-child(2 of .ld-wheel__tile) {
+  top: 305px;
+  left: 1096px;
+}
+
+.ld-wheel__tile:nth-child(3 of .ld-wheel__tile) {
+  top: 466px;
+  left: 1157px;
+}
+
+.ld-wheel__tile:nth-child(4 of .ld-wheel__tile) {
+  top: 628px;
+  left: 1096px;
+}
+
+.ld-wheel__tile:nth-child(5 of .ld-wheel__tile) {
+  top: 738px;
+  left: 866px;
+}
+
+.ld-wheel__tile:nth-child(6 of .ld-wheel__tile) {
+  top: 628px;
+  left: 635px;
+}
+
+.ld-wheel__tile:nth-child(7 of .ld-wheel__tile) {
+  top: 466px;
+  left: 575px;
+}
+
+.ld-wheel__tile:nth-child(8 of .ld-wheel__tile) {
+  top: 305px;
+  left: 635px;
+}
+
+.ld-wheel__tile:focus-visible {
+  outline: none;
+}
+
+/* Focused: 3px white outline outside the tile, ~4% grow, bright top-lit fill. No transition. */
+.ld-wheel__tile[data-checked] {
+  z-index: 1;
+  scale: 1.04;
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.55), rgb(255 255 255 / 0.12));
+  outline: 3px solid #fcf9f6;
+  outline-offset: 1px;
+}
+
+/* In hand: soft pink bar on the top edge. */
+.ld-wheel__tile[data-in-hand]::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 16px;
+  background:
+    linear-gradient(180deg, rgb(253 249 249 / 0.5), transparent 40%),
+    radial-gradient(70% 100% at 50% 0, #e491b0e6, #e491b000);
+}
+
+/* Rarity: a dome of colour sitting on the ammo band's top edge. */
+.ld-wheel__tile[data-rarity]::after {
+  content: "";
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 32px;
+  height: 22px;
+  background: radial-gradient(50% 100% at 50% 100%, var(--rarity) 0%, color-mix(in srgb, var(--rarity) 45%, transparent) 55%, transparent 100%);
+}
+
+.ld-wheel__tile[data-rarity="teal"],
+.ld-wheel__label[data-rarity="teal"],
+.ld-wheel__stats[data-rarity="teal"] {
+  --rarity: #39b5a3;
+  --rarity-ink: #75e0cd;
+}
+
+.ld-wheel__tile[data-rarity="yellow"],
+.ld-wheel__label[data-rarity="yellow"],
+.ld-wheel__stats[data-rarity="yellow"] {
+  --rarity: #c8af6d;
+  --rarity-ink: #fdd56c;
+}
+
+.ld-wheel__art {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+
+.ld-wheel__tile[data-band] .ld-wheel__art {
+  bottom: 32px;
+}
+
+.ld-icon {
+  display: block;
+  width: 56px;
+  height: 40px;
+  overflow: visible;
+  filter: drop-shadow(0 2px 2px rgb(0 0 0 / 0.3));
+}
+
+/* Icon sizes from the frames: long guns ~75% of the tile, small items 30-40%. */
+.ld-wheel__art[data-icon="pistol"] .ld-icon,
+.ld-wheel__art[data-icon="pistol2"] .ld-icon,
+.ld-wheel__art[data-icon="revolver"] .ld-icon { width: 58px; height: 38px; }
+.ld-wheel__art[data-icon="rifle"] .ld-icon,
+.ld-wheel__art[data-icon="ak"] .ld-icon { width: 140px; height: 34px; }
+.ld-wheel__art[data-icon="smg"] .ld-icon,
+.ld-wheel__art[data-icon="shotgun"] .ld-icon,
+.ld-wheel__art[data-icon="carbine"] .ld-icon { width: 96px; height: 46px; }
+.ld-wheel__art[data-icon="knife"] .ld-icon,
+.ld-wheel__art[data-icon="bowie"] .ld-icon { width: 74px; height: 18px; }
+.ld-wheel__art[data-icon="bat"] .ld-icon { width: 120px; height: 14px; }
+.ld-wheel__art[data-icon="fist"] .ld-icon { width: 58px; height: 44px; }
+.ld-wheel__art[data-icon="binoculars"] .ld-icon { width: 46px; height: 42px; }
+.ld-wheel__art[data-icon="grenade"] .ld-icon,
+.ld-wheel__art[data-icon="molotov"] .ld-icon { width: 42px; height: 46px; }
+.ld-wheel__art[data-icon="sunglasses"] .ld-icon { width: 70px; height: 30px; }
+.ld-wheel__art[data-icon="cap"] .ld-icon,
+.ld-wheel__art[data-icon="hanger"] .ld-icon,
+.ld-wheel__art[data-icon="vest"] .ld-icon { width: 54px; height: 50px; }
+
+/* Ammo or ON/OFF band: bottom 32px, clip in light semibold, reserve in grey, no slash. */
+.ld-wheel__band {
+  position: absolute;
+  inset: auto 0 0;
+  height: 32px;
+  background: rgb(34 33 40 / 0.92);
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 33px;
+  font-variant-numeric: tabular-nums;
+  color: #9a9aa0;
+  text-align: center;
+}
+
+.ld-wheel__band b {
+  color: #eaecf0;
+}
+
+.ld-wheel__check {
+  position: absolute;
+  right: -14px;
+  bottom: -14px;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #fff;
+}
+
+.ld-wheel__check svg {
+  width: 20px;
+  fill: none;
+  stroke: #111;
+  stroke-width: 3;
+}
+
+/* Centre label in the void between W and E: name 30px, category 24px. */
+.ld-wheel__label {
+  position: absolute;
+  left: 760px;
+  width: 400px;
+  top: 494px;
+  margin: 0;
+  display: grid;
+  justify-items: center;
+  row-gap: 8px;
+  text-align: center;
+  pointer-events: none;
+}
+
+.ld-wheel__label b {
+  font-weight: 800;
+  font-size: 34px;
+  line-height: 32px;
+  color: #fff;
+}
+
+.ld-wheel__label[data-rarity] b {
+  color: var(--rarity-ink);
+}
+
+.ld-wheel__label span {
+  font-weight: 800;
+  font-size: 27px;
+  line-height: 28px;
+  color: #b8b8b8;
+}
+
+/* Heal quick slots, bottom left. */
+.ld-wheel__heals {
+  position: absolute;
+  left: 36px;
+  top: 893px;
+  display: flex;
+  gap: 16px;
+}
+
+.ld-wheel__heal {
+  position: relative;
+  width: 108px;
+  height: 108px;
+  background: rgb(255 255 255 / 0.09);
+  display: grid;
+  grid-template-rows: 74px 34px;
+  justify-items: center;
+}
+
+.ld-wheel__heal-art {
+  display: grid;
+  place-items: center;
+}
+
+.ld-heal-art {
+  display: block;
+  width: 46px;
+  height: 69px;
+  filter: drop-shadow(0 1px 1px rgb(0 0 0 / 0.4));
+}
+
+.ld-wheel__heal > b {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 34px;
+  background: rgb(34 33 40 / 0.6);
+  width: 100%;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 27px;
+  color: #eaecf0;
+}
+
+.ld-wheel__badge {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  background: #f497bd;
+  mask: none;
+  position: relative;
+}
+
+.ld-wheel__badge::after {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  background: #fff;
+  clip-path: path("M5 9 1.2 5.4A2.2 2.2 0 0 1 5 2.4a2.2 2.2 0 0 1 3.8 3z");
+}
+
+.ld-wheel__badge[data-kind="boost"] {
+  background: #f2c33e;
+}
+
+/* Face buttons under the slots: solid □ for health, △ dims when its count is 0. */
+.ld-wheel__key {
+  position: absolute;
+  left: 34px;
+  top: 123px;
+  font-size: 33px;
+  line-height: 0;
+}
+
+.ld-wheel__heal[data-empty] .ld-wheel__key {
+  opacity: 0.45;
+}
+
+/* Stats panel, bottom right, weapon slots only. */
+.ld-wheel__stats {
+  position: absolute;
+  left: 1457px;
+  top: 670px;
+  width: 431px;
+  height: 330px;
+  display: grid;
+  grid-template-rows: 72px repeat(4, 1fr);
+  background: rgb(120 120 128 / 0.22);
+  --rarity-ink: #fff;
+}
+
+.ld-wheel__pages {
+  position: absolute;
+  right: 0;
+  top: -40px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ld-wheel__pages i {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 0.55);
+}
+
+.ld-wheel__pages i[data-on] {
+  width: 12px;
+  height: 12px;
+  background: #fff;
+}
+
+.ld-wheel__pages .ld-keycap {
+  margin-left: 12px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  clip-path: none;
+  font-size: 15px;
+}
+
+.ld-wheel__stats-head {
+  display: grid;
+  align-content: center;
+  padding: 0 12px;
+  background: rgb(30 30 45 / 0.75);
+  font-weight: 800;
+  font-size: 29px;
+  line-height: 28px;
+}
+
+.ld-wheel__stats-head b {
+  color: var(--rarity-ink);
+  font-weight: 800;
+}
+
+.ld-wheel__stat {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 14px 12px 12px;
+  font-weight: 800;
+  font-size: 27px;
+}
+
+.ld-wheel__stat i {
+  position: absolute;
+  left: 12px;
+  right: 14px;
+  bottom: 13px;
+  height: 6px;
+  background: linear-gradient(90deg, #fff calc(var(--v) * 100%), rgb(255 255 255 / 0.18) 0);
+}
+
+.ld-wheel__stat i::after {
+  content: "";
+  position: absolute;
+  left: calc(var(--v) * 100% - 1px);
+  top: -5px;
+  width: 2px;
+  height: 14px;
+  background: #fff;
+}
+
+.ld-wheel__prompt {
+  position: absolute;
+  right: 40px;
+  top: 1022px;
+  margin: 0;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Vitals and cash stay up while the wheel is open (B2's HUD parts, lit). */
+.ld-wheel__vitals,
+.ld-wheel__cash {
+  --u: 1px;
+}
+
+.ld-wheel__vitals {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.ld-wheel__vitals .ld-vitals {
+  opacity: 1;
+}
+
+.ld-wheel__cash {
+  position: absolute;
+  right: 32px;
+  top: 28px;
+}

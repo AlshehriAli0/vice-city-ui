@@ -1,0 +1,43 @@
+/* The map's mission card as a notice: the 3px pink top rule over the dark card body. */
+.vc-alert {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto 1fr;
+  align-items: start;
+  gap: 0 calc(14 * var(--vc-u));
+  padding: calc(16 * var(--vc-u)) calc(19 * var(--vc-u)) calc(18 * var(--vc-u));
+  border-top: calc(3 * var(--vc-u)) solid var(--vc-rule);
+  background: var(--vc-card);
+  color: var(--vc-text);
+}
+
+.vc-alert__title,
+.vc-alert__text {
+  grid-column: 1;
+}
+
+.vc-alert__title {
+  margin: 0;
+  font-family: var(--font-cond);
+  font-weight: 700;
+  font-size: calc(34 * var(--vc-u));
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.vc-alert__text {
+  margin-top: calc(8 * var(--vc-u));
+  font-size: calc(24 * var(--vc-u));
+  line-height: 1.4;
+}
+
+.vc-alert__text b,
+.vc-alert__text strong {
+  font-weight: 700;
+}
+
+.vc-alert__action {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: center;
+}

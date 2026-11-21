@@ -1,0 +1,185 @@
+/* The settings toggle: a 60x30 pill, radius 15, with a 19px white knob.
+   On is #fd89b4 with the knob right; off is white at 25% with the knob left. */
+.vc-switch {
+  --s: 1;
+  --w: calc(60 * var(--s) * var(--vc-u));
+  --h: calc(30 * var(--s) * var(--vc-u));
+  --knob: calc(19 * var(--s) * var(--vc-u));
+  --pad: calc((var(--h) - var(--knob)) / 2);
+  position: relative;
+  flex: none;
+  width: var(--w);
+  height: var(--h);
+  padding: 0;
+  border: 0;
+  border-radius: calc(var(--h) / 2);
+  background: rgb(255 255 255 / 0.25);
+  box-shadow: inset 0 0 0 1px rgb(31 18 36 / 0.55);
+  cursor: pointer;
+}
+
+.vc-switch[data-size="sm"] {
+  --s: 0.75;
+}
+
+.vc-switch[data-size="lg"] {
+  --s: 1.2;
+}
+
+.vc-switch[data-checked] {
+  background: var(--vc-switch);
+}
+
+.vc-switch:focus-visible {
+  outline: 2px solid var(--vc-focus);
+  outline-offset: 3px;
+}
+
+.vc-switch[data-disabled] {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.vc-switch__thumb {
+  position: absolute;
+  top: var(--pad);
+  left: var(--pad);
+  width: var(--knob);
+  height: var(--knob);
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 0 1px rgb(31 18 36 / 0.45);
+  transition: translate 100ms ease-out;
+}
+
+.vc-switch__thumb[data-checked] {
+  translate: calc(var(--w) - var(--knob) - var(--pad) * 2) 0;
+}
+
+[dir="rtl"] .vc-switch__thumb {
+  left: auto;
+  right: var(--pad);
+}
+
+[dir="rtl"] .vc-switch__thumb[data-checked] {
+  translate: calc((var(--w) - var(--knob) - var(--pad) * 2) * -1) 0;
+}
+
+/* A toggle row: label left, then the "On"/"Off" word, a 29px gap, and the pill. */
+.vc-switch-row {
+  display: grid;
+  align-content: center;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  column-gap: calc(29 * var(--vc-u));
+  row-gap: 0;
+  font-family: var(--font-ui);
+  font-size: calc(26 * var(--vc-u));
+  color: var(--vc-text);
+  cursor: pointer;
+}
+
+/* The label spans the row so a click anywhere flips the switch; the hint stays outside its name. */
+.vc-switch-row__hit {
+  display: contents;
+  cursor: pointer;
+}
+
+.vc-switch-row__label {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.vc-switch-row__state {
+  grid-column: 2;
+  grid-row: 1 / -1;
+}
+
+.vc-switch-row .vc-switch {
+  grid-column: 3;
+  grid-row: 1 / -1;
+}
+
+.vc-switch-row__hint {
+  grid-column: 1;
+  grid-row: 2;
+  font-size: calc(22 * var(--vc-u));
+  color: var(--vc-dim);
+}
+
+.vc-switch-state {
+  font-family: var(--font-ui);
+  font-size: calc(26 * var(--vc-u));
+}
+
+.vc-switch-state::before {
+  content: "Off";
+}
+
+:has(> .vc-switch[data-checked]) > .vc-switch-state::before {
+  content: "On";
+}
+
+/* In a settings list the toggle row takes the 68px pitch and the selection bar. */
+:is(.vc-list, .vc-settings) .vc-switch-row {
+  min-height: calc(68 * var(--vc-u));
+  padding: calc(8 * var(--vc-u)) calc(33 * var(--vc-u)) calc(8 * var(--vc-u)) calc(17 * var(--vc-u));
+  border-bottom: 1px solid var(--vc-hair);
+}
+
+:is(.vc-list, .vc-settings) .vc-switch-row:is(:hover, :focus-within) {
+  background: var(--vc-row);
+  color: var(--vc-ink);
+}
+
+:is(.vc-list, .vc-settings) .vc-switch-row:is(:hover, :focus-within) .vc-switch-row__hint {
+  color: rgb(31 32 47 / 0.7);
+}
+
+/* The row's bar is the focus mark. */
+:is(.vc-list, .vc-settings) .vc-switch-row .vc-switch:focus-visible {
+  outline: none;
+}
+
+/* Pink keeps its colour on the bar; the off pill darkens so it stays visible on white. */
+:is(.vc-list, .vc-settings) .vc-switch-row:is(:hover, :focus-within) .vc-switch:not([data-checked]) {
+  background: rgb(31 32 47 / 0.25);
+}
+
+.vc-switch-row:has([data-disabled]) {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.vc-settings {
+  display: grid;
+  width: 100%;
+}
+
+/* A toggle in a settings field row: label, then "On"/"Off" 29px before the pill. The label's
+   ::after spans the row, so a press anywhere on it flips the switch. */
+.vc-field[data-layout="row"]:has(> .vc-switch) {
+  position: relative;
+}
+
+.vc-field[data-layout="row"] > .vc-label:has(~ .vc-switch) {
+  cursor: pointer;
+}
+
+.vc-field[data-layout="row"] > .vc-label:has(~ .vc-switch)::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.vc-field[data-layout="row"] > .vc-switch-state + .vc-switch {
+  margin-inline-start: calc(5 * var(--vc-u));
+}
+
+.vc-field[data-layout="row"] > .vc-switch:focus-visible {
+  outline: none;
+}
+
+.vc-field[data-layout="row"]:is(:hover, :focus-within) > .vc-switch:not([data-checked]) {
+  background: rgb(31 32 47 / 0.25);
+}

@@ -1,0 +1,156 @@
+/* A popup menu is the pause panel in miniature: flat #1f202d, 64px rows, outline icons that swap
+   to filled on the focused row, and the selection bar snapping in with no transition. */
+.vc-menu {
+  min-width: calc(340 * var(--vc-u));
+  max-height: var(--available-height);
+  padding: calc(8 * var(--vc-u)) 0;
+  overflow: auto;
+}
+
+.vc-menu__item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: calc(12 * var(--vc-u));
+  min-height: calc(64 * var(--vc-u));
+  padding: 0 calc(24 * var(--vc-u)) 0 calc(18 * var(--vc-u));
+  color: var(--vc-text);
+  font-family: var(--font-ui);
+  font-size: calc(26 * var(--vc-u));
+  font-weight: 400;
+  white-space: nowrap;
+  cursor: default;
+  outline: none;
+  user-select: none;
+}
+
+.vc-menu__item[data-highlighted],
+.vc-menu__item[data-open] {
+  background: var(--vc-row);
+  color: var(--vc-ink);
+}
+
+.vc-menu__item[data-disabled] {
+  opacity: 0.45;
+}
+
+.vc-menu__item:focus-visible {
+  outline: none;
+}
+
+.vc-menu__icon {
+  display: grid;
+  width: calc(26 * var(--vc-u));
+}
+
+.vc-menu__icon svg {
+  width: calc(26 * var(--vc-u));
+  height: calc(26 * var(--vc-u));
+  stroke-width: 1.8;
+}
+
+.vc-menu__item:is([data-highlighted], [data-open]) .vc-menu__icon svg {
+  fill: currentColor;
+}
+
+.vc-menu__item [data-slot="menu-shortcut"],
+.vc-menu__item [data-slot="menu-item-shortcut"] {
+  margin-inline-start: auto;
+  padding-inline-start: calc(16 * var(--vc-u));
+  font-family: var(--font-cond);
+  font-size: calc(22 * var(--vc-u));
+  font-weight: 700;
+  opacity: 0.6;
+}
+
+.vc-menu__check,
+.vc-menu__radio {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: calc(18 * var(--vc-u));
+  height: calc(18 * var(--vc-u));
+  box-shadow: inset 0 0 0 calc(1.5 * var(--vc-u)) currentColor;
+}
+
+.vc-menu__radio {
+  width: calc(14 * var(--vc-u));
+  height: calc(14 * var(--vc-u));
+  border-radius: 50%;
+}
+
+.vc-menu__check svg {
+  width: calc(14 * var(--vc-u));
+  height: calc(14 * var(--vc-u));
+  stroke-width: 3.5;
+  visibility: hidden;
+  filter: invert(1);
+}
+
+.vc-menu__check[data-checked] {
+  background: currentColor;
+}
+
+.vc-menu__check[data-checked] svg {
+  visibility: visible;
+}
+
+.vc-menu__radio[data-checked] {
+  box-shadow: inset 0 0 0 calc(1.5 * var(--vc-u)) var(--vc-pink);
+}
+
+.vc-menu__radio[data-checked]::after {
+  content: "";
+  width: calc(8 * var(--vc-u));
+  height: calc(8 * var(--vc-u));
+  border-radius: 50%;
+  background: var(--vc-pink);
+}
+
+.vc-menu__sub-chev {
+  margin-inline-start: auto;
+  width: calc(20 * var(--vc-u));
+  height: calc(20 * var(--vc-u));
+}
+
+.vc-menu__sub-chev:dir(rtl) {
+  scale: -1 1;
+}
+
+.vc-menu__label {
+  padding: calc(14 * var(--vc-u)) calc(18 * var(--vc-u)) calc(6 * var(--vc-u));
+  font-family: var(--font-cond);
+  font-weight: 700;
+  font-size: calc(26 * var(--vc-u));
+  text-transform: uppercase;
+  color: var(--vc-section);
+}
+
+.vc-menu__sep {
+  height: 1px;
+  margin: calc(8 * var(--vc-u)) 0;
+  border: 0;
+  background: var(--vc-hair);
+}
+
+/* A context-menu area is a list row: thumbnail, title and a hint line. */
+.vc-context-area {
+  display: flex;
+  align-items: center;
+  gap: calc(16 * var(--vc-u));
+  min-height: calc(67 * var(--vc-u));
+  padding: calc(10 * var(--vc-u)) calc(17 * var(--vc-u));
+  border-bottom: 1px solid var(--vc-hair);
+  color: var(--vc-text);
+  font-family: var(--font-ui);
+  font-size: calc(26 * var(--vc-u));
+  text-align: start;
+}
+
+.vc-context-area[data-open],
+.vc-context-area:hover,
+.vc-context-area:focus-visible {
+  outline: none;
+  background: var(--vc-row);
+  color: var(--vc-ink);
+}

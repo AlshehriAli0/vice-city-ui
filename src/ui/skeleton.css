@@ -1,0 +1,17 @@
+/* Placeholder shapes at the disabled-row strength, square like everything else in the menus. */
+.vc-skeleton {
+  display: block;
+  width: var(--skeleton-width, auto);
+  height: var(--skeleton-height, calc(18 * var(--vc-u)));
+  background: rgb(255 255 255 / 0.1);
+}
+
+.vc-skeleton[data-shape="block"] {
+  height: var(--skeleton-height, calc(160 * var(--vc-u)));
+}
+
+.vc-skeleton[data-shape="circle"] {
+  width: var(--skeleton-width, calc(48 * var(--vc-u)));
+  height: var(--skeleton-height, calc(48 * var(--vc-u)));
+  border-radius: 50%;
+}

@@ -1,0 +1,57 @@
+.vc-otp {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(14 * var(--vc-u));
+}
+
+.vc-otp__group {
+  display: flex;
+  gap: calc(6 * var(--vc-u));
+}
+
+/* Each slot is a value on a hairline; the active slot takes the selection white. */
+.vc-otp__slot {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: calc(40 * var(--vc-u));
+  height: calc(52 * var(--vc-u));
+  box-shadow: inset 0 -1px 0 currentColor;
+  color: inherit;
+  font-family: var(--font-ui);
+  font-size: calc(26 * var(--vc-u));
+}
+
+.vc-otp__slot[data-active] {
+  background: var(--vc-white);
+  color: var(--vc-ink);
+}
+
+.vc-otp__slot[data-fake-caret]::after {
+  content: "";
+  width: 2px;
+  height: calc(26 * var(--vc-u));
+  background: var(--vc-pink);
+  animation: vc-caret 1s steps(1) infinite;
+}
+
+.vc-otp[data-complete] .vc-otp__slot {
+  box-shadow: inset 0 calc(-2 * var(--vc-u)) 0 var(--vc-pink);
+}
+
+.vc-otp__sep {
+  width: calc(10 * var(--vc-u));
+  height: 2px;
+  background: currentColor;
+  opacity: 0.5;
+}
+
+.vc-otp[data-disabled] {
+  opacity: 0.45;
+}
+
+@keyframes vc-caret {
+  50% {
+    opacity: 0;
+  }
+}

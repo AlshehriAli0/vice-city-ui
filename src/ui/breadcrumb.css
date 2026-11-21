@@ -1,0 +1,45 @@
+/* The store breadcrumb: earlier levels in 32px display caps at 70% followed by " /", the current
+   level in full white. */
+.vc-crumbs__list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 calc(10 * var(--vc-u));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--font-cond);
+  font-weight: 700;
+  font-size: calc(32 * var(--vc-u));
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.vc-crumbs__item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: calc(10 * var(--vc-u));
+  color: rgb(245 242 247 / 0.7);
+}
+
+.vc-crumbs__item:not(:last-child)::after {
+  content: "/";
+}
+
+.vc-crumbs__link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.vc-crumbs__link:hover {
+  color: #fff;
+}
+
+.vc-crumbs__link:focus-visible {
+  outline: 2px solid var(--vc-focus);
+  outline-offset: 2px;
+}
+
+.vc-crumbs__current[aria-current] {
+  color: #fff;
+}

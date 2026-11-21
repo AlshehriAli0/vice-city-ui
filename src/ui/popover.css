@@ -1,0 +1,35 @@
+/* The map's hover info card: 3px pink top rule, #261d2f body, display-caps title, text-face body. */
+.vc-popover {
+  display: grid;
+  gap: calc(10 * var(--vc-u));
+  width: min(calc(535 * var(--vc-u)), calc(100vw - 24px));
+  padding: calc(16 * var(--vc-u)) calc(19 * var(--vc-u)) calc(18 * var(--vc-u));
+  border-top: calc(3 * var(--vc-u)) solid var(--vc-rule);
+  background: var(--vc-card);
+  overflow: visible;
+}
+
+.vc-popover__title {
+  margin: 0;
+  font-family: var(--font-cond);
+  font-weight: 700;
+  font-size: calc(34 * var(--vc-u));
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.vc-popover__description {
+  margin: 0;
+  font-size: calc(24 * var(--vc-u));
+  line-height: 1.4;
+}
+
+/* The game's cards anchor beside the cursor with no pointer; the arrow stays for screen geometry only. */
+.vc-arrow {
+  display: none;
+}
+
+.vc-popover > .vc-btn,
+.vc-popover > .vc-prompts {
+  justify-self: end;
+}

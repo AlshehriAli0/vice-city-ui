@@ -1,0 +1,55 @@
+/* The settings tab chips as a single-choice control: faint chips, the chosen one solid white.
+   The choice snaps in one frame, so the indicator never slides. */
+.vc-segments {
+  position: relative;
+  display: inline-flex;
+  justify-self: start;
+  gap: calc(4 * var(--vc-u));
+  width: fit-content;
+  isolation: isolate;
+}
+
+.vc-segments__indicator {
+  display: none;
+}
+
+.vc-segments__item {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: calc(6 * var(--vc-u));
+  height: calc(33 * var(--vc-u));
+  padding: 0 calc(16 * var(--vc-u));
+  border: 0;
+  background: rgb(255 255 255 / 0.06);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.14);
+  color: var(--vc-text);
+  font-family: var(--font-cond);
+  font-weight: 700;
+  font-size: calc(26 * var(--vc-u));
+  line-height: 1;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.vc-segments__item:hover {
+  background: rgb(255 255 255 / 0.14);
+}
+
+.vc-segments__item[data-checked] {
+  background: #fff;
+  box-shadow: none;
+  color: var(--vc-ink);
+}
+
+.vc-segments__item:focus-visible {
+  outline: 2px solid var(--vc-focus);
+  outline-offset: 2px;
+}
+
+.vc-segments[data-size="sm"] .vc-segments__item {
+  height: calc(28 * var(--vc-u));
+  padding: 0 calc(12 * var(--vc-u));
+  font-size: calc(22 * var(--vc-u));
+}

@@ -1,0 +1,68 @@
+@import "./dialog.css";
+
+/* The pause side panel: 544px of flat #1f202d, full height, sliding in from its edge (about 170ms,
+   ease-out) with its rows fading in top to bottom once it lands. */
+.vc-sheet {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  background: var(--vc-panel);
+  color: var(--vc-text);
+  outline: none;
+  overflow: hidden;
+}
+
+.vc-sheet[data-side="right"],
+.vc-sheet[data-side="left"] {
+  width: min(calc(544 * var(--vc-u)), calc(100vw - 40px));
+  height: 100dvh;
+}
+
+.vc-sheet[data-side="right"] {
+  margin-left: auto;
+}
+
+.vc-sheet[data-side="bottom"] {
+  width: 100vw;
+  max-height: 85dvh;
+  margin: auto 0 0;
+}
+
+.vc-sheet__handle {
+  display: none;
+}
+
+.vc-sheet__body {
+  display: flex;
+  flex-direction: column;
+  gap: calc(16 * var(--vc-u));
+  flex: 1;
+  min-height: 0;
+  padding: calc(46 * var(--vc-u)) calc(32 * var(--vc-u)) calc(30 * var(--vc-u));
+  overflow: auto;
+}
+
+.vc-sheet__body > * {
+  animation: vc-fade 67ms linear 170ms both;
+}
+
+.vc-sheet__body > :nth-child(2) { animation-delay: 203ms; }
+.vc-sheet__body > :nth-child(3) { animation-delay: 236ms; }
+.vc-sheet__body > :nth-child(n + 4) { animation-delay: 269ms; }
+
+.vc-sheet__footer {
+  margin-top: auto;
+  padding-top: calc(16 * var(--vc-u));
+}
+
+/* Rows inside a sheet: the pause menu list, 72px pitch with a 64px bar and no dividers. */
+.vc-sheet__rows {
+  display: grid;
+  gap: calc(8 * var(--vc-u));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}

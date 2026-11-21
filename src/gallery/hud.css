@@ -1,0 +1,35 @@
+.hud-demo {
+  display: grid;
+  gap: 14px;
+  width: 100%;
+}
+
+/* Cash sits at y30 when not wanted; under the evidence row (y≈130) when wanted. */
+.hud-demo__money[data-wanted] {
+  margin-top: calc(37 * var(--u));
+}
+
+.hud-demo__ammo {
+  margin-top: calc(14 * var(--u));
+}
+
+/* Turn card at y815–878, 6px above the map. */
+.hud-demo__turn {
+  position: absolute;
+  bottom: calc(100% + 6 * var(--u));
+  left: calc(-2 * var(--u));
+}
+
+/* The help popup opens at the help box's spot (x32, y288) and replaces the idle tip. */
+.hud-demo__anchor {
+  position: absolute;
+  top: calc(288 * var(--u));
+  left: calc(32 * var(--u));
+  width: 1px;
+  height: 0;
+}
+
+.ld-hud-frame:has(.ld-help[data-slot="tooltip-content"][data-open]) .hud-demo__idle {
+  visibility: hidden;
+}
+

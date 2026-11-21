@@ -1,0 +1,147 @@
+/* 1080p: 27px stars on a 35px pitch, right edge at x1888, centres at y44; evidence discs 28px at y79. */
+.ld-wanted-hud {
+  display: inline-grid;
+  justify-items: end;
+  row-gap: calc(7 * var(--u, 1px));
+}
+
+.ld-wanted {
+  display: inline-flex;
+  gap: calc(8 * var(--u, 1px));
+}
+
+.ld-wanted__star {
+  position: relative;
+  display: grid;
+  width: calc(27 * var(--u, 1px));
+  height: calc(27 * var(--u, 1px));
+  cursor: pointer;
+}
+
+.ld-wanted[data-readonly] .ld-wanted__star {
+  cursor: default;
+}
+
+.ld-wanted__glyph {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  fill: #a8a8b0;
+  opacity: 0;
+  transition:
+    fill 70ms linear,
+    opacity 70ms linear;
+}
+
+/* Ghost slots only while wanted, or while the row has keyboard focus. */
+.ld-wanted[data-wanted] .ld-wanted__glyph,
+.ld-wanted:focus-within .ld-wanted__glyph {
+  opacity: 0.22;
+}
+
+.ld-wanted__star[data-filled] .ld-wanted__glyph {
+  opacity: 1;
+  fill: #f3f7fa;
+  stroke: #1d0f17;
+  stroke-width: 1.4;
+  paint-order: stroke fill;
+  animation: ld-star-in 100ms linear calc(max(0, var(--i, 0) - var(--from, 0)) * 33ms) both;
+}
+
+.ld-wanted[data-state="seen"] .ld-wanted__star[data-filled] .ld-wanted__glyph {
+  filter: drop-shadow(0 0 calc(3 * var(--u, 1px)) rgb(255 255 255 / 0.9));
+}
+
+.ld-wanted[data-state="lost"] .ld-wanted__star[data-filled] .ld-wanted__glyph,
+.ld-wanted[data-state="search"] .ld-wanted__star[data-filled] .ld-wanted__glyph {
+  fill: #909090;
+}
+
+/* Hiding in the search area: a slow sine breath between full and 20%. */
+.ld-wanted[data-state="search"] .ld-wanted__star[data-filled] .ld-wanted__glyph {
+  animation: ld-star-search 1.25s ease-in-out infinite;
+}
+
+/* Escaped but profiled: a hard cut to dark red, no bloom. */
+.ld-wanted[data-state="escaped"] .ld-wanted__star[data-filled] .ld-wanted__glyph {
+  fill: #801608;
+  transition: none;
+}
+
+.ld-wanted__star[data-highlighted]:not([data-filled]) .ld-wanted__glyph {
+  opacity: 0.7;
+}
+
+.ld-wanted__star:has(:focus-visible) {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.ld-evidence {
+  display: flex;
+  gap: calc(7 * var(--u, 1px));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ld-evidence__item {
+  display: grid;
+  animation: ld-evidence-in 120ms linear both;
+}
+
+.ld-evidence__disc {
+  --disc: #811b19;
+  display: grid;
+  place-items: center;
+  width: calc(28 * var(--u, 1px));
+  height: calc(28 * var(--u, 1px));
+  border-radius: 50%;
+  background: var(--disc);
+  box-shadow: inset 0 0 0 calc(1.5 * var(--u, 1px)) #4a1212;
+  color: #e8fffe;
+}
+
+.ld-evidence__disc svg {
+  width: 66%;
+  height: 66%;
+}
+
+@keyframes ld-star-in {
+  0% {
+    opacity: 0;
+    fill: #a8a8b0;
+    filter: none;
+  }
+  50% {
+    opacity: 0.5;
+    fill: #a8a8b0;
+    filter: none;
+  }
+}
+
+@keyframes ld-star-search {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.2;
+  }
+}
+
+@keyframes ld-evidence-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ld-wanted[data-state="search"] .ld-wanted__star[data-filled] .ld-wanted__glyph {
+    animation: none;
+    opacity: 0.6;
+    stroke: #fff;
+    stroke-dasharray: 2 2;
+  }
+}

@@ -1,0 +1,326 @@
+/* GTA VI radio and vehicle selector at 1080p (specs/radio). One strip at the top centre; nothing at screen centre. */
+.ld-radio__stage {
+  position: absolute;
+  inset: 0;
+  font-family: var(--font-cond);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: #fdfcff;
+}
+
+/* Source rail: labels right-aligned to x 567, a 2px line at x 602 joining three nodes. */
+.ld-radio__rail {
+  position: absolute;
+  left: 380px;
+  top: 34px;
+  width: 236px;
+  height: 112px;
+  display: grid;
+  grid-template-rows: 22px 1fr 22px;
+  align-items: center;
+}
+
+.ld-radio__rail::before {
+  content: "";
+  position: absolute;
+  left: 221px;
+  top: 12px;
+  bottom: 12px;
+  width: 2px;
+  background: rgb(255 255 255 / 0.85);
+}
+
+.ld-radio__source {
+  position: relative;
+  display: grid;
+  grid-template-columns: 187px 28px;
+  column-gap: 21px;
+  align-items: center;
+  justify-items: end;
+  font-size: 23px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.ld-radio__source:has([data-checked]) {
+  font-size: 29px;
+}
+
+.ld-radio__node {
+  position: relative;
+  width: 12px;
+  height: 12px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: #fff;
+  justify-self: center;
+  cursor: pointer;
+}
+
+.ld-radio__node svg {
+  display: none;
+}
+
+.ld-radio__node[data-checked] {
+  width: 30px;
+  height: 30px;
+  box-shadow: inset 0 0 0 2px #fff, inset 0 0 0 4px #1b1a20;
+}
+
+.ld-radio__node[data-checked] svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.ld-radio__node path {
+  fill: #1b1a20;
+}
+
+.ld-radio__node text {
+  font: 900 13px var(--font-cond);
+  fill: #1b1a20;
+  text-anchor: middle;
+}
+
+.ld-radio__node:focus-visible,
+.ld-radio__chev:focus-visible,
+.ld-radio__action:focus-visible,
+.ld-radio__open:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
+/* The strip window shows five 108px tiles on a 124px pitch, x 658–1262. */
+.ld-radio__window {
+  position: absolute;
+  left: 658px;
+  top: 33px;
+  width: 604px;
+  height: 115px;
+  overflow: hidden;
+}
+
+.ld-radio__track {
+  position: absolute;
+  inset: 0;
+}
+
+.ld-radio__tile {
+  position: absolute;
+  left: calc(248px + var(--pos) * 124px);
+  top: 3px;
+  width: 108px;
+  height: 108px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: rgb(30 32 40 / 0.75);
+  box-shadow: inset 0 0 0 1px #ffffff22;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.ld-radio__tile:focus-visible {
+  outline: none;
+}
+
+.ld-radio__art {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.ld-radio__icon {
+  width: 42px;
+  height: 42px;
+  color: #fff;
+}
+
+.ld-radio__tile[data-lit] .ld-radio__icon {
+  color: #7cf27a;
+}
+
+/* Power off: every tile muted, the focused one darker still. Instant, no fade. */
+[data-power="off"] .ld-radio__tile {
+  filter: saturate(0.35) brightness(0.8);
+  opacity: 0.75;
+}
+
+[data-power="off"] .ld-radio__tile[data-pos="0"] {
+  opacity: 0.6;
+}
+
+/* The focus frame never moves; the row slides underneath it. */
+.ld-radio__focus {
+  position: absolute;
+  left: 902px;
+  top: 32px;
+  width: 116px;
+  height: 116px;
+  border: 3px solid #fdfcff;
+  pointer-events: none;
+}
+
+.ld-radio__chev {
+  position: absolute;
+  top: 78px;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  background: none;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.ld-radio__chev[data-side="prev"] {
+  left: 630px;
+}
+
+.ld-radio__chev[data-side="next"] {
+  left: 1266px;
+}
+
+.ld-radio__chev svg {
+  width: 9px;
+  height: 15px;
+  fill: none;
+  stroke: #fff;
+  stroke-width: 2.2;
+}
+
+.ld-radio__actions {
+  position: absolute;
+  left: 1296px;
+  top: 74px;
+  display: grid;
+  row-gap: 10px;
+}
+
+.ld-radio__action {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 32px;
+  padding: 0 4px 0 2px;
+  border: 0;
+  background: none;
+  color: #fff;
+  font: inherit;
+  font-size: 29px;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.ld-radio__action .ld-btnglyph {
+  font-size: 24px;
+}
+
+/* Scrub bar: where you are in the list, not a volume. */
+.ld-radio__scrub {
+  position: absolute;
+  left: 813px;
+  top: 167px;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  gap: 19px;
+}
+
+.ld-radio__track-bar {
+  position: relative;
+  width: 201px;
+  height: 4px;
+  background: rgb(220 222 235 / 0.45);
+}
+
+.ld-radio__track-bar i {
+  position: absolute;
+  top: -1px;
+  --w: max(12px, 100% / var(--n));
+  left: calc(var(--at) * (100% - var(--w)));
+  width: var(--w);
+  height: 6px;
+  background: #fff;
+}
+
+.ld-radio__now {
+  position: absolute;
+  left: 560px;
+  width: 800px;
+  top: 202px;
+  margin: 0;
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  pointer-events: none;
+}
+
+.ld-radio__now b {
+  font-weight: 800;
+  font-size: 34px;
+  line-height: 36px;
+  margin-bottom: 4px;
+}
+
+.ld-radio__now span {
+  font-size: 25px;
+  line-height: 28px;
+  color: #fdfcff;
+}
+
+.ld-radio__now span[data-off] {
+  color: #848386;
+}
+
+/* Open: tiles lead at 33ms, the chrome follows at 133ms. */
+.ld-radio__stage[data-phase="open"] > .ld-menu-ui {
+  animation: none;
+}
+
+.ld-radio__stage[data-phase="open"] > .ld-menu-ui > * {
+  animation: ld-radio-in 67ms ease-out 133ms both;
+}
+
+.ld-radio__stage[data-phase="open"] > .ld-menu-ui > .ld-radio__window {
+  animation-delay: 33ms;
+}
+
+@keyframes ld-radio-in {
+  from {
+    opacity: 0;
+  }
+}
+
+/* On Demand covers: square printed art, one bold mark per show. */
+.ld-radio__cover {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Source change: the strip is empty for ~100ms, then the new tiles fade in over ~150ms. */
+.ld-radio__window[data-switched] .ld-radio__strip {
+  animation: ld-radio-source 250ms ease-out both;
+}
+
+@keyframes ld-radio-source {
+  0%,
+  40% {
+    opacity: 0;
+  }
+}
+
+/* Two prompt rows (PLAY, VIEW EPISODES) sit centred on the strip. */
+[data-source="demand"] .ld-radio__actions {
+  top: 52px;
+}

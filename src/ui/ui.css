@@ -1,0 +1,355 @@
+/* Core kit tokens, measured from GTA VI's pause, settings and map screens (specs/menus/spec.md).
+   Geometry is authored at 1080p menu scale in --vc-u units: 1 unit is 1px of a 1920x1080 frame.
+   The game's menus do not change with the site theme, so the accent stays pink everywhere. */
+:root {
+  --vc-u: 1px;
+
+  --vc-r: 0px;
+  --vc-pink: #ff8ab8;
+  --vc-pink-switch: #fd89b4;
+  --vc-pink-hot: #ff6b9f;
+  --vc-rule: #f9739f;
+  --vc-heading-rule: #d689b8;
+  --vc-thumb: #9d506c;
+  --vc-rest: rgb(255 255 255 / 0.3);
+  --vc-panel: #1f202d;
+  --vc-card: rgb(38 29 47 / 0.92);
+  --vc-ink: #1f202f;
+  --vc-white: #f6f9f6;
+  --vc-text: #f5f2f7;
+  --vc-dim: rgb(245 242 247 / 0.55);
+  --vc-section: #c4b3ca;
+  --vc-hair: rgb(255 255 255 / 0.16);
+  --vc-outline: #28252a;
+
+  /* The selection bar: alpha over the panel, measured at 0 / 45 / 60 / 80 / 100% of its width. */
+  --vc-row: linear-gradient(
+    90deg,
+    rgb(246 249 246 / 1) 0%,
+    rgb(246 249 246 / 0.95) 45%,
+    rgb(246 249 246 / 0.82) 60%,
+    rgb(246 249 246 / 0.55) 80%,
+    rgb(246 249 246 / 0.28) 100%
+  );
+  --vc-row-ink: var(--vc-ink);
+  --vc-hi-bg: var(--vc-row);
+  --vc-hi-ink: var(--vc-ink);
+  --vc-switch: var(--vc-pink-switch);
+  --vc-on: #fff;
+
+  --vc-glass: var(--vc-panel);
+  --vc-glass-line: var(--vc-hair);
+  --vc-glass-2: var(--vc-panel);
+  --vc-pop: var(--vc-panel);
+  --vc-pink-ink: var(--vc-ink);
+  --vc-field: transparent;
+  --vc-field-hover: transparent;
+  --vc-edge: var(--vc-hair);
+  --vc-edge-hover: rgb(255 255 255 / 0.4);
+  --vc-raised: #2a2b3a;
+  --vc-raised-hover: #343546;
+  --vc-muted: rgb(255 255 255 / 0.08);
+  --vc-focus: #fff;
+  --vc-ring: 0 0 0 2px var(--vc-focus);
+  --vc-danger: #ff8f9f;
+  --vc-danger-fill: #ff8f9f;
+  --vc-ok: var(--vc-text);
+  --vc-placeholder: var(--vc-dim);
+  --vc-shadow: 0 12px 24px -12px rgb(0 0 0 / 0.7);
+  --vc-scrim: rgb(15 15 25 / 0.75);
+}
+
+/* A proportional compact menu scale for narrow viewports, or on request. */
+@media (max-width: 760px) {
+  :root {
+    --vc-u: 0.72px;
+  }
+}
+
+[data-density="compact"] {
+  --vc-u: 0.75px;
+}
+
+/* Text-entry surface for inputs, select and combobox triggers. The game has no boxed fields:
+   a value sits on a hairline, and focus is the selection bar. */
+.vc-control {
+  --vc-h: calc(67 * var(--vc-u));
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: calc(10 * var(--vc-u));
+  min-height: var(--vc-h);
+  padding: 0 calc(17 * var(--vc-u));
+  border-radius: 0;
+  background: none;
+  box-shadow: inset 0 -1px 0 var(--vc-hair);
+  color: var(--vc-text);
+  font-family: var(--font-ui);
+  font-size: calc(26 * var(--vc-u));
+  caret-color: var(--vc-pink);
+}
+
+.vc-control:hover:not([data-disabled]),
+.vc-control:focus-within,
+.vc-control[data-open] {
+  background: var(--vc-row);
+  color: var(--vc-ink);
+}
+
+.vc-control:focus-within ::placeholder,
+.vc-control[data-open] ::placeholder,
+.vc-control:hover ::placeholder {
+  color: rgb(31 32 47 / 0.55);
+}
+
+.vc-control:has(:focus-visible),
+.vc-control :focus-visible {
+  outline: none;
+}
+
+.vc-control[data-invalid]:not(.vc-control .vc-control),
+[data-slot="field"][data-invalid] .vc-control:not(.vc-control .vc-control) {
+  box-shadow: inset 0 -2px 0 var(--vc-danger);
+}
+
+.vc-control[data-disabled] {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* Inside a settings row the row is the surface; the control only carries the value. */
+.vc-field[data-layout="row"] .vc-control,
+.vc-field[data-layout="row"] .vc-control:hover,
+.vc-field[data-layout="row"] .vc-control:focus-within,
+.vc-field[data-layout="row"] .vc-control[data-open] {
+  min-height: calc(48 * var(--vc-u));
+  padding: 0;
+  background: none;
+  box-shadow: none;
+  color: inherit;
+}
+
+.vc-field[data-layout="row"] .vc-control {
+  justify-content: flex-end;
+}
+
+.vc-field[data-layout="row"] input.vc-control {
+  text-align: end;
+}
+
+.vc-field[data-layout="row"] .vc-control > [data-slot="select-value"] {
+  flex: 1;
+  min-width: 0;
+  text-align: end;
+}
+
+.vc-field[data-layout="row"] .vc-control input {
+  flex: 0 1 auto;
+  width: auto;
+  min-width: 6ch;
+  max-width: 100%;
+  field-sizing: content;
+  text-align: end;
+}
+
+[data-slot="field"][data-layout="row"] .vc-control:not(.vc-control .vc-control),
+[data-slot="field"][data-layout="row"][data-invalid] .vc-control:not(.vc-control .vc-control) {
+  box-shadow: none;
+}
+
+.vc-field[data-layout="row"]:is(:hover, :focus-within, :has([data-open])) .vc-control ::placeholder,
+.vc-field[data-layout="row"]:is(:hover, :focus-within, :has([data-open])) .vc-select[data-placeholder] .vc-select__value {
+  color: rgb(31 32 47 / 0.55);
+}
+
+.vc-field[data-layout="row"]:is(:hover, :focus-within, :has([data-open])) .vc-affix,
+.vc-field[data-layout="row"]:is(:hover, :focus-within, :has([data-open])) .vc-chevron {
+  color: inherit;
+}
+
+.vc-control input,
+.vc-control textarea {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  outline: none;
+}
+
+.vc-control ::placeholder {
+  color: var(--vc-placeholder);
+  opacity: 1;
+}
+
+.vc-control[data-size="sm"] {
+  --vc-h: calc(52 * var(--vc-u));
+  font-size: calc(22 * var(--vc-u));
+}
+
+.vc-control[data-size="lg"] {
+  --vc-h: calc(72 * var(--vc-u));
+}
+
+.vc-affix {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+  color: inherit;
+  opacity: 0.6;
+  font-family: var(--font-ui);
+  font-size: inherit;
+}
+
+/* Popup surface: the pause panel's flat #1f202d, square, fading in like the menus (opacity only). */
+.vc-pop {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: var(--vc-panel);
+  box-shadow: var(--vc-shadow);
+  color: var(--vc-text);
+  transform-origin: var(--transform-origin);
+  transition: opacity 67ms linear;
+}
+
+.vc-pop[data-starting-style],
+.vc-pop[data-ending-style] {
+  opacity: 0;
+}
+
+/* A list row, on the map legend's 64px pitch. Focus snaps the bar in one frame: no transition. */
+.vc-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: calc(12 * var(--vc-u));
+  min-height: calc(64 * var(--vc-u));
+  padding: 0 calc(17 * var(--vc-u));
+  border-radius: 0;
+  color: var(--vc-text);
+  font-family: var(--font-ui);
+  font-size: calc(26 * var(--vc-u));
+  cursor: pointer;
+  user-select: none;
+  outline: none;
+}
+
+.vc-row + .vc-row {
+  box-shadow: inset 0 1px 0 var(--vc-hair);
+}
+
+.vc-row:focus-visible {
+  outline: none;
+}
+
+.vc-row[data-highlighted] {
+  background: var(--vc-row);
+  color: var(--vc-ink);
+}
+
+.vc-row[data-disabled] {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.vc-row mark {
+  background: none;
+  color: var(--vc-pink);
+}
+
+.vc-row[data-highlighted] mark {
+  color: inherit;
+  font-weight: 700;
+}
+
+.vc-row__check {
+  margin-inline-start: auto;
+  display: grid;
+  place-items: center;
+  color: var(--vc-pink);
+}
+
+.vc-row[data-highlighted] .vc-row__check {
+  color: inherit;
+}
+
+.vc-empty {
+  padding: calc(20 * var(--vc-u)) calc(17 * var(--vc-u));
+  color: var(--vc-dim);
+  font-size: calc(24 * var(--vc-u));
+}
+
+.vc-empty:not([data-empty]):not([data-loading]) {
+  display: none;
+}
+
+.vc-group-label {
+  padding: calc(14 * var(--vc-u)) calc(17 * var(--vc-u)) calc(6 * var(--vc-u));
+  font-family: var(--font-cond);
+  font-weight: 700;
+  font-size: calc(26 * var(--vc-u));
+  text-transform: uppercase;
+  color: var(--vc-section);
+}
+
+.vc-chevron {
+  flex: none;
+  width: calc(20 * var(--vc-u));
+  height: calc(20 * var(--vc-u));
+  color: inherit;
+  opacity: 0.8;
+}
+
+[data-open] > .vc-chevron,
+[data-open] .vc-chevron {
+  rotate: 180deg;
+}
+
+/* Screens assemble as a cascade: each row fades in, 33ms apart, opacity only. */
+@keyframes vc-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+.vc-stagger > * {
+  animation: vc-fade 67ms linear both;
+}
+.vc-stagger > :nth-child(2) { animation-delay: 33ms; }
+.vc-stagger > :nth-child(3) { animation-delay: 66ms; }
+.vc-stagger > :nth-child(4) { animation-delay: 99ms; }
+.vc-stagger > :nth-child(5) { animation-delay: 132ms; }
+.vc-stagger > :nth-child(6) { animation-delay: 165ms; }
+.vc-stagger > :nth-child(7) { animation-delay: 198ms; }
+.vc-stagger > :nth-child(8) { animation-delay: 231ms; }
+.vc-stagger > :nth-child(n + 9) { animation-delay: 264ms; }
+
+@keyframes vc-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Menu text is the regular cut; display headings set their own weight. */
+:is(.vc-list, .vc-field, .vc-switch-row, .vc-control, .vc-row, .vc-cycle, .vc-slider, .vc-radios, .vc-choice, .vc-menu, .vc-pop,
+  .vc-card, .vc-alert, .vc-popover, .vc-hovercard, .vc-tooltip, .vc-dialog, .vc-sheet, .vc-accordion, .vc-cal, .vc-otp,
+  .vc-number, .vc-scroll, .vc-context-area) {
+  font-weight: 400;
+}
+
+/* GTA Art Deco carries a tall ascender, so untrimmed text rides high in a row. Trimming to cap
+   height and baseline centres the caps the way the menus do. */
+:is(.vc-label, .vc-cycle__value, .vc-cycle__count, .vc-switch-row__label, .vc-switch-row__state, .vc-slider__value,
+  .vc-menu__text, .vc-row__text, .vc-accordion__label, .vc-btn__label, .vc-tabs__tab, .vc-segments__item, .vc-toggle,
+  .vc-prompt, .vc-prompt-btn, .vc-chip, .vc-badge, .vc-radio-item__label, .vc-choice__label, .vc-list__title,
+  .vc-collapsible__trigger, .vc-bumper, .vc-kbd) {
+  text-box: trim-both cap alphabetic;
+}

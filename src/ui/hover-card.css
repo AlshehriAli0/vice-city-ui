@@ -1,0 +1,24 @@
+.vc-hovercard-trigger {
+  color: var(--vc-pink);
+  text-decoration: none;
+}
+
+.vc-hovercard-trigger:hover,
+.vc-hovercard-trigger[data-open] {
+  text-decoration: underline 1px;
+  text-underline-offset: 4px;
+}
+
+.vc-hovercard-trigger:focus-visible {
+  outline: 2px solid var(--vc-focus);
+  outline-offset: 2px;
+}
+
+/* Same as the map's hover info card. */
+.vc-hovercard {
+  width: min(calc(535 * var(--vc-u)), calc(100vw - 24px));
+  padding: calc(16 * var(--vc-u)) calc(19 * var(--vc-u)) calc(18 * var(--vc-u));
+  border-top: calc(3 * var(--vc-u)) solid var(--vc-rule);
+  background: var(--vc-card);
+  overflow: visible;
+}

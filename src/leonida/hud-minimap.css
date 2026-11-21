@@ -1,0 +1,285 @@
+/* Minimap, 1080p: 302×168 at x32 y884, radius 14, a light hairline, no shadow. */
+.ld-minimap {
+  --land: #889888;
+  --block: #8e9d8e;
+  --street: #a7a3a1;
+  --road: #b0a8a8;
+  --water: #386070;
+  --rim: rgb(238 232 220 / 0.55);
+  --route: #f888b0;
+  position: relative;
+  width: calc(302 * var(--u, 1px));
+  height: calc(168 * var(--u, 1px));
+  margin: 0;
+}
+
+[data-theme="night"] .ld-minimap,
+.ld-minimap[data-time="night"] {
+  --land: #12131a;
+  --block: #121319;
+  --street: #2c2f3c;
+  --road: #4a4d5a;
+  --water: #0d1a26;
+  --rim: #5c5c62;
+}
+
+.ld-minimap__view {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: calc(14 * var(--u, 1px));
+  background: var(--land);
+  isolation: isolate;
+}
+
+.ld-minimap__view::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(rgb(255 255 255 / 0.07), transparent 55%);
+  transition: background-color 300ms ease-out;
+  box-shadow: inset 0 0 0 calc(1.5 * var(--u, 1px)) var(--rim);
+}
+
+/* The world plane is tilted back like a 3D map seen from behind the player, then turned heading-up. */
+.ld-minimap__tilt {
+  position: absolute;
+  inset: 0;
+  perspective: calc(200 * var(--u, 1px));
+  perspective-origin: 50% -60%;
+}
+
+.ld-minimap__world {
+  position: absolute;
+  left: calc((151 - 1000) * var(--u, 1px));
+  top: calc((131 - 1000) * var(--u, 1px));
+  width: calc(2000 * var(--u, 1px));
+  height: calc(2000 * var(--u, 1px));
+  transform-origin: calc(1000 * var(--u, 1px)) calc(1000 * var(--u, 1px));
+  transform: rotateX(67deg) scale(0.5) rotateZ(calc(-1 * var(--heading, 0deg)));
+  transition: transform 300ms ease-out;
+}
+
+.ld-minimap__land {
+  fill: var(--land);
+}
+
+.ld-minimap__water {
+  fill: var(--water);
+}
+
+.ld-minimap__block {
+  fill: var(--block);
+}
+
+.ld-minimap__street {
+  fill: var(--street);
+}
+
+.ld-minimap__roads {
+  fill: none;
+  stroke: var(--road);
+  stroke-width: 30;
+}
+
+.ld-minimap__stop {
+  stop-color: var(--route);
+}
+
+.ld-minimap__route {
+  display: none;
+  fill: none;
+  color: var(--route);
+  stroke-width: 44;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 5px currentColor);
+}
+
+.ld-minimap__route-core {
+  stroke: #f8b0d0;
+  stroke-width: 12;
+  opacity: 0.3;
+}
+
+.ld-minimap[data-route="mission"] .ld-minimap__route {
+  display: inline;
+}
+
+.ld-minimap[data-route="waypoint"] {
+  --route: #00d8d8;
+}
+
+.ld-minimap[data-route="waypoint"] .ld-minimap__route {
+  display: inline;
+}
+
+/* Wanted: a whole-map wash multiplied over the detail. Over the day blocks these give the sampled #104088 (seen) and #803838 (search area); roads stay lighter. */
+.ld-minimap__wash {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background: #1d68f4;
+  mix-blend-mode: multiply;
+  transition:
+    opacity 300ms ease-out,
+    background-color 300ms ease-out;
+}
+
+.ld-minimap[data-wash="seen"] .ld-minimap__wash {
+  opacity: 1;
+}
+
+.ld-minimap[data-wash="search"] .ld-minimap__wash {
+  opacity: 1;
+  background: #e65b65;
+}
+
+.ld-minimap__distance {
+  position: absolute;
+  top: calc(9 * var(--u, 1px));
+  left: calc(8 * var(--u, 1px));
+  font-size: calc(18 * var(--u, 1px));
+  line-height: 1;
+  color: #f8f8f8;
+  text-shadow: 0 0 calc(4 * var(--u, 1px)) rgb(0 0 0 / 0.7);
+}
+
+.ld-minimap__player {
+  position: absolute;
+  left: calc((151 - 9) * var(--u, 1px));
+  top: calc((131 - 9) * var(--u, 1px));
+  display: grid;
+  place-items: center;
+  width: calc(18 * var(--u, 1px));
+  height: calc(18 * var(--u, 1px));
+  border-radius: 50%;
+  background: #111;
+  box-shadow: 0 0 0 calc(1 * var(--u, 1px)) rgb(255 255 255 / 0.25);
+  color: #fff;
+}
+
+.ld-minimap__player svg {
+  width: calc(11 * var(--u, 1px));
+  height: calc(11 * var(--u, 1px));
+}
+
+/* N and blips sit on the rim at the bearing they lie in (--x/--y from the player ray). */
+.ld-minimap__north,
+.ld-minimap__blip {
+  position: absolute;
+  left: calc(var(--x) * var(--u, 1px));
+  top: calc(var(--y) * var(--u, 1px));
+  translate: -50% -50%;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+}
+
+.ld-minimap__north {
+  width: calc(16 * var(--u, 1px));
+  height: calc(16 * var(--u, 1px));
+  background: #111;
+  color: #fff;
+  font-family: var(--font-ui);
+  font-weight: 700;
+  font-size: calc(10 * var(--u, 1px));
+  line-height: 1;
+}
+
+.ld-minimap__blip {
+  width: calc(24 * var(--u, 1px));
+  height: calc(24 * var(--u, 1px));
+  background: #f880b0;
+  box-shadow: 0 0 0 calc(2 * var(--u, 1px)) #1a1418;
+  color: #111;
+}
+
+.ld-minimap__blip[data-kind="destination"] {
+  width: calc(10 * var(--u, 1px));
+  height: calc(10 * var(--u, 1px));
+  background: #f888b0;
+  box-shadow: none;
+}
+
+.ld-minimap__blip[data-kind="vehicle"] {
+  background: #1a1418;
+  box-shadow:
+    0 0 0 calc(2 * var(--u, 1px)) #00d8d8,
+    0 0 0 calc(5 * var(--u, 1px)) rgb(0 216 216 / 0.35);
+  color: #00d8d8;
+}
+
+.ld-minimap__blip svg {
+  width: calc(15 * var(--u, 1px));
+  height: calc(15 * var(--u, 1px));
+}
+
+.ld-minimap__sign {
+  font-family: "Black Han Sans", var(--font-cond);
+  font-size: calc(16 * var(--u, 1px));
+  line-height: 1;
+}
+
+/* GPS turn card, 305×63 at x30 y815: navy text block, route-coloured badge. */
+.ld-turn {
+  display: flex;
+  width: calc(305 * var(--u, 1px));
+  height: calc(63 * var(--u, 1px));
+  overflow: hidden;
+  border-radius: calc(8 * var(--u, 1px));
+  animation: ld-turn-in 150ms linear both;
+}
+
+.ld-turn__text {
+  flex: 1;
+  display: grid;
+  align-content: center;
+  margin: 0;
+  padding-left: calc(16 * var(--u, 1px));
+  background: rgb(16 16 32 / 0.9);
+  color: #fff;
+  font-size: calc(22 * var(--u, 1px));
+  line-height: calc(26 * var(--u, 1px));
+}
+
+.ld-turn__text b {
+  font-weight: 700;
+  font-size: calc(23 * var(--u, 1px));
+}
+
+.ld-turn__badge {
+  display: grid;
+  place-items: center;
+  width: calc(66 * var(--u, 1px));
+  background: #f880b0;
+  color: #111;
+}
+
+.ld-turn[data-tone="waypoint"] .ld-turn__badge {
+  background: #00d8d8;
+}
+
+.ld-turn__badge svg {
+  width: calc(40 * var(--u, 1px));
+  height: calc(40 * var(--u, 1px));
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 3.8;
+  stroke-linejoin: miter;
+}
+
+.ld-turn__badge svg[data-turn="left"] {
+  scale: -1 1;
+}
+
+@keyframes ld-turn-in {
+  from {
+    opacity: 0;
+  }
+}
+
+.ld-minimap:not([data-wash="none"]) .ld-minimap__view::after {
+  background: none;
+}

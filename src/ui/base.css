@@ -1,0 +1,31 @@
+/* Kit-wide surfaces. Tokens live in ui.css; this file adds the shared popup panel and helpers. */
+@import "./ui.css";
+
+.vc-surface {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  background: var(--vc-panel);
+  color: var(--vc-text);
+  border-radius: 0;
+  box-shadow: var(--vc-shadow);
+  outline: none;
+  transform-origin: var(--transform-origin);
+  transition: opacity 67ms linear;
+}
+
+.vc-surface[data-starting-style],
+.vc-surface[data-ending-style] {
+  opacity: 0;
+}
+
+.vc-caps {
+  font-family: var(--font-cond);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.vc-focus:focus-visible {
+  outline: none;
+  box-shadow: var(--vc-ring);
+}

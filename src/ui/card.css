@@ -1,0 +1,105 @@
+/* The map's info and mission cards: a 3px #f9739f top rule over a #261d2f body at 92%, no border,
+   square corners. Title in 34px display caps, body in the 26px text face. */
+.vc-card {
+  --pad: calc(19 * var(--vc-u));
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  border-radius: 0;
+  background: var(--vc-card);
+  border-top: calc(3 * var(--vc-u)) solid var(--vc-rule);
+  color: var(--vc-text);
+  overflow: hidden;
+}
+
+.vc-card[data-variant="solid"] {
+  background: #261d2f;
+}
+
+/* Selected: the PROGRESS tile's 3px light outline. */
+.vc-card[data-variant="sticker"] {
+  outline: calc(3 * var(--vc-u)) solid #ffedff;
+  outline-offset: calc(-3 * var(--vc-u));
+}
+
+.vc-card[data-interactive] {
+  cursor: pointer;
+}
+
+.vc-card[data-interactive]:hover,
+.vc-card:has(:focus-visible) {
+  outline: calc(3 * var(--vc-u)) solid #ffedff;
+  outline-offset: calc(-3 * var(--vc-u));
+}
+
+.vc-card__media {
+  position: relative;
+  aspect-ratio: var(--card-media-ratio, 16 / 9);
+  overflow: hidden;
+  background: #1e1d29;
+}
+
+.vc-card__media img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--card-media-focus, 50% 50%);
+}
+
+.vc-card__media > :not(img) {
+  position: absolute;
+  z-index: 1;
+}
+
+.vc-card__header {
+  display: grid;
+  gap: calc(6 * var(--vc-u));
+  padding: calc(16 * var(--vc-u)) var(--pad) 0;
+}
+
+.vc-card__eyebrow {
+  margin: 0;
+  font-family: var(--font-cond);
+  font-weight: 700;
+  font-size: calc(22 * var(--vc-u));
+  text-transform: uppercase;
+  color: var(--vc-pink);
+}
+
+.vc-card__title {
+  margin: 0;
+  font-family: var(--font-cond);
+  font-weight: 700;
+  font-size: calc(34 * var(--vc-u));
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--vc-text);
+}
+
+.vc-card__description {
+  margin: 0;
+  font-size: calc(24 * var(--vc-u));
+  line-height: 1.35;
+  color: var(--vc-text);
+}
+
+.vc-card__body {
+  padding: calc(14 * var(--vc-u)) var(--pad);
+  font-size: calc(24 * var(--vc-u));
+  line-height: 1.4;
+}
+
+.vc-card__header:last-child {
+  padding-bottom: calc(18 * var(--vc-u));
+}
+
+.vc-card__footer {
+  display: flex;
+  align-items: center;
+  gap: calc(14 * var(--vc-u));
+  margin-top: auto;
+  padding: calc(14 * var(--vc-u)) var(--pad) calc(16 * var(--vc-u));
+}

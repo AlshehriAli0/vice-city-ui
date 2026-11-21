@@ -1,0 +1,29 @@
+/* Sunset sky sampled from the VI mark and mapped onto the capitals (23-77% of the line box), a sun along the
+   bottom, and palms (scripts/gen-palms.py) that the sun washes out toward the baseline. */
+.vc-vice-text {
+  --vice-sky: linear-gradient(180deg, #3061d3 24%, #4641c0 29%, #6f3ec1 33%, #a140c1 37%, #ce3bc2 41%, #f04a9c 50%, #ff6b83 58%, #ff8686 62%, #ff8d71 66%, #ff8e5c 70%, #ff934c 74%, #ffb45a 78%);
+  --vice-sun: radial-gradient(55% 26% at 50% 80%, rgb(255 226 150 / 0.6), transparent 72%),
+    linear-gradient(180deg, transparent 66%, rgb(255 206 120 / 0.45) 78%);
+  position: relative;
+  display: inline-block;
+  font-family: var(--font-cond);
+  font-weight: 900;
+  line-height: 0.9;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+  filter: var(--vice-edge);
+}
+
+[data-slot="vice-text-fill"] {
+  background: url("/textures/palms.svg") 46% 22% / auto 165%, var(--vice-sun), var(--vice-sky);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+[data-slot="vice-text-defs"] {
+  position: absolute;
+}

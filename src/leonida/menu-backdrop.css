@@ -1,0 +1,165 @@
+/* 1080p canvas: every game overlay is laid out in 1920x1080 pixels and scaled by --k to fit. */
+.ld-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  container-type: size;
+  background: #0c0b12;
+  color: #fff;
+  isolation: isolate;
+}
+
+.ld-frame__canvas {
+  --u: 1px;
+  --k: min(100cqw / 1920px, 100cqh / 1080px);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 1920px;
+  height: 1080px;
+  translate: -50% -50%;
+  scale: var(--k);
+  overflow: hidden;
+}
+
+/* Neutral stage: the site's dusk gradient under a dark vignette, with soft light pools. No shapes, no photography. */
+.ld-scene {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background:
+    radial-gradient(28% 34% at 22% 38%, rgb(255 214 196 / 0.34), transparent 70%),
+    radial-gradient(24% 30% at 74% 34%, rgb(176 214 228 / 0.28), transparent 70%),
+    radial-gradient(40% 22% at 52% 58%, rgb(246 100 131 / 0.16), transparent 70%),
+    radial-gradient(120% 90% at 50% 40%, #2a2740 0%, #18151f 58%, #0b0a12 100%);
+}
+
+.ld-scene[data-tone="day"] {
+  background:
+    radial-gradient(30% 36% at 24% 36%, rgb(255 236 214 / 0.55), transparent 70%),
+    radial-gradient(26% 32% at 72% 30%, rgb(190 226 240 / 0.5), transparent 70%),
+    radial-gradient(50% 26% at 50% 62%, rgb(150 140 160 / 0.4), transparent 72%),
+    radial-gradient(120% 90% at 50% 40%, #4a4558 0%, #26232f 58%, #0e0d14 100%);
+}
+
+/* Shared menu post-effect. Open is a hard cut; close relaxes the blur after the UI has gone. */
+.ld-backdrop {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.ld-backdrop__defs {
+  position: absolute;
+}
+
+.ld-backdrop__sharp,
+.ld-backdrop__fx,
+.ld-backdrop__blur {
+  position: absolute;
+  inset: 0;
+}
+
+.ld-backdrop__fx {
+  filter: url(#ld-menu-shift) brightness(0.8);
+  opacity: 0;
+}
+
+.ld-backdrop__blur {
+  inset: -60px;
+  filter: blur(18px);
+}
+
+.ld-backdrop__blur > * {
+  inset: 60px;
+}
+
+.ld-backdrop__shade {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 72% 72% at 50% 48%, rgb(0 0 0 / 0) 45%, rgb(0 0 0 / 0.45) 100%);
+  opacity: 0;
+}
+
+.ld-backdrop:is([data-phase="open"], [data-phase="closing"]) .ld-backdrop__fx,
+.ld-backdrop:is([data-phase="open"], [data-phase="closing"]) .ld-backdrop__shade {
+  opacity: 1;
+}
+
+.ld-backdrop[data-phase="closing"] .ld-backdrop__fx,
+.ld-backdrop[data-phase="closing"] .ld-backdrop__shade {
+  animation: ld-backdrop-out 370ms cubic-bezier(0.55, 0, 0.9, 0.4) 130ms both;
+}
+
+.ld-backdrop[data-phase="closing"] .ld-backdrop__blur {
+  animation: ld-blur-out 370ms cubic-bezier(0.55, 0, 0.9, 0.4) 130ms both;
+}
+
+@keyframes ld-backdrop-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes ld-blur-out {
+  from {
+    filter: blur(18px);
+  }
+  to {
+    filter: blur(0);
+  }
+}
+
+/* UI over the backdrop: fades in after the cut, out before the blur clears. */
+.ld-menu-ui {
+  position: absolute;
+  inset: 0;
+}
+
+[data-phase="open"] > .ld-menu-ui {
+  animation: ld-ui-in 100ms cubic-bezier(0.2, 0.7, 0.3, 1) 100ms both;
+}
+
+[data-phase="closing"] > .ld-menu-ui {
+  animation: ld-ui-out 130ms linear both;
+  pointer-events: none;
+}
+
+@keyframes ld-ui-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes ld-ui-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ld-backdrop[data-phase="closing"] .ld-backdrop__blur {
+    animation: none;
+  }
+
+  .ld-backdrop[data-phase="closing"] .ld-backdrop__fx,
+  .ld-backdrop[data-phase="closing"] .ld-backdrop__shade {
+    animation: ld-backdrop-out 150ms linear both;
+  }
+}
+
+.ld-keycap {
+  display: inline-grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 0 2px #1a1a1a;
+  color: #000;
+  font-family: var(--font-cond);
+  font-weight: 800;
+  font-size: 15px;
+  line-height: 1;
+}

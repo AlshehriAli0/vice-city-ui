@@ -1,0 +1,55 @@
+.vc-number {
+  display: block;
+}
+
+.vc-number__group {
+  padding: 0 calc(6 * var(--vc-u));
+}
+
+.vc-number__input {
+  flex: 1;
+  width: 0;
+  min-width: 0;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  text-align: center;
+  font-family: var(--font-ui);
+  font-size: inherit;
+  font-variant-numeric: tabular-nums;
+  outline: none;
+}
+
+/* Steppers are bare glyphs, like the cycle row's chevrons. */
+.vc-number__step {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: calc(36 * var(--vc-u));
+  height: calc(36 * var(--vc-u));
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.vc-number__step svg {
+  width: calc(20 * var(--vc-u));
+  height: calc(20 * var(--vc-u));
+}
+
+.vc-number__step:focus-visible {
+  outline: 2px solid currentColor;
+}
+
+.vc-number__step[data-disabled] {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.vc-field[data-layout="row"] .vc-number {
+  width: calc(200 * var(--vc-u));
+}

@@ -1,0 +1,190 @@
+/* The game's menu button: flat, condensed caps, square corners. */
+.ld-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: 2px;
+  background: none;
+  color: var(--text);
+  font-family: var(--font-cond);
+  font-weight: 700;
+  font-size: 17px;
+  letter-spacing: 0;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color var(--dur-fast) var(--ease),
+    color var(--dur-fast) var(--ease),
+    box-shadow var(--dur-fast) var(--ease);
+}
+
+.ld-btn[data-size="sm"] {
+  height: 32px;
+  padding: 0 12px;
+  font-size: 15px;
+}
+
+.ld-btn[data-size="lg"] {
+  height: 48px;
+  padding: 0 26px;
+  font-size: 20px;
+}
+
+.ld-btn:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 2px;
+}
+
+/* Primary: a white slab with slate text, like the active settings tab. */
+.ld-btn[data-variant="sunset"] {
+  background: var(--text);
+  color: var(--bg);
+}
+
+.ld-btn[data-variant="sunset"]:hover:not([data-disabled]) {
+  background: color-mix(in srgb, var(--text) 86%, transparent);
+}
+
+.ld-btn[data-variant="neon"] {
+  box-shadow: inset 0 0 0 1.5px var(--line-strong);
+}
+
+.ld-btn[data-variant="neon"]:hover:not([data-disabled]) {
+  box-shadow: inset 0 0 0 1.5px var(--text);
+}
+
+/* Ghost takes the white bar that fades right on hover and focus. */
+.ld-btn[data-variant="ghost"]:hover:not([data-disabled]),
+.ld-btn[data-variant="ghost"]:focus-visible {
+  background: var(--sel);
+  color: var(--sel-ink);
+  outline: none;
+}
+
+/* Row: the pause menu row at 1080p. 480x64, square, label at 26px; the smear bar is solid to 45% and
+   falls to 28% at the right edge. data-active marks the resting selection; focus moves the bar instantly. */
+.ld-btn[data-variant="row"] {
+  --bar: 225 228 227;
+  justify-content: flex-start;
+  gap: 12px;
+  width: 480px;
+  height: 64px;
+  padding: 0 0 0 18px;
+  border-radius: 0;
+  color: #e6e6ea;
+  font-family: var(--font-ui);
+  font-weight: 400;
+  font-size: 26px;
+  text-transform: none;
+  transition: none;
+}
+
+.ld-btn[data-variant="row"][data-active],
+.ld-btn[data-variant="row"]:hover:not([data-disabled]),
+.ld-btn[data-variant="row"]:focus-visible {
+  background: linear-gradient(90deg, rgb(var(--bar)) 0%, rgb(var(--bar) / 0.95) 45%, rgb(var(--bar) / 0.82) 58%, rgb(var(--bar) / 0.55) 78%, rgb(var(--bar) / 0.28) 100%);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.3);
+  color: #1f202f;
+  outline: none;
+}
+
+:where(:hover, :focus-within) > .ld-btn[data-variant="row"][data-active]:not(:hover, :focus-visible) {
+  background: none;
+  box-shadow: none;
+  color: #e6e6ea;
+}
+
+.ld-btn__icon {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+}
+
+.ld-btn__icon svg {
+  width: 28px;
+  height: 28px;
+}
+
+/* The glyph fills; inner strokes knock out to the bar colour. */
+.ld-btn[data-variant="row"]:is([data-active], :hover, :focus-visible) .ld-btn__icon svg > :first-child {
+  fill: currentColor;
+}
+
+.ld-btn[data-variant="row"]:is([data-active], :hover, :focus-visible) .ld-btn__icon svg > :not(:first-child) {
+  fill: rgb(var(--bar));
+  stroke: rgb(var(--bar));
+}
+
+:where(:hover, :focus-within) > .ld-btn[data-variant="row"][data-active]:not(:hover, :focus-visible) .ld-btn__icon svg > * {
+  fill: none;
+  stroke: currentColor;
+}
+
+/* Action: the pause menu's right column. Right-aligned 26px text, 62px pitch, hairlines fading in from the left. */
+.ld-btn[data-variant="action"] {
+  --bar: 225 228 227;
+  justify-content: flex-end;
+  width: 448px;
+  height: 62px;
+  padding: 0 24px 0 0;
+  border-bottom: 1px solid transparent;
+  border-image: linear-gradient(90deg, transparent, #464755 30%) 1;
+  border-radius: 0;
+  color: #e6e6ea;
+  font-family: var(--font-ui);
+  font-weight: 400;
+  font-size: 26px;
+  text-transform: none;
+  transition: none;
+}
+
+.ld-btn[data-variant="action"]:hover:not([data-disabled]),
+.ld-btn[data-variant="action"]:focus-visible {
+  background: linear-gradient(270deg, rgb(var(--bar)) 0%, rgb(var(--bar) / 0.95) 45%, rgb(var(--bar) / 0.55) 78%, rgb(var(--bar) / 0.28) 100%);
+  color: #1f202f;
+  outline: none;
+}
+
+/* Red isn't part of the game's menus; danger reads as an outline. */
+.ld-btn[data-variant="danger"] {
+  background: transparent;
+  color: var(--text);
+  box-shadow: inset 0 0 0 1.5px var(--line-strong);
+}
+
+.ld-btn[data-variant="danger"]:hover:not([data-disabled]) {
+  box-shadow: inset 0 0 0 1.5px var(--text);
+}
+
+.ld-btn[data-disabled] {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.ld-btn[data-pending] {
+  cursor: progress;
+}
+
+.ld-btn[data-pending]::after {
+  content: "";
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  animation: ld-spin 0.7s linear infinite;
+}
+
+@keyframes ld-spin {
+  to {
+    rotate: 360deg;
+  }
+}

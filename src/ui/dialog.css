@@ -1,0 +1,96 @@
+/* The pause screen's world: a hard cut to a blurred, dimmed, vignetted backdrop. */
+.vc-dialog__backdrop,
+.vc-sheet__backdrop {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 45%, rgb(15 15 25 / 0.35) 40%, rgb(15 15 25 / 0.8) 100%);
+  -webkit-backdrop-filter: blur(48px) saturate(0.85);
+  backdrop-filter: blur(48px) saturate(0.85);
+}
+
+.vc-dialog__backdrop[data-ending-style] {
+  opacity: 0;
+  transition: opacity 130ms linear;
+}
+
+/* A settings-style panel: flat #1f202d, a display heading over the pink heading rule, body in the
+   text face, prompts bottom-right. It fades up over 300ms ease-out, then its parts cascade in. */
+.vc-dialog {
+  position: fixed;
+  inset: 0;
+  width: min(calc(760 * var(--vc-u)), calc(100vw - 32px));
+  height: fit-content;
+  max-height: calc(100dvh - 48px);
+  margin: auto;
+  overflow: auto;
+  background: var(--vc-panel);
+  box-shadow: none;
+  transition: opacity 300ms ease-out;
+}
+
+.vc-dialog::backdrop {
+  background: transparent;
+}
+
+.vc-dialog[data-size="sm"] {
+  width: min(calc(560 * var(--vc-u)), calc(100vw - 32px));
+}
+
+.vc-dialog[data-size="lg"] {
+  width: min(calc(960 * var(--vc-u)), calc(100vw - 32px));
+}
+
+.vc-dialog[data-starting-style] {
+  opacity: 0;
+}
+
+.vc-dialog[data-ending-style] {
+  opacity: 0;
+  transition-duration: 130ms;
+  transition-timing-function: linear;
+}
+
+.vc-dialog__body {
+  display: grid;
+  gap: calc(16 * var(--vc-u));
+  padding: calc(32 * var(--vc-u)) calc(34 * var(--vc-u)) calc(24 * var(--vc-u));
+}
+
+.vc-dialog__body > * {
+  animation: vc-fade 100ms linear 200ms both;
+}
+
+.vc-dialog__body > :nth-child(2) { animation-delay: 233ms; }
+.vc-dialog__body > :nth-child(3) { animation-delay: 266ms; }
+.vc-dialog__body > :nth-child(n + 4) { animation-delay: 300ms; }
+
+.vc-dialog__title,
+.vc-sheet__title {
+  margin: 0;
+  padding-bottom: calc(18 * var(--vc-u));
+  background: linear-gradient(90deg, var(--vc-heading-rule) 58%, transparent) bottom / 100% calc(2 * var(--vc-u)) no-repeat;
+  font-family: var(--font-cond);
+  font-weight: 700;
+  font-size: calc(36 * var(--vc-u));
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--vc-text);
+}
+
+.vc-dialog__description,
+.vc-sheet__description {
+  margin: 0;
+  font-size: calc(26 * var(--vc-u));
+  line-height: calc(36 * var(--vc-u));
+  color: var(--vc-text);
+}
+
+.vc-dialog__footer,
+.vc-sheet__footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0 calc(18 * var(--vc-u));
+  margin-top: calc(16 * var(--vc-u));
+}

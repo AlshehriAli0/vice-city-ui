@@ -1,0 +1,150 @@
+/* In-game UI language shared by the overlay and Leonida components. See DESIGN.md. */
+:root,
+[data-theme="sunset"],
+[data-theme="night"] {
+  --g-panel: rgb(29 27 46 / 0.88);
+  --g-panel-solid: #1d1b2e;
+  --g-line: rgb(255 255 255 / 0.14);
+  --g-ink: #fff;
+  --g-ink-2: rgb(255 255 255 / 0.72);
+  --g-ink-3: rgb(255 255 255 / 0.5);
+  --g-sel: linear-gradient(90deg, #fff 0 55%, rgb(255 255 255 / 0.35) 85%, rgb(255 255 255 / 0.12));
+  --g-sel-ink: #16141f;
+  --g-accent: #f976b0;
+  --g-accent-ink: #2a0d1c;
+}
+
+[data-theme="night"] {
+  --g-accent: #89f5e3;
+  --g-accent-ink: #062520;
+}
+
+/* A flat in-game button: slate, condensed caps, white fade bar on hover and focus. */
+.g-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 42px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: 2px;
+  background: var(--g-panel);
+  box-shadow: inset 0 0 0 1px var(--g-line);
+  color: var(--g-ink);
+  font-family: var(--font-cond);
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    background 140ms ease-out,
+    color 140ms ease-out;
+}
+
+.g-btn:hover,
+.g-btn:focus-visible,
+.g-btn[data-open],
+.g-btn[data-popup-open] {
+  background: var(--g-sel);
+  color: var(--g-sel-ink);
+  outline: none;
+}
+
+.g-btn:focus-visible {
+  box-shadow:
+    inset 0 0 0 1px var(--g-line),
+    0 0 0 2px var(--g-ink);
+}
+
+.g-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+@keyframes g-spin {
+  to {
+    rotate: 360deg;
+  }
+}
+
+.g-heart {
+  display: inline-block;
+  width: 0.9em;
+  height: 0.9em;
+  vertical-align: -0.1em;
+  fill: currentColor;
+}
+
+/* Controller glyph in a 1.5px circle, for prompt rows like "SELECT ⓧ  BACK ○". */
+.g-glyph {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid currentColor;
+  border-radius: 50%;
+  vertical-align: -3px;
+}
+
+.g-glyph::after {
+  content: "";
+  width: 7px;
+  height: 7px;
+  box-shadow: inset 0 0 0 1.5px currentColor;
+}
+
+.g-glyph[data-glyph="cross"]::after {
+  box-shadow: none;
+  background: currentColor;
+  clip-path: polygon(18% 0, 50% 32%, 82% 0, 100% 18%, 68% 50%, 100% 82%, 82% 100%, 50% 68%, 18% 100%, 0 82%, 32% 50%, 0 18%);
+}
+
+.g-glyph[data-glyph="circle"]::after {
+  border-radius: 50%;
+}
+
+.g-glyph[data-glyph="triangle"]::after {
+  box-shadow: none;
+  width: 8px;
+  height: 7px;
+  background: currentColor;
+  clip-path: polygon(50% 0, 100% 100%, 0 100%, 50% 18%, 18% 82%, 82% 82%, 50% 18%);
+}
+
+/* A row of in-frame prompts: caps label, then the glyph. */
+.g-prompts {
+  display: flex;
+  justify-content: flex-end;
+  gap: 18px;
+  font-family: var(--font-cond);
+  font-weight: 700;
+  font-size: 14px;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.g-prompts > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Keycap glyph like "R1" or "E": white rounded square, dark letters. */
+.g-key {
+  display: inline-grid;
+  place-items: center;
+  min-width: 20px;
+  height: 18px;
+  padding: 0 4px;
+  border-radius: 4px;
+  background: #fff;
+  color: #16141f;
+  font-family: var(--font-cond);
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 1;
+  vertical-align: 1px;
+}

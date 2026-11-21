@@ -1,0 +1,91 @@
+/* The settings toggle row at 1080p: 936x67 with a hairline under it, label at x 17,
+   On/Off ending 122px from the right, then a 60x30 pink pill. Focus puts the smear bar behind the row. */
+.ld-toggle {
+  --bar: 246 249 246;
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 936px;
+  height: 68px;
+  padding: 0 0 1px 17px;
+  border-bottom: 1px solid rgb(255 255 255 / 0.13);
+  color: #f5f2f7;
+  font-family: var(--font-ui);
+  font-weight: 400;
+  font-size: 26px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.ld-toggle:hover,
+.ld-toggle:focus-within {
+  background: linear-gradient(90deg, rgb(var(--bar)) 0%, rgb(var(--bar) / 0.95) 45%, rgb(var(--bar) / 0.82) 60%, rgb(var(--bar) / 0.55) 80%, rgb(var(--bar) / 0.28) 100%) top / 100% 67px no-repeat;
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.4);
+  color: #1f202f;
+}
+
+.ld-toggle__label {
+  flex: 1;
+}
+
+.ld-toggle__state {
+  position: absolute;
+  right: 122px;
+}
+
+.ld-toggle:has([data-checked]) [data-when="off"],
+.ld-toggle:not(:has([data-checked])) [data-when="on"] {
+  display: none;
+}
+
+.ld-toggle__track {
+  position: absolute;
+  right: 33px;
+  width: 60px;
+  height: 30px;
+  padding: 0;
+  border: 2px solid rgb(40 30 50 / 0.55);
+  border-radius: 15px;
+  background: rgb(255 255 255 / 0.28);
+  cursor: pointer;
+}
+
+.ld-toggle__track[data-checked] {
+  border-color: #fd89b4;
+  background: #fd89b4;
+}
+
+.ld-toggle__track:focus-visible {
+  outline: none;
+}
+
+.ld-toggle__knob {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 22px;
+  height: 22px;
+  border: 2px solid #3a2a44;
+  border-radius: 50%;
+  background: #fff;
+  transition: translate 100ms ease-out;
+}
+
+.ld-toggle__knob[data-checked] {
+  border-color: #fff;
+  translate: 30px 0;
+}
+
+[dir="rtl"] .ld-toggle__knob {
+  left: auto;
+  right: 2px;
+}
+
+[dir="rtl"] .ld-toggle__knob[data-checked] {
+  translate: -30px 0;
+}
+
+.ld-toggle[data-disabled] {
+  opacity: 0.45;
+  cursor: not-allowed;
+}

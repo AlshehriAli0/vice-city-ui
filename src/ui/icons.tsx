@@ -1,0 +1,20 @@
+// UI glyphs come from lucide-react; these names keep the kit's call sites short.
+export {
+  TriangleAlert as Alert,
+  ArrowRight as Arrow,
+  Bold,
+  Calendar,
+  Check,
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  X as Close,
+  Italic,
+  Minus,
+  Moon,
+  Plus,
+  Search,
+  Star,
+  Sun,
+  Underline,
+} from "lucide-react"

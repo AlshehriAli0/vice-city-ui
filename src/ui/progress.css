@@ -1,0 +1,114 @@
+/* HUD vitals (specs/hud/spec.md §3): a 20px dark icon disc, then from 8px after it a 10px square bar
+   inside a 1px darker keyline (12px overall). Rows sit on a 30px pitch. Health is #F8B8D0 over #886878 and cut into
+   segments by 2px gaps; stamina #60E0E0 over #285878; focus #A088F8. Idle, the whole block is 40%. */
+.vc-vital {
+  --fill: #f8b8d0;
+  --rest: #886878;
+  --glyph: #f8c0d0;
+  display: flex;
+  align-items: center;
+  gap: calc(8 * var(--vc-u));
+  width: 100%;
+  min-height: calc(30 * var(--vc-u));
+  transition: opacity 200ms linear;
+}
+
+.vc-vital[data-tone="stamina"] {
+  --fill: #60e0e0;
+  --rest: #285878;
+  --glyph: #70e8d8;
+}
+
+.vc-vital[data-tone="focus"] {
+  --fill: #a088f8;
+  --rest: #3e3470;
+  --glyph: #a088f8;
+}
+
+.vc-vital[data-idle] {
+  opacity: 0.4;
+}
+
+.vc-vital__icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: calc(22 * var(--vc-u));
+  height: calc(22 * var(--vc-u));
+  border-radius: 50%;
+  background: rgb(48 48 48 / 0.7);
+  color: var(--glyph);
+}
+
+.vc-vital__icon svg {
+  width: calc(15 * var(--vc-u));
+  height: calc(15 * var(--vc-u));
+  stroke-width: 2.5;
+}
+
+.vc-vital:is([data-tone="health"], [data-tone="stamina"]) .vc-vital__icon svg {
+  fill: currentColor;
+  stroke-width: 1;
+}
+
+.vc-vital__label {
+  flex: none;
+  min-width: calc(90 * var(--vc-u));
+  font-family: var(--font-cond);
+  font-weight: 700;
+  font-size: calc(22 * var(--vc-u));
+  text-transform: uppercase;
+  color: var(--vc-text);
+}
+
+.vc-vital__track {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  height: calc(12 * var(--vc-u));
+  background: var(--rest);
+}
+
+/* A 1px keyline in a darker shade of the fill, drawn over both fill and rest. */
+.vc-vital__track::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--fill) 40%, #1a1418);
+  pointer-events: none;
+}
+
+.vc-vital__fill {
+  width: var(--progress-value, var(--meter-value, 0%));
+  height: 100%;
+  background: var(--fill);
+}
+
+.vc-vital__fill[data-indeterminate] {
+  width: 0;
+}
+
+.vc-vital[data-segmented] .vc-vital__track {
+  --cell: calc(100% / var(--segments, 1));
+  -webkit-mask: var(--vital-mask, repeating-linear-gradient(90deg, #000 0 calc(var(--cell) - 2px), transparent calc(var(--cell) - 2px) var(--cell)));
+  mask: var(--vital-mask, repeating-linear-gradient(90deg, #000 0 calc(var(--cell) - 2px), transparent calc(var(--cell) - 2px) var(--cell)));
+  -webkit-mask-size: calc(100% + 2px) 100%;
+  mask-size: calc(100% + 2px) 100%;
+}
+
+.vc-vital__value {
+  flex: none;
+  min-width: calc(48 * var(--vc-u));
+  text-align: end;
+  font-family: var(--font-ui);
+  font-size: calc(22 * var(--vc-u));
+  font-variant-numeric: tabular-nums;
+  color: var(--vc-text);
+}
+
+/* A stack of vitals: icon discs on a 30px pitch, bars of their own length. */
+.vc-vitals {
+  display: grid;
+  gap: 0;
+  width: calc(210 * var(--vc-u));
+}

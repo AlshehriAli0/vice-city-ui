@@ -1,0 +1,663 @@
+/* Settings at 1080p: plum gradient, palms, chip strip, a 936px list on a 68px pitch and a description column at x 1181. */
+.ld-set {
+  --pink: #ff8ab8;
+  --bar: 246 249 246;
+  --ink: #1f202f;
+  background: #4f3459;
+  animation: ld-screen-in 300ms ease-out both;
+}
+
+.ld-set .ld-screen__frame {
+  background: linear-gradient(32deg, #402b50 0%, #603c67 50%, #8e5085 100%);
+}
+
+.ld-set__palms {
+  position: absolute;
+  top: 520px;
+  left: 980px;
+  width: 940px;
+  opacity: 0.3;
+  mix-blend-mode: multiply;
+  mask-image: linear-gradient(90deg, transparent 0, #000 260px);
+  pointer-events: none;
+}
+
+.ld-set__title {
+  position: absolute;
+  top: 27px;
+  left: 33px;
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 34px;
+  line-height: 40px;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+/* Chip strip: L1, the chips clipped at x 990, R1. */
+.ld-set__strip {
+  position: absolute;
+  top: 78px;
+  left: 34px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  height: 33px;
+}
+
+.ld-set__bumper {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 33px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-size: 26px;
+  cursor: pointer;
+}
+
+.ld-set__bumper .ld-btnglyph--shoulder {
+  min-width: 30px;
+  height: 26px;
+  border-radius: 4px 4px 12px 12px;
+}
+
+.ld-set__clip {
+  display: flex;
+  gap: 5px;
+  width: 908px;
+  height: 33px;
+  padding: 0 4px;
+  overflow: clip;
+}
+
+.ld-set__chips {
+  display: flex;
+  flex: none;
+  gap: 5px;
+}
+
+.ld-set__chip {
+  position: relative;
+  flex: none;
+  display: grid;
+  place-items: center;
+  height: 33px;
+  padding: 0 15px;
+  border: 0;
+  background: none;
+  color: #f5f2f7;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  cursor: pointer;
+  z-index: 0;
+}
+
+/* The chip box is a parallelogram drawn behind the label. */
+.ld-set__chip::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border: 1px solid rgb(255 255 255 / 0.14);
+  background: rgb(255 255 255 / 0.09);
+  transform: skewX(-12deg);
+}
+
+.ld-set__chip[data-selected] {
+  color: #1f202d;
+}
+
+.ld-set__chip[data-selected]::before {
+  border-color: #fff;
+  background: #fff;
+}
+
+.ld-set__chip:focus-visible {
+  outline: none;
+}
+
+.ld-set__chip:focus-visible::before {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+/* List column: x 32–968, window y 142–840, fading at whichever edge has more rows. */
+.ld-set__view {
+  --top: 1;
+  --bottom: 1;
+  position: absolute;
+  top: 142px;
+  left: 32px;
+  width: 936px;
+  height: 698px;
+  overflow: clip;
+  mask-image: linear-gradient(rgb(0 0 0 / var(--top)) 0, #000 68px, #000 calc(100% - 68px), rgb(0 0 0 / var(--bottom)) 100%);
+}
+
+.ld-set__view[data-more-above] {
+  --top: 0.35;
+}
+
+.ld-set__view[data-more-below] {
+  --bottom: 0.35;
+}
+
+.ld-set__rows {
+  translate: 0 calc(var(--scroll) * -1px);
+  transition: translate 130ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.ld-set__heading {
+  display: flex;
+  align-items: flex-end;
+  height: 97px;
+  margin: 0;
+  padding: 0 0 16px 1px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 36px;
+  letter-spacing: 0;
+  color: #d4c6da;
+  text-transform: uppercase;
+  animation: ld-screen-in 1ms linear calc(200ms + var(--i) * 33ms) both;
+}
+
+.ld-set__row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 68px;
+  padding: 0 0 1px 17px;
+  border-bottom: 1px solid rgb(255 255 255 / 0.13);
+  box-shadow: 0 1px 0 rgb(0 0 0 / 0.08);
+  color: #f5f2f7;
+  font-size: 26px;
+  cursor: default;
+  animation: ld-screen-in 80ms linear calc(200ms + var(--i) * 33ms) both;
+}
+
+.ld-set__row[data-disabled] {
+  opacity: 0.45;
+}
+
+/* The smear bar: solid to about half, fading to 28% at x 968. Focus jumps, no tween. */
+.ld-set__row[data-active] {
+  background: linear-gradient(90deg, rgb(var(--bar)) 0%, rgb(var(--bar) / 0.95) 45%, rgb(var(--bar) / 0.82) 60%, rgb(var(--bar) / 0.55) 80%, rgb(var(--bar) / 0.28) 100%);
+  background-size: 100% 67px;
+  background-repeat: no-repeat;
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.4), 0 1px 0 rgb(0 0 0 / 0.08);
+  color: var(--ink);
+}
+
+.ld-set__label {
+  flex: 1;
+  font-family: var(--font-ui);
+  font-weight: 400;
+  font-size: 26px;
+  line-height: 1;
+}
+
+/* Cycle: "Value  1 / 4  ‹ ›". Only the checked option shows; the others stay focusable for the radio group. */
+.ld-set__cycle {
+  position: absolute;
+  right: 213px;
+  display: grid;
+  justify-items: end;
+}
+
+.ld-set__option {
+  grid-area: 1 / 1;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font-family: var(--font-ui);
+  font-size: 26px;
+  line-height: 1;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.ld-set__option[data-checked] {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.ld-set__option:focus-visible {
+  outline: none;
+}
+
+.ld-set__index {
+  position: absolute;
+  left: 728px;
+  display: grid;
+  grid-template-columns: 46px 10px 46px;
+  justify-items: center;
+  font-family: var(--font-ui);
+  font-size: 26px;
+  line-height: 1;
+}
+
+.ld-set__index b {
+  font-weight: 400;
+}
+
+.ld-set__index :is(i, span) {
+  font-style: normal;
+  opacity: 0.55;
+}
+
+.ld-set__index span {
+  opacity: 1;
+}
+
+.ld-set__index i {
+  opacity: 0.4;
+}
+
+.ld-set__chevrons {
+  position: absolute;
+  left: 850px;
+  display: flex;
+  gap: 21px;
+}
+
+.ld-set__chevrons span {
+  display: grid;
+  place-items: center;
+  width: 16px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.ld-set__chevrons svg {
+  width: 11px;
+  height: 18px;
+}
+
+.ld-set__chevrons svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Toggle: On/Off ending at x 846, then a 60x30 pill at x 875. */
+.ld-set__state {
+  position: absolute;
+  right: 122px;
+  font-family: var(--font-ui);
+  font-size: 26px;
+  line-height: 1;
+}
+
+.ld-set__switch {
+  position: absolute;
+  right: 33px;
+  width: 60px;
+  height: 30px;
+  padding: 0;
+  border: 2px solid rgb(40 30 50 / 0.55);
+  border-radius: 15px;
+  background: rgb(255 255 255 / 0.28);
+  cursor: pointer;
+}
+
+.ld-set__switch[data-checked] {
+  border-color: #fd89b4;
+  background: #fd89b4;
+}
+
+.ld-set__switch:focus-visible {
+  outline: none;
+}
+
+.ld-set__knob {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 22px;
+  height: 22px;
+  border: 2px solid #3a2a44;
+  border-radius: 50%;
+  background: #fff;
+  transition: translate 100ms ease-out;
+}
+
+.ld-set__knob[data-checked] {
+  border-color: #fff;
+  translate: 30px 0;
+}
+
+/* Slider: a 181x12 track at x 670, pink fill, a thin tick thumb, the number centred on x 905. */
+.ld-set__slider {
+  position: absolute;
+  left: 638px;
+  width: 181px;
+}
+
+.ld-set__slider-control {
+  display: flex;
+  align-items: center;
+  height: 24px;
+}
+
+.ld-set__track {
+  position: relative;
+  width: 181px;
+  height: 12px;
+  background: rgb(255 255 255 / 0.3);
+  box-shadow: inset 0 0 0 1px rgb(60 30 70 / 0.25);
+}
+
+.ld-set__fill {
+  height: 100%;
+  background: var(--pink);
+}
+
+.ld-set__thumb {
+  top: 50%;
+  width: 4px;
+  height: 20px;
+  border: 1px solid #9d506c;
+  background: #ffe1ec;
+  translate: -50% -50%;
+}
+
+.ld-set__thumb:has(:focus-visible) {
+  outline: none;
+}
+
+.ld-set__number {
+  position: absolute;
+  left: 853px;
+  width: 40px;
+  text-align: center;
+  font-family: var(--font-ui);
+  font-size: 26px;
+  line-height: 1;
+}
+
+/* Radio rows: a 14px hollow circle at x 935, a pink dot when chosen. */
+.ld-set__radio {
+  position: absolute;
+  right: 33px;
+  display: grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  border: 2px solid rgb(255 255 255 / 0.4);
+  border-radius: 50%;
+  background: none;
+  cursor: pointer;
+}
+
+.ld-set__row[data-active] .ld-set__radio {
+  border-color: rgb(31 32 47 / 0.35);
+}
+
+.ld-set__radio[data-checked] {
+  border-color: #fff;
+  background: #fff;
+}
+
+.ld-set__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #f0507f;
+}
+
+.ld-set__radio:focus-visible {
+  outline: none;
+}
+
+.ld-set__scrollbar {
+  position: absolute;
+  top: calc(142px + var(--scroll) * var(--window) / var(--height) * 1px);
+  left: 978px;
+  width: 6px;
+  height: calc(var(--window) * var(--window) / var(--height) * 1px);
+  border-radius: 3px;
+  background: rgb(255 255 255 / 0.4);
+  transition: top 130ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.ld-set__count {
+  position: absolute;
+  top: 866px;
+  left: 35px;
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: 26px;
+  line-height: 1;
+  color: rgb(245 242 247 / 0.55);
+  word-spacing: 6px;
+}
+
+.ld-set__count b {
+  font-weight: 400;
+  color: #f5f2f7;
+}
+
+.ld-set__count i {
+  font-style: normal;
+}
+
+/* Control scheme: a narrow list beside the controller. */
+.ld-set[data-tab="scheme"] .ld-set__view {
+  width: 509px;
+}
+
+.ld-set[data-tab="scheme"] .ld-set__cycle {
+  right: 195px;
+}
+
+.ld-set[data-tab="scheme"] .ld-set__index {
+  left: 318px;
+}
+
+.ld-set[data-tab="scheme"] .ld-set__chevrons {
+  left: 432px;
+  gap: 14px;
+}
+
+.ld-set[data-tab="scheme"] .ld-set__scrollbar {
+  display: none;
+}
+
+/* Description column from x 1181: heading, a pink rule, then preview art or body copy. Appears 167ms into a tab switch. */
+.ld-set__detail {
+  position: absolute;
+  top: 0;
+  left: 1181px;
+  width: 707px;
+  pointer-events: none;
+  animation: ld-set-cut 1ms 167ms backwards;
+}
+
+.ld-set__detail-title {
+  margin: 186px 0 0;
+  padding-bottom: 15px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 36px;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, #d689b8 0%, #d689b8 58%, rgb(214 137 184 / 0) 100%) bottom / 100% 2px no-repeat;
+}
+
+.ld-set__preview {
+  margin-top: 16px;
+  height: 398px;
+  background: rgb(40 20 50 / 0.45);
+}
+
+.ld-set__desc {
+  max-width: 690px;
+  margin-top: 18px;
+  font-family: var(--font-ui);
+  font-size: 26px;
+  line-height: 39px;
+}
+
+.ld-set__desc p {
+  margin: 0 0 39px;
+}
+
+.ld-set__desc p:last-child {
+  margin-bottom: 0;
+}
+
+.ld-set__desc b {
+  font-weight: 700;
+}
+
+.ld-set__art {
+  display: block;
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: rgb(255 255 255 / 0.4);
+  stroke-width: 1.5;
+}
+
+.ld-set__art .pv-solid {
+  stroke: #fff;
+  stroke-width: 2.5;
+}
+
+.ld-set__art .pv-ring {
+  stroke: #fff;
+  stroke-width: 6;
+}
+
+.ld-set__art .pv-pink {
+  fill: #ff6b9f;
+  stroke: none;
+}
+
+.ld-set__art .pv-blot {
+  fill: rgb(255 255 255 / 0.5);
+  stroke: none;
+  filter: blur(6px);
+  animation: ld-set-pulse 1.6s ease-in-out infinite alternate;
+}
+
+.ld-set__flash {
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+.ld-set__flash i {
+  width: 80%;
+  height: 70%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, transparent 55%, rgb(255 255 255 / 0.6));
+  filter: blur(18px);
+  animation: ld-set-pulse 1.2s ease-in-out infinite alternate;
+}
+
+.ld-set__legend {
+  display: grid;
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  margin-top: 17px;
+  list-style: none;
+  font-size: 26px;
+  line-height: 36px;
+}
+
+.ld-set__legend li {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.ld-set__legend i {
+  width: 24px;
+  height: 24px;
+  border: 3px solid #fff;
+  border-radius: 50%;
+}
+
+/* Control scheme preview: callouts either side of a line-art pad. */
+.ld-set__pad {
+  position: absolute;
+  top: 0;
+  left: -561px;
+  display: grid;
+  grid-template-columns: 1fr 520px 1fr;
+  align-items: center;
+  gap: 18px;
+  width: 1260px;
+  padding-top: 185px;
+}
+
+.ld-set__pad-title {
+  position: absolute;
+  top: 170px;
+  left: 0;
+  right: 0;
+  margin: 0;
+  text-align: center;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 36px;
+  text-transform: uppercase;
+}
+
+.ld-set__pad-art {
+  width: 520px;
+  margin-top: 60px;
+  fill: none;
+  stroke: rgb(255 255 255 / 0.75);
+  stroke-width: 2;
+}
+
+.ld-set__callouts {
+  display: grid;
+  gap: 26px;
+  margin: 60px 0 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.ld-set__callouts[data-side="left"] {
+  text-align: right;
+}
+
+.ld-set .ld-prompts {
+  animation: ld-screen-in 1ms linear 167ms both;
+}
+
+@keyframes ld-set-cut {
+  from {
+    visibility: hidden;
+  }
+}
+
+@keyframes ld-set-pulse {
+  from {
+    opacity: 0.35;
+  }
+}

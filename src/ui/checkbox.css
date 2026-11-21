@@ -1,0 +1,62 @@
+/* The legal screen's checkbox rows: a small square box with a check. Checked fills selection white. */
+.vc-choice {
+  display: inline-grid;
+  grid-template-columns: calc(18 * var(--vc-u)) auto;
+  align-items: center;
+  column-gap: calc(14 * var(--vc-u));
+  row-gap: calc(2 * var(--vc-u));
+  font-family: var(--font-ui);
+  font-size: calc(26 * var(--vc-u));
+  line-height: 1.3;
+  color: inherit;
+  cursor: pointer;
+}
+
+.vc-choice:has([data-disabled]) {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.vc-check {
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: calc(18 * var(--vc-u));
+  height: calc(18 * var(--vc-u));
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: inset 0 0 0 calc(1.5 * var(--vc-u)) currentColor;
+  color: inherit;
+  cursor: pointer;
+}
+
+.vc-check:focus-visible {
+  outline: 2px solid var(--vc-focus);
+  outline-offset: 2px;
+}
+
+.vc-check[data-checked],
+.vc-check[data-indeterminate] {
+  background: currentColor;
+}
+
+.vc-check__mark {
+  display: grid;
+  place-items: center;
+}
+
+.vc-check__mark svg {
+  width: calc(14 * var(--vc-u));
+  height: calc(14 * var(--vc-u));
+  stroke-width: 3.5;
+  color: inherit;
+  /* The mark is the box colour inverted, so it reads on dark rows and on the white bar alike. */
+  filter: invert(1);
+}
+
+.vc-check[data-invalid] {
+  box-shadow: inset 0 0 0 calc(1.5 * var(--vc-u)) var(--vc-danger);
+}

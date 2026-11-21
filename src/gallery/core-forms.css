@@ -1,0 +1,54 @@
+/* Demos sit on the pause panel's flat #1f202d. */
+.cf-panel {
+  font-weight: 400;
+  display: grid;
+  align-content: start;
+  gap: calc(24 * var(--vc-u));
+  width: 100%;
+  padding: calc(32 * var(--vc-u));
+  background: var(--vc-panel);
+  color: var(--vc-text);
+  font-family: var(--font-ui);
+}
+
+.cf-panel__title {
+  margin: 0;
+  font-family: var(--font-cond);
+  font-weight: 700;
+  font-size: calc(36 * var(--vc-u));
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--vc-section);
+}
+
+/* The playground stage: one component on a slice of the pause panel, as wide as a settings row. */
+.cf-stage {
+  max-width: calc(760 * var(--vc-u));
+}
+
+.cf-stage--center {
+  justify-items: center;
+  min-width: min(100%, calc(420 * var(--vc-u)));
+  width: auto;
+}
+
+/* A plain settings line for controls that are not fields. */
+.cf-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: calc(24 * var(--vc-u));
+  min-height: calc(68 * var(--vc-u));
+  padding: 0 calc(33 * var(--vc-u)) 0 calc(17 * var(--vc-u));
+  border-bottom: 1px solid var(--vc-hair);
+  font-size: calc(26 * var(--vc-u));
+}
+
+.cf-line:is(:hover, :focus-within) {
+  background: var(--vc-row);
+  color: var(--vc-ink);
+}
+
+.cf-panel__title + .vc-radios {
+  margin-top: calc(-8 * var(--vc-u));
+}

@@ -1,0 +1,376 @@
+@layer ui-sdk;
+
+/* Rockstar's GTA VI typefaces, as served by rockstargames.com/VI. */
+@font-face { font-family: "GTA Art Deco"; src: url("/fonts/GTAArtDeco_Regular.woff") format("woff"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "GTA Art Deco"; src: url("/fonts/GTAArtDeco_Medium.woff") format("woff"); font-weight: 500 600; font-display: swap; }
+@font-face { font-family: "GTA Art Deco"; src: url("/fonts/GTAArtDeco_Bold.woff") format("woff"); font-weight: 700; font-display: swap; }
+@font-face { font-family: "GTA Art Deco Condensed"; src: url("/fonts/GTAArtDeco_CondensedBold.woff") format("woff"); font-weight: 400 700; font-display: swap; }
+@font-face { font-family: "GTA Art Deco Condensed"; src: url("/fonts/GTAArtDeco_CondensedHeavy.woff") format("woff"); font-weight: 800 900; font-display: swap; }
+@font-face { font-family: "Rage Italic"; src: url("/fonts/RageItalicStd.otf") format("opentype"); font-display: swap; }
+
+:root {
+  --font-display: "GTA Art Deco Condensed", "Arial Narrow", sans-serif;
+  --font-num: "GTA Art Deco Condensed", "Arial Narrow", sans-serif;
+  --font-cond: "GTA Art Deco Condensed", "Arial Narrow", sans-serif;
+  --font-ui: "GTA Art Deco", system-ui, sans-serif;
+  --font-hud: "GTA Art Deco Condensed", "Arial Narrow", sans-serif;
+  --font-neon: "Rage Italic", cursive;
+  --font-tube: "Rage Italic", cursive;
+
+  --cobalt: #3a4fc0;
+  --violet: #9339bb;
+  --magenta: #bb36b7;
+  --pink: #f361a2;
+  --hot: #e1558e;
+  --coral: #ff7d54;
+  --amber: #ffa148;
+  --gold: #fcaf17;
+  --plum: #1e0031;
+  --cyan: #50c8e8;
+  --teal: #89f5e3;
+  --cash: #72cc72;
+  --cop-red: #e03232;
+  --cop-blue: #3a6bff;
+  --armor: #5db6e5;
+  --wasted: #c8282d;
+
+  /* The VI gradient, sampled top to bottom. */
+  --vi: linear-gradient(180deg, #ffa148 0%, #ff7d54 18%, #f66483 34%, #e1558e 46%, #bb36b7 62%, #6d3fbb 80%, #3a4fc0 100%);
+  --sunset: var(--vi);
+  --sunset-x: linear-gradient(90deg, #ffa148 0%, #f66483 40%, #bb36b7 72%, #3a4fc0 100%);
+  --sunset-warm: linear-gradient(90deg, #ffa148 0%, #f66483 55%, #e963bc 100%);
+  --dusk: linear-gradient(90deg, #ffc596, #f8998f 50%, #cf77bc);
+  --sea: linear-gradient(180deg, #8cdbf3 0%, #00bfe6 100%);
+  --slant: polygon(14px 0, 100% 0, calc(100% - 14px) 100%, 0 100%);
+
+  --r-sm: 6px;
+  --r-md: 12px;
+  --r-lg: 20px;
+  --dur-fast: 120ms;
+  --dur: 180ms;
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ease-snap: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* Sunset: the site's hotSun theme for the page, slate menus on top. */
+:root,
+[data-theme="sunset"] {
+  --bg: #0f0c1a;
+  --bg-2: #16111f;
+  --surface: #1d1b2e;
+  --surface-2: #26233a;
+  --panel: rgb(29 27 46 / 0.86);
+  --line: rgb(255 255 255 / 0.14);
+  --line-strong: rgb(255 255 255 / 0.28);
+  --hair: rgb(255 255 255 / 0.14);
+  --text: #fdfdfd;
+  --text-2: #dcd6e6;
+  --text-3: #a39cb4;
+  --accent: #f976b0;
+  --accent-ink: #1e0a16;
+  --sel: linear-gradient(90deg, #fff 0 55%, rgb(255 255 255 / 0.4) 82%, rgb(255 255 255 / 0.1));
+  --sel-ink: #16141f;
+  --glow: 0 0 0 transparent;
+  --theme-glow: radial-gradient(62.79% 100% at 50% 0%, #ffcc99 0%, #f59289 50%, #e9639b 100%);
+  --card-shadow: none;
+  --band: linear-gradient(189deg, #321532 0.55%, #251229 30.38%, #1b0e1e 65.19%, #110b18 100%);
+  --page-sky: linear-gradient(189deg, #321532 0.55%, #251229 30.38%, #1b0e1e 65.19%, #110b18 100%);
+  color-scheme: dark;
+}
+
+/* Night: the site's night theme, teal accent. */
+[data-theme="night"] {
+  --bg: #0d0c1a;
+  --bg-2: #111126;
+  --surface: #171a2e;
+  --surface-2: #1f2440;
+  --panel: rgb(23 26 46 / 0.86);
+  --line: rgb(255 255 255 / 0.13);
+  --line-strong: rgb(255 255 255 / 0.26);
+  --hair: rgb(255 255 255 / 0.13);
+  --text: #f4fbff;
+  --text-2: #cbd8ea;
+  --text-3: #93a3c0;
+  --accent: #89f5e3;
+  --accent-ink: #062520;
+  --sel: linear-gradient(90deg, #fff 0 55%, rgb(255 255 255 / 0.4) 82%, rgb(255 255 255 / 0.1));
+  --sel-ink: #111126;
+  --glow: 0 0 0 transparent;
+  --theme-glow: radial-gradient(62.79% 100% at 50% 0%, #99ffaa 0%, #89f5e3 50%, #799fec 100%);
+  --card-shadow: none;
+  --band: linear-gradient(189deg, #142242 0.55%, #161733 30.38%, #111126 65.19%, #0d0c1a 100%);
+  --page-sky: linear-gradient(189deg, #142242 0.55%, #161733 30.38%, #111126 65.19%, #0d0c1a 100%);
+  color-scheme: dark;
+}
+
+/* Day: the site's blueSky page. The game has no light UI, so menus stay slate. */
+[data-theme="day"] {
+  --bg: #0d0c1a;
+  --bg-2: #111127;
+  --surface: #1a1f38;
+  --surface-2: #232a4a;
+  --panel: rgb(26 31 56 / 0.86);
+  --line: rgb(255 255 255 / 0.14);
+  --line-strong: rgb(255 255 255 / 0.28);
+  --hair: rgb(255 255 255 / 0.14);
+  --text: #fdfdfd;
+  --text-2: #d6dcf0;
+  --text-3: #9ea7c6;
+  --accent: #f976b0;
+  --accent-ink: #1e0a16;
+  --sel: linear-gradient(90deg, #fff 0 55%, rgb(255 255 255 / 0.4) 82%, rgb(255 255 255 / 0.1));
+  --sel-ink: #16141f;
+  --glow: 0 0 0 transparent;
+  --theme-glow: radial-gradient(62.79% 100% at 50% 0%, #99ccff 0%, #9b89f5 50%, #d263e9 100%);
+  --card-shadow: none;
+  --band: linear-gradient(189deg, #16203f 0.55%, #151732 30.38%, #111127 65.19%, #0d0c1a 100%);
+  --page-sky: linear-gradient(189deg, #16203f 0.55%, #151732 30.38%, #111127 65.19%, #0d0c1a 100%);
+  color-scheme: dark;
+}
+
+
+/* ---------- The site's six adaptive themes (rockstargames.com/VI) ----------
+   Any element with data-sky="<theme>" gets that theme's tokens; children inherit them.
+   --sky-0 / --sky-1 / --sky-2: level 0, 1 and 2 page gradients (189deg). --sky-card: the 4-stop card surface.
+   --sky-fg: the radial "sunset" foreground fill for gradient text. --sky-accent: the pill colour. */
+@property --spotlight {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #1f1f38;
+}
+
+[data-sky] {
+  --sky-cream: #fff9cb;
+  --sky-cream-dark: #ebe5b7;
+}
+
+[data-sky="blackout"] {
+  --sky-2: linear-gradient(189deg, #433f6a 0.55%, #38365d 30.38%, #2f2e52 65.19%, #252644 100%);
+  --sky-sun: #f4717c;
+  --sky-0: linear-gradient(189deg, #1f1f38 0.55%, #18182d 30.38%, #111222 65.19%, #0c0d1b 100%);
+  --sky-1: linear-gradient(189deg, #2f2e52 0.55%, #252644 30.38%, #1f1f38 65.19%, #18182d 100%);
+  --sky-card: linear-gradient(180deg, #38365d 0%, #2f2e52 30%, #252644 65%, #1f1f38 100%);
+  --sky-card-hover: linear-gradient(180deg, #433f6a 0%, #38365d 30%, #2f2e52 65%, #252644 100%);
+  --sky-fg: radial-gradient(62.79% 100% at 50% 0%, #ffdf80 0%, #f4717c 50%, #e963c7 100%);
+  --sky-base: #0c0d1b;
+  --sky-l0: #18182d;
+  --sky-l1: #252644;
+  --sky-l2: #38365d;
+  --sky-glow: #252644;
+  --spotlight: #1f1f38;
+  --sky-text: #e5ddff;
+  --sky-lilac: #ccc2f5;
+  --sky-muted: #b1a1e8;
+  --sky-accent: #ffb2c6;
+  --sky-accent-hover: #fc97b1;
+  --sky-accent-press: #f77e9c;
+  --sky-accent-2: #adb5ff;
+  --sky-ink: #0c0d1b;
+  --sky-light: #fdfbff;
+}
+
+[data-sky="dustyNeon"] {
+  --sky-2: linear-gradient(189deg, #613b62 0.55%, #4b2f54 30.38%, #3f284b 65.19%, #31223e 100%);
+  --sky-sun: #f5899b;
+  --sky-0: linear-gradient(189deg, #2d1f36 0.55%, #1e1728 30.38%, #16111f 65.19%, #0f0c1a 100%);
+  --sky-1: linear-gradient(189deg, #472b4f 0.55%, #31223e 30.38%, #271c33 65.19%, #1e1728 100%);
+  --sky-card: linear-gradient(180deg, #4b2f54 0%, #3f284b 30%, #31223e 65%, #271c33 100%);
+  --sky-card-hover: linear-gradient(180deg, #583660 0%, #4b2f54 30%, #3f284b 65%, #31223e 100%);
+  --sky-fg: radial-gradient(62.79% 100% at 50% 0%, #ffff99 0%, #f5899b 50%, #e963bc 100%);
+  --sky-base: #0f0c1a;
+  --sky-l0: #1e1728;
+  --sky-l1: #31223e;
+  --sky-l2: #4b2f54;
+  --sky-glow: #31223e;
+  --spotlight: #2d1f36;
+  --sky-text: #fbd9e0;
+  --sky-lilac: #f1b8cc;
+  --sky-muted: #da96ba;
+  --sky-accent: #ffd4a8;
+  --sky-accent-hover: #ffc080;
+  --sky-accent-press: #ffa74d;
+  --sky-accent-2: #ffc2d0;
+  --sky-ink: #0f0c1a;
+  --sky-light: #fffaf9;
+}
+
+[data-sky="blueSky"] {
+  --sky-2: linear-gradient(189deg, #2a4279 0.55%, #2c3868 30.38%, #262e5b 65.19%, #21254c 100%);
+  --sky-sun: #9b89f5;
+  --sky-0: linear-gradient(189deg, #16203f 0.55%, #151732 30.38%, #111127 65.19%, #0d0c1a 100%);
+  --sky-1: linear-gradient(189deg, #222f58 0.55%, #21254c 30.38%, #1c1e40 65.19%, #151732 100%);
+  --sky-card: linear-gradient(180deg, #2c3868 0%, #262e5b 30%, #21254c 65%, #1c1e40 100%);
+  --sky-card-hover: linear-gradient(180deg, #324275 0%, #2c3868 30%, #262e5b 65%, #21254c 100%);
+  --sky-fg: radial-gradient(62.79% 100% at 50% 0%, #99ccff 0%, #9b89f5 50%, #d263e9 100%);
+  --sky-base: #0d0c1a;
+  --sky-l0: #151732;
+  --sky-l1: #21254c;
+  --sky-l2: #2c3868;
+  --sky-glow: #21254c;
+  --spotlight: #16203f;
+  --sky-text: #cae9f7;
+  --sky-lilac: #a5d1ef;
+  --sky-muted: #92c4eb;
+  --sky-accent: #ffc5b8;
+  --sky-accent-hover: #fcae9c;
+  --sky-accent-press: #f79882;
+  --sky-accent-2: #b8e8ff;
+  --sky-ink: #0d0c1a;
+  --sky-light: #f9fdfe;
+}
+
+[data-sky="hotSun"] {
+  --sky-2: linear-gradient(189deg, #6b2e47 0.55%, #5b2742 30.38%, #4d203e 65.19%, #3e1a37 100%);
+  --sky-sun: #f59289;
+  --sky-0: linear-gradient(189deg, #321532 0.55%, #251229 30.38%, #1b0e1e 65.19%, #110b18 100%);
+  --sky-1: linear-gradient(189deg, #4d203e 0.55%, #3e1a37 30.38%, #321532 65.19%, #251229 100%);
+  --sky-card: linear-gradient(180deg, #5b2742 0%, #4d203e 30%, #3e1a37 65%, #321532 100%);
+  --sky-card-hover: linear-gradient(180deg, #6b2e47 0%, #5b2742 30%, #4d203e 65%, #3e1a37 100%);
+  --sky-fg: radial-gradient(62.79% 100% at 50% 0%, #ffcc99 0%, #f59289 50%, #e9639b 100%);
+  --sky-base: #110b18;
+  --sky-l0: #251229;
+  --sky-l1: #3e1a37;
+  --sky-l2: #5b2742;
+  --sky-glow: #3e1a37;
+  --spotlight: #251229;
+  --sky-text: #fadcce;
+  --sky-lilac: #f6baab;
+  --sky-muted: #efaa9c;
+  --sky-accent: #e9c2ff;
+  --sky-accent-hover: #dda6fc;
+  --sky-accent-press: #d18df7;
+  --sky-accent-2: #fddda1;
+  --sky-ink: #110b18;
+  --sky-light: #fefbf9;
+}
+
+[data-sky="night"] {
+  --sky-2: linear-gradient(189deg, #245673 0.55%, #273c5c 30.38%, #243152 65.19%, #1f2747 100%);
+  --sky-sun: #89f5e3;
+  --sky-0: linear-gradient(189deg, #142242 0.55%, #161733 30.38%, #111126 65.19%, #0d0c1a 100%);
+  --sky-1: linear-gradient(189deg, #1f355b 0.55%, #1f2747 30.38%, #1a1f3c 65.19%, #161733 100%);
+  --sky-card: linear-gradient(180deg, #273c5c 0%, #243152 30%, #1f2747 65%, #1a1f3c 100%);
+  --sky-card-hover: linear-gradient(180deg, #2b4769 0%, #273c5c 30%, #243152 65%, #1f2747 100%);
+  --sky-fg: radial-gradient(62.79% 100% at 50% 0%, #99ffaa 0%, #89f5e3 50%, #799fec 100%);
+  --sky-base: #0d0c1a;
+  --sky-l0: #161733;
+  --sky-l1: #1f2747;
+  --sky-l2: #273c5c;
+  --sky-glow: #1f2747;
+  --spotlight: #142242;
+  --sky-text: #b8f0ea;
+  --sky-lilac: #8cdadd;
+  --sky-muted: #7ecdd3;
+  --sky-accent: #e6ffa3;
+  --sky-accent-hover: #e1fa9e;
+  --sky-accent-press: #d6f485;
+  --sky-accent-2: #cebff8;
+  --sky-ink: #0d0c1a;
+  --sky-light: #f8fdf9;
+}
+
+[data-sky="swamp"] {
+  --sky-2: linear-gradient(189deg, #295138 0.55%, #294235 30.38%, #243830 65.19%, #1a2e29 100%);
+  --sky-sun: #f5c089;
+  --sky-0: linear-gradient(189deg, #142e25 0.55%, #0f1e1d 30.38%, #0d1516 65.19%, #071012 100%);
+  --sky-1: linear-gradient(189deg, #1d3a2a 0.55%, #1a2e29 30.38%, #162623 65.19%, #0f1e1d 100%);
+  --sky-card: linear-gradient(180deg, #294235 0%, #243830 30%, #1a2e29 65%, #162623 100%);
+  --sky-card-hover: linear-gradient(180deg, #314d3d 0%, #294235 30%, #243830 65%, #1a2e29 100%);
+  --sky-fg: radial-gradient(62.79% 100% at 50% 0%, #eeff99 0%, #f5c089 50%, #f47187 100%);
+  --sky-base: #071012;
+  --sky-l0: #0f1e1d;
+  --sky-l1: #1a2e29;
+  --sky-l2: #294235;
+  --sky-glow: #1a2e29;
+  --spotlight: #142e25;
+  --sky-text: #e1e7c7;
+  --sky-lilac: #c2d2a2;
+  --sky-muted: #b3c694;
+  --sky-accent: #ffdf9e;
+  --sky-accent-hover: #fbd383;
+  --sky-accent-press: #f6c76a;
+  --sky-accent-2: #f0ff9e;
+  --sky-ink: #071012;
+  --sky-light: #fcfdf2;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-ui);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  margin: 0;
+  background: var(--page-sky), var(--bg);
+  background-attachment: fixed;
+  overflow-x: clip;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  transition: background-color var(--dur) var(--ease);
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 0;
+  border-radius: 2px;
+}
+
+.ld-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* HUD caption: small condensed uppercase label. */
+.ld-eyebrow {
+  font-family: var(--font-cond);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+.ld-sunset-text {
+  background: var(--sunset);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+[data-motion="still"] *,
+[data-motion="still"] *::before,
+[data-motion="still"] *::after {
+  animation-duration: 0s !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0s !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0s !important;
+  }
+}

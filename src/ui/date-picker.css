@@ -1,0 +1,46 @@
+.vc-date {
+  display: block;
+}
+
+.vc-date__field {
+  padding-inline-end: calc(6 * var(--vc-u));
+}
+
+.vc-date__input {
+  flex: 1;
+  min-width: 0;
+  height: calc(var(--vc-h) - 2px);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-variant-numeric: tabular-nums;
+  outline: none;
+}
+
+.vc-field[data-layout="row"] .vc-date__input {
+  field-sizing: content;
+  text-align: end;
+}
+
+.vc-date__trigger {
+  display: grid;
+  place-items: center;
+  width: calc(40 * var(--vc-u));
+  height: calc(40 * var(--vc-u));
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.vc-date__trigger svg {
+  width: calc(22 * var(--vc-u));
+  height: calc(22 * var(--vc-u));
+}
+
+.vc-date__trigger:focus-visible {
+  outline: 2px solid currentColor;
+}

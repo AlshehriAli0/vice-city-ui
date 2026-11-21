@@ -1,0 +1,50 @@
+.vc-collapsible {
+  width: 100%;
+}
+
+.vc-collapsible__trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(10 * var(--vc-u));
+  min-height: calc(52 * var(--vc-u));
+  padding: 0 calc(17 * var(--vc-u)) 0 calc(10 * var(--vc-u));
+  border: 0;
+  background: none;
+  color: var(--vc-text);
+  font-family: var(--font-cond);
+  font-weight: 700;
+  font-size: calc(26 * var(--vc-u));
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.vc-collapsible__trigger:hover,
+.vc-collapsible__trigger:focus-visible {
+  background: var(--vc-row);
+  color: var(--vc-ink);
+  outline: none;
+}
+
+.vc-collapsible__chevron {
+  width: calc(20 * var(--vc-u));
+  height: calc(20 * var(--vc-u));
+}
+
+.vc-collapsible__trigger[data-open] .vc-collapsible__chevron {
+  rotate: 90deg;
+}
+
+.vc-collapsible__panel {
+  height: var(--collapsible-panel-height);
+  overflow: hidden;
+}
+
+.vc-collapsible__panel[data-starting-style],
+.vc-collapsible__panel[data-ending-style] {
+  height: 0;
+}
+
+.vc-collapsible__content {
+  padding: calc(8 * var(--vc-u)) 0 calc(4 * var(--vc-u));
+  animation: vc-fade 167ms linear both;
+}

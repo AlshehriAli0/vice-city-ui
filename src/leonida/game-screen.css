@@ -1,0 +1,43 @@
+.ld-screen {
+  container-type: inline-size;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #1f202d;
+  color: #f5f2f7;
+  font-family: var(--font-ui);
+  font-weight: 400;
+  isolation: isolate;
+}
+
+/* tan(atan2()) turns 100cqw / 1920px into a plain number. */
+.ld-screen__frame {
+  --s: tan(atan2(100cqw, 1920px));
+  /* Children are authored in 1080p pixels; shared parts sized with --u read 1px here. */
+  --u: 1px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1920px;
+  height: 1080px;
+  overflow: hidden;
+  transform: scale(var(--s));
+  transform-origin: 0 0;
+}
+
+/* Footer prompts sit bottom-right: right edge x 1880, glyph centre y ≈ 1037. */
+.ld-screen .ld-prompts {
+  position: absolute;
+  right: 40px;
+  bottom: 28px;
+  gap: 20px;
+  /* Menu prompts are 30px; the shared prompt is drawn at 26 units. */
+  --u: calc(30px / 26);
+}
+
+@keyframes ld-screen-in {
+  from {
+    opacity: 0;
+  }
+}

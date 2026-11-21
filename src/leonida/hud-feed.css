@@ -1,0 +1,112 @@
+/* Right-edge feed, 1080p: right edge x1888, 26px white with a dark outline. World lines centred at y428, 34px apart; map lines at y290. */
+.ld-feed__slot {
+  position: absolute;
+  right: calc(32 * var(--u, 1px));
+  display: grid;
+  justify-items: end;
+}
+
+.ld-feed__slot[data-lane="map"] {
+  top: calc(272 * var(--u, 1px));
+}
+
+.ld-feed__slot[data-lane="world"] {
+  top: calc(411 * var(--u, 1px));
+}
+
+.ld-feed__line {
+  display: flex;
+  align-items: center;
+  gap: calc(9 * var(--u, 1px));
+  height: calc(34 * var(--u, 1px));
+  margin: 0;
+  color: #f8f8f8;
+  font-size: calc(26 * var(--u, 1px));
+  line-height: 1;
+  white-space: nowrap;
+  -webkit-text-stroke: calc(3 * var(--u, 1px)) rgb(0 0 0 / 0.85);
+  paint-order: stroke fill;
+  text-shadow: 0 0 calc(6 * var(--u, 1px)) rgb(0 0 0 / 0.5);
+  animation:
+    ld-feed-in 100ms linear both,
+    ld-feed-out 250ms linear calc(var(--hold, 3600ms) + 100ms) forwards;
+}
+
+.ld-feed__line b {
+  font-weight: 700;
+}
+
+.ld-feed__badge {
+  display: grid;
+  place-items: center;
+  width: calc(28 * var(--u, 1px));
+  height: calc(28 * var(--u, 1px));
+  border-radius: 50%;
+  background: #f070a8;
+  box-shadow: 0 0 0 calc(2 * var(--u, 1px)) #1a1418;
+  color: #1a1418;
+  font-family: "Black Han Sans", var(--font-cond);
+  font-size: calc(18 * var(--u, 1px));
+  text-shadow: none;
+  -webkit-text-stroke: 0;
+}
+
+.ld-feed__line .ld-btnglyph {
+  width: calc(36 * var(--u, 1px));
+  height: calc(36 * var(--u, 1px));
+}
+
+@keyframes ld-feed-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes ld-feed-out {
+  to {
+    opacity: 0;
+  }
+}
+
+/* Subtitles centred at y975, objective at y1035; 24px text, 31px lines, no box. */
+.ld-subtitle,
+.ld-objective {
+  position: absolute;
+  left: 50%;
+  translate: -50% -50%;
+  width: max-content;
+  max-width: calc(1100 * var(--u, 1px));
+  margin: 0;
+  color: #f8f8f8;
+  font-size: calc(24 * var(--u, 1px));
+  line-height: calc(31 * var(--u, 1px));
+  text-align: center;
+  text-shadow:
+    0 0 calc(4 * var(--u, 1px)) rgb(0 0 0 / 0.6),
+    0 0 calc(1 * var(--u, 1px)) #000;
+}
+
+.ld-subtitle {
+  top: calc(975 * var(--u, 1px));
+}
+
+.ld-subtitle__speaker {
+  color: var(--speaker);
+}
+
+.ld-objective {
+  top: calc(1035 * var(--u, 1px));
+  font-weight: 700;
+  animation: ld-feed-in 200ms linear both;
+}
+
+.ld-objective em {
+  color: #ff8fb3;
+  font-style: normal;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ld-feed__line {
+    animation-duration: 1ms, 1ms;
+  }
+}

@@ -1,0 +1,69 @@
+/* Money and ammo numerals. Pricedown needs a paid licence; Black Han Sans (OFL) is the closest square block face. */
+@font-face {
+  font-family: "Black Han Sans";
+  src: url("/fonts/BlackHanSans-Latin.woff2") format("woff2");
+  font-display: swap;
+}
+
+/* The HUD is authored at 1920×1080: every length is N × --u, and --u is one 1080p pixel at the stage's width. */
+.ld-hud-stage {
+  container-type: inline-size;
+  width: 100%;
+}
+
+.ld-hud-frame {
+  --u: calc(100cqw / 1920);
+  --hud-white: #f8f8f8;
+  --hud-pink: #ff8fb3;
+  --hud-route: #f888b0;
+  --hud-cyan: #00d8d8;
+  --hud-shadow: 0 0 calc(4 * var(--u)) rgb(0 0 0 / 0.6), 0 0 calc(1 * var(--u)) #000;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  color: var(--hud-white);
+  font-family: var(--font-ui);
+  font-size: calc(24 * var(--u));
+  background:
+    radial-gradient(70% 60% at 50% 42%, #2b2a33 0%, #1a191f 55%, #0c0b0f 100%);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Every HUD block sits at its measured 1080p spot. */
+.ld-hud-frame > [data-hud] {
+  position: absolute;
+}
+
+.ld-hud-frame > [data-hud="vitals"] {
+  top: 0;
+  left: 0;
+}
+
+.ld-hud-frame > [data-hud="help"] {
+  top: calc(288 * var(--u));
+  left: calc(32 * var(--u));
+}
+
+.ld-hud-frame > [data-hud="right"] {
+  top: calc(30 * var(--u));
+  right: calc(32 * var(--u));
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.ld-hud-frame > [data-hud="map"] {
+  left: calc(32 * var(--u));
+  bottom: calc(28 * var(--u));
+}
+
+.ld-hud-frame > [data-hud="prompts"] {
+  right: calc(40 * var(--u));
+  bottom: calc(28 * var(--u));
+}
+
+.ld-hud-frame > [data-hud="feed"] {
+  inset: 0;
+  pointer-events: none;
+}

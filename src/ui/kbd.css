@@ -1,0 +1,125 @@
+.vc-kbd {
+  display: inline-grid;
+  place-items: center;
+  min-width: calc(30 * var(--vc-u));
+  height: calc(30 * var(--vc-u));
+  padding: 0 calc(7 * var(--vc-u));
+  border-radius: calc(4 * var(--vc-u));
+  background: #fff;
+  color: var(--vc-ink);
+  font-family: var(--font-cond);
+  font-weight: 700;
+  font-size: calc(20 * var(--vc-u));
+  line-height: 1;
+  box-shadow: 0 0 0 calc(2 * var(--vc-u)) #000;
+}
+
+/* A face-button disc from the prompts: 30px white, a dark rim, the glyph drawn in dark strokes. */
+.vc-glyph {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: calc(30 * var(--vc-u));
+  height: calc(30 * var(--vc-u));
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 0 calc(2 * var(--vc-u)) #000;
+  vertical-align: middle;
+}
+
+.vc-glyph svg {
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: #000;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* L1 and R1: white shoulder keycaps with dark caps, bracketing a tab strip. */
+.vc-bumper {
+  display: inline-grid;
+  place-items: center;
+  height: calc(26 * var(--vc-u));
+  min-width: calc(30 * var(--vc-u));
+  padding: 0 calc(5 * var(--vc-u));
+  border-radius: calc(8 * var(--vc-u)) calc(8 * var(--vc-u)) calc(4 * var(--vc-u)) calc(4 * var(--vc-u));
+  background: #fff;
+  box-shadow: 0 0 0 calc(2 * var(--vc-u)) #000;
+  font-family: var(--font-cond);
+  font-weight: 800;
+  font-size: calc(19 * var(--vc-u));
+  line-height: 1;
+  color: #000;
+}
+
+/* Prompt: condensed caps about 30px with a dark keyline, then the disc 8px after the label. */
+.vc-prompt,
+.vc-prompt-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(8 * var(--vc-u));
+  font-family: var(--font-cond);
+  font-weight: 700;
+  font-size: calc(30 * var(--vc-u));
+  line-height: 1;
+  text-transform: uppercase;
+  color: #fff;
+  -webkit-text-stroke: calc(2 * var(--vc-u)) #000;
+  paint-order: stroke fill;
+}
+
+/* A prompt that is also a button: "SELECT (×)", "BACK (○)". No press flash, like the menus. */
+.vc-prompt-btn {
+  height: calc(52 * var(--vc-u));
+  padding: 0 calc(4 * var(--vc-u));
+  border: 0;
+  border-radius: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.vc-prompt-btn:focus-visible {
+  outline: 2px solid var(--vc-focus);
+  outline-offset: 0;
+}
+
+/* Unavailable prompts dim: grey caps and a grey disc. */
+:is(.vc-prompt, .vc-prompt-btn):is([data-disabled], :disabled) {
+  color: #6d6a70;
+  cursor: not-allowed;
+}
+
+:is(.vc-prompt, .vc-prompt-btn):is([data-disabled], :disabled) .vc-glyph {
+  background: #6d6a70;
+}
+
+/* A prompt bar: pairs right-aligned, 18px apart; stacked prompts sit on a 52px pitch. */
+.vc-prompts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0 calc(18 * var(--vc-u));
+}
+
+.vc-prompts[data-stack] {
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0;
+}
+
+.vc-prompts[data-stack] > * {
+  height: calc(52 * var(--vc-u));
+}
+
+/* Stick presses (L3, R3) take the same 30px disc as the face buttons. */
+:is(.vc-prompt, .vc-prompt-btn) .vc-kbd {
+  width: calc(30 * var(--vc-u));
+  min-width: 0;
+  padding: 0;
+  border-radius: 50%;
+  font-size: calc(15 * var(--vc-u));
+  -webkit-text-stroke: 0;
+}

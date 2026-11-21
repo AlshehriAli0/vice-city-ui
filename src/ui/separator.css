@@ -1,0 +1,29 @@
+/* Hairlines, as between settings rows. "sunset" is the description heading's pink rule: solid
+   #d689b8 for about 60% of its length, then fading out. */
+.vc-sep {
+  flex: 1;
+  border: 0;
+  margin: 0;
+  background: var(--vc-hair);
+}
+
+.vc-sep[data-orientation="horizontal"],
+.vc-sep:not([data-orientation]) {
+  height: 1px;
+  width: 100%;
+}
+
+.vc-sep[data-orientation="vertical"] {
+  width: 1px;
+  align-self: stretch;
+  min-height: 1em;
+}
+
+.vc-sep[data-variant="sunset"] {
+  height: 2px;
+  background: linear-gradient(90deg, var(--vc-heading-rule) 58%, transparent);
+}
+
+.vc-sep[data-variant="dashed"] {
+  background: repeating-linear-gradient(90deg, var(--vc-hair) 0 6px, transparent 6px 11px);
+}
