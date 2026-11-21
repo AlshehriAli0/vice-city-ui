@@ -1,35 +1,10 @@
 import { ArrowDown, ArrowRight } from "lucide-react";
-import { startTransition, useState, type ReactElement } from "react";
+import type { ReactElement } from "react";
 
 import { Button } from "../ui/button";
 import { ViceText } from "../ui/vice-text";
-import { DemoBoundary } from "./boundary";
 import { ENTRIES, entriesOf, sections, type Entry } from "./catalog";
-import { CropStage } from "./crop-stage";
-import { FitStage } from "./fit-stage";
-import { staticPlayground } from "./playground-state";
 import { hrefOf } from "./route";
-
-const pendingPreviews = new Map<Element, () => void>();
-let previewObserver: IntersectionObserver | undefined;
-
-function observePreview(element: Element, reveal: () => void): () => void {
-  previewObserver ??= new IntersectionObserver(
-    entries =>
-      startTransition(() => {
-        for (const { target, isIntersecting } of entries) {
-          if (isIntersecting) pendingPreviews.get(target)?.();
-        }
-      }),
-    { rootMargin: "1024px 0px" }
-  );
-  pendingPreviews.set(element, reveal);
-  previewObserver.observe(element);
-  return () => {
-    pendingPreviews.delete(element);
-    previewObserver?.unobserve(element);
-  };
-}
 
 function Masthead(): ReactElement {
   return (
@@ -40,8 +15,8 @@ function Masthead(): ReactElement {
       </h1>
       <p className="masthead__lede">The menus, HUD and phone, as accessible React components.</p>
       <p className="masthead__intro">
-        Built on Vercel UI SDK, which gives every control its keyboard, focus and ARIA. Each of the {ENTRIES.length}{" "}
-        cards below is a live component.
+        Built on Vercel UI SDK, which gives every control its keyboard, focus and ARIA. Open any of the {ENTRIES.length}{" "}
+        components for its live demo.
       </p>
       <div className="masthead__actions">
         <Button render={<a href={`#${sections[0]?.id}`} aria-label="Browse components" />}>
@@ -55,24 +30,9 @@ function Masthead(): ReactElement {
   );
 }
 
-function CatalogPreview({ entry }: { entry: Entry }): ReactElement {
-  if (entry.preview) return <FitStage width={760}>{entry.preview()}</FitStage>;
-
-  const content = entry.render(staticPlayground(entry));
-  if (entry.crop) return <CropStage crop={entry.crop}>{content}</CropStage>;
-
-  return <FitStage width={entry.wide ? 860 : 600}>{content}</FitStage>;
-}
-
 function CatalogCard({ entry }: { entry: Entry }): ReactElement {
-  const [visible, setVisible] = useState(() => typeof IntersectionObserver === "undefined");
-  const watch = (element: HTMLElement | null) => {
-    if (element && !visible) return observePreview(element, () => setVisible(true));
-    return undefined;
-  };
-
   return (
-    <article className="cat-card" data-id={entry.id} ref={watch}>
+    <article className="cat-card" data-id={entry.id}>
       <header className="cat-card__head">
         <span className="cat-card__no">{entry.label}</span>
         <h3 className="cat-card__name">
@@ -83,13 +43,15 @@ function CatalogCard({ entry }: { entry: Entry }): ReactElement {
         <span className="cat-card__rule" aria-hidden="true" />
       </header>
       <div className="cat-card__stage" data-scene={entry.scene ? "" : undefined}>
-        <div className="cat-card__preview" inert aria-hidden="true">
-          {visible && (
-            <DemoBoundary name={entry.name}>
-              <CatalogPreview entry={entry} />
-            </DemoBoundary>
-          )}
-        </div>
+        <img
+          className="cat-card__shot"
+          src={`/previews/${entry.id}.webp`}
+          alt=""
+          width={722}
+          height={420}
+          loading="lazy"
+          decoding="async"
+        />
       </div>
       <p className="cat-card__caption">{entry.pitch}</p>
     </article>

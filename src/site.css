@@ -203,10 +203,6 @@ main:focus {
   outline: none;
 }
 
-.masthead__title .vc-vice-text {
-  will-change: transform;
-}
-
 .masthead__lede {
   max-width: 30ch;
   margin: 24px auto 0;
@@ -394,6 +390,13 @@ main:focus {
   margin: 14px 14px 0;
   overflow: hidden;
   border-radius: 14px;
+}
+
+.cat-card__shot {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .cat-card__preview {

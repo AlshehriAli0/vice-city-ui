@@ -164,11 +164,12 @@ test("search forgives a typo", async () => {
   expect(screen.getAllByRole("option")[0].querySelector(".search__name")).toHaveTextContent("Phone");
 });
 
-test("game previews show only the component's crop box", () => {
+test("cards show a captured image instead of mounting the live component", () => {
   render(<App />);
-  for (const entry of ENTRIES.filter(item => item.crop)) {
+  for (const entry of ENTRIES) {
     const card = document.querySelector(`[data-id="${entry.id}"]`)!;
-    expect(card.querySelector(".crop"), entry.id).not.toBeNull();
+    expect(card.querySelector("img.cat-card__shot"), entry.id).toHaveAttribute("src", `/previews/${entry.id}.webp`);
+    expect(card.querySelector(".crop, .fit-stage"), entry.id).toBeNull();
   }
 });
 
@@ -223,4 +224,10 @@ test("no two components share a name, and the kit's titles are generic", () => {
   const names = ENTRIES.map(entry => entry.name.toLowerCase());
   expect(new Set(names).size).toBe(names.length);
   for (const name of ["radio group", "toggle switch", "dropdown menu"]) expect(names).toContain(name);
+});
+
+const PREVIEWS = import.meta.glob("/public/previews/*.webp");
+
+test("every catalogue card has a captured preview image (run scripts/gen-previews.py after adding one)", () => {
+  for (const entry of ENTRIES) expect(Object.keys(PREVIEWS), entry.id).toContain(`/public/previews/${entry.id}.webp`);
 });
