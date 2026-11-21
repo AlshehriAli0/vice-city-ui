@@ -82,6 +82,12 @@
   box-shadow: none;
 }
 
+.vc-btn:not([data-variant="link"]):active:not([data-disabled], [data-pending]) {
+  background: rgb(246 249 246 / 0.8);
+  color: var(--vc-ink);
+  box-shadow: none;
+}
+
 .vc-btn[data-variant="link"] {
   height: auto;
   padding: 0;
@@ -123,7 +129,7 @@
 }
 
 .vc-btn[data-disabled] {
-  opacity: 0.45;
+  opacity: var(--vc-disabled);
   cursor: not-allowed;
 }
 

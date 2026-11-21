@@ -11,7 +11,7 @@
   box-shadow: var(--vc-shadow);
   outline: none;
   transform-origin: var(--transform-origin);
-  transition: opacity 67ms linear;
+  transition: opacity var(--vc-fast) var(--vc-ease);
 }
 
 .vc-surface[data-starting-style],

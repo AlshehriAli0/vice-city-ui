@@ -31,7 +31,7 @@
 }
 
 .vc-menu__item[data-disabled] {
-  opacity: 0.45;
+  opacity: var(--vc-disabled);
 }
 
 .vc-menu__item:focus-visible {
@@ -77,6 +77,15 @@
   width: calc(14 * var(--vc-u));
   height: calc(14 * var(--vc-u));
   border-radius: 50%;
+}
+
+/* Next to icon rows, indicators centre in the icon's column so every label starts on one line. */
+.vc-menu:has(.vc-menu__icon) .vc-menu__check {
+  margin-inline: calc(4 * var(--vc-u));
+}
+
+.vc-menu:has(.vc-menu__icon) .vc-menu__radio {
+  margin-inline: calc(6 * var(--vc-u));
 }
 
 .vc-menu__check svg {
@@ -148,7 +157,7 @@
 }
 
 .vc-context-area[data-open],
-.vc-context-area:hover,
+.vc-context-area:hover:not([data-disabled]),
 .vc-context-area:focus-visible {
   outline: none;
   background: var(--vc-row);

@@ -6,7 +6,7 @@ import {
 } from "@ui-sdk/react/date-picker";
 import type { ComponentProps, ReactElement } from "react";
 
-import { CalendarGrid, CalendarHeader, CalendarHeading, CalendarNext, CalendarPrevious } from "./calendar";
+import { CalendarGrid, CalendarHeader, CalendarHeading, CalendarNav, CalendarNext, CalendarPrevious } from "./calendar";
 import { cx, merge, POPUP_CLEARANCE, styled } from "./cx";
 import { Calendar } from "./icons";
 
@@ -61,9 +61,11 @@ function DatePickerContent({
       {children ?? (
         <>
           <CalendarHeader>
-            <CalendarPrevious />
             <CalendarHeading />
-            <CalendarNext />
+            <CalendarNav>
+              <CalendarPrevious />
+              <CalendarNext />
+            </CalendarNav>
           </CalendarHeader>
           <CalendarGrid />
         </>

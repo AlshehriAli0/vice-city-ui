@@ -20,5 +20,7 @@
   padding: calc(16 * var(--vc-u)) calc(19 * var(--vc-u)) calc(18 * var(--vc-u));
   border-top: calc(3 * var(--vc-u)) solid var(--vc-rule);
   background: var(--vc-card);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
   overflow: visible;
 }

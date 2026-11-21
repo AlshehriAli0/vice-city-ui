@@ -10,7 +10,7 @@
   gap: calc(8 * var(--vc-u));
   width: 100%;
   min-height: calc(30 * var(--vc-u));
-  transition: opacity 200ms linear;
+  transition: opacity var(--vc-base) var(--vc-ease);
 }
 
 .vc-vital[data-tone="stamina"] {

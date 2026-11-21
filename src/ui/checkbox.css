@@ -13,7 +13,7 @@
 }
 
 .vc-choice:has([data-disabled]) {
-  opacity: 0.45;
+  opacity: var(--vc-disabled);
   cursor: not-allowed;
 }
 
@@ -31,6 +31,10 @@
   box-shadow: inset 0 0 0 calc(1.5 * var(--vc-u)) currentColor;
   color: inherit;
   cursor: pointer;
+}
+
+.vc-check[data-disabled] {
+  cursor: not-allowed;
 }
 
 .vc-check:focus-visible {

@@ -25,7 +25,7 @@
   cursor: pointer;
 }
 
-.vc-pagination__link:hover:not([data-current]),
+.vc-pagination__link:hover:not([data-current], [data-disabled]),
 .vc-pagination__step:hover:not([data-disabled]) {
   background: var(--vc-muted);
 }
@@ -41,8 +41,9 @@
   color: var(--vc-ink);
 }
 
+.vc-pagination__link[data-disabled],
 .vc-pagination__step[data-disabled] {
-  opacity: 0.35;
+  opacity: var(--vc-disabled);
   cursor: not-allowed;
 }
 

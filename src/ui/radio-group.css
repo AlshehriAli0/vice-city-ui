@@ -16,7 +16,7 @@
 }
 
 .vc-radio-item:has(.vc-radio[data-disabled]) {
-  opacity: 0.45;
+  opacity: var(--vc-disabled);
   cursor: not-allowed;
 }
 
@@ -51,6 +51,10 @@
   outline-offset: 3px;
 }
 
+.vc-radio[data-disabled] {
+  cursor: not-allowed;
+}
+
 .vc-radio[data-checked] {
   box-shadow: inset 0 0 0 calc(1.5 * var(--vc-u)) var(--vc-pink);
 }
@@ -82,7 +86,7 @@
   order: 3;
 }
 
-.vc-radios[data-variant="stacked"] .vc-radio-item:is(:hover, :focus-within) {
+.vc-radios[data-variant="stacked"] .vc-radio-item:not(:has(.vc-radio[data-disabled])):is(:hover, :focus-within) {
   background: var(--vc-row);
   color: var(--vc-ink);
 }

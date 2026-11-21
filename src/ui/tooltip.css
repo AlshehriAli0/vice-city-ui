@@ -14,7 +14,7 @@
   font-size: calc(24 * var(--vc-u));
   line-height: 1.3;
   overflow: visible;
-  transition: opacity 150ms linear;
+  transition: opacity var(--vc-fast) var(--vc-ease);
 }
 
 .vc-tooltip[data-starting-style],

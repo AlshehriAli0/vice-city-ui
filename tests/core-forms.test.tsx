@@ -410,6 +410,19 @@ test("number input steps and the code reports when complete", async () => {
   expect(await screen.findByText("Code accepted.")).toBeInTheDocument();
 });
 
+test("the date picker's month heading leads, with both month buttons grouped after it like the calendar", async () => {
+  const user = userEvent.setup();
+  renderPlayground("core-entry");
+  await example("Date");
+  await user.click(await screen.findByRole("button", { name: /calendar|date/i }));
+  const previous = await screen.findByRole("button", { name: "Previous month" });
+  const next = screen.getByRole("button", { name: "Next month" });
+  const header = previous.closest("[class~='vc-cal__head']");
+  expect(header?.firstElementChild).toHaveClass("vc-cal__heading");
+  expect(previous.parentElement).toBe(next.parentElement);
+  expect(previous.parentElement).toHaveClass("vc-cal__navs");
+});
+
 describe("playground", () => {
   test("every demo has controls, defaults for each, examples and a usage snippet", () => {
     for (const demo of coreForms) {

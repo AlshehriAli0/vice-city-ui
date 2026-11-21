@@ -46,7 +46,7 @@
 }
 
 .vc-sheet__body > * {
-  animation: vc-fade 67ms linear 170ms both;
+  animation: vc-fade var(--vc-fast) var(--vc-ease) 170ms both;
 }
 
 .vc-sheet__body > :nth-child(2) {

@@ -37,7 +37,7 @@
   box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.14);
 }
 
-.vc-toggle:hover::before {
+.vc-toggle:hover:not([data-pressed], [data-disabled])::before {
   background: rgb(255 255 255 / 0.14);
 }
 
@@ -48,6 +48,11 @@
 .vc-toggle[data-pressed]::before {
   background: #fff;
   box-shadow: none;
+}
+
+.vc-toggle[data-disabled] {
+  opacity: var(--vc-disabled);
+  cursor: not-allowed;
 }
 
 .vc-toggle:focus-visible {

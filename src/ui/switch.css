@@ -36,7 +36,7 @@
 }
 
 .vc-switch[data-disabled] {
-  opacity: 0.45;
+  opacity: var(--vc-disabled);
   cursor: not-allowed;
 }
 
@@ -49,7 +49,7 @@
   border-radius: 50%;
   background: #fff;
   box-shadow: 0 0 0 1px rgb(31 18 36 / 0.45);
-  transition: translate 100ms ease-out;
+  transition: translate var(--vc-fast) var(--vc-ease);
 }
 
 .vc-switch__thumb[data-checked] {
@@ -127,12 +127,12 @@
   border-bottom: 1px solid var(--vc-hair);
 }
 
-:is(.vc-list, .vc-settings) .vc-switch-row:is(:hover, :focus-within) {
+:is(.vc-list, .vc-settings) .vc-switch-row:not(:has([data-disabled])):is(:hover, :focus-within) {
   background: var(--vc-row);
   color: var(--vc-ink);
 }
 
-:is(.vc-list, .vc-settings) .vc-switch-row:is(:hover, :focus-within) .vc-switch-row__hint {
+:is(.vc-list, .vc-settings) .vc-switch-row:not(:has([data-disabled])):is(:hover, :focus-within) .vc-switch-row__hint {
   color: rgb(31 32 47 / 0.7);
 }
 
@@ -142,12 +142,14 @@
 }
 
 /* Pink keeps its colour on the bar; the off pill darkens so it stays visible on white. */
-:is(.vc-list, .vc-settings) .vc-switch-row:is(:hover, :focus-within) .vc-switch:not([data-checked]) {
+:is(.vc-list, .vc-settings)
+  .vc-switch-row:not(:has([data-disabled])):is(:hover, :focus-within)
+  .vc-switch:not([data-checked]) {
   background: rgb(31 32 47 / 0.25);
 }
 
 .vc-switch-row:has([data-disabled]) {
-  opacity: 0.45;
+  opacity: var(--vc-disabled);
   cursor: not-allowed;
 }
 
@@ -180,6 +182,6 @@
   outline: none;
 }
 
-.vc-field[data-layout="row"]:is(:hover, :focus-within) > .vc-switch:not([data-checked]) {
+.vc-field[data-layout="row"]:not([data-disabled]):is(:hover, :focus-within) > .vc-switch:not([data-checked]) {
   background: rgb(31 32 47 / 0.25);
 }

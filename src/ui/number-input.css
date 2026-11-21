@@ -46,10 +46,17 @@
 }
 
 .vc-number__step[data-disabled] {
-  opacity: 0.35;
+  opacity: var(--vc-disabled);
   cursor: not-allowed;
 }
 
 .vc-field[data-layout="row"] .vc-number {
   width: calc(200 * var(--vc-u));
+}
+
+.vc-field[data-layout="row"] .vc-control input.vc-number__input {
+  flex: 1;
+  width: 0;
+  field-sizing: fixed;
+  text-align: center;
 }

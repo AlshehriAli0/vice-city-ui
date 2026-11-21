@@ -8,13 +8,14 @@
   backdrop-filter: blur(48px) saturate(0.85);
 }
 
-.vc-dialog__backdrop[data-ending-style] {
+.vc-dialog__backdrop[data-ending-style],
+.vc-sheet__backdrop[data-ending-style] {
   opacity: 0;
-  transition: opacity 130ms linear;
+  transition: opacity var(--vc-fast) var(--vc-ease);
 }
 
 /* A settings-style panel: flat #1f202d, a display heading over the pink heading rule, body in the
-   text face, prompts bottom-right. It fades up over 300ms ease-out, then its parts cascade in. */
+   text face, prompts bottom-right. It fades up, then its parts cascade in. */
 .vc-dialog {
   position: fixed;
   inset: 0;
@@ -25,7 +26,7 @@
   overflow: auto;
   background: var(--vc-panel);
   box-shadow: none;
-  transition: opacity 300ms ease-out;
+  transition: opacity var(--vc-base) var(--vc-ease);
 }
 
 .vc-dialog::backdrop {
@@ -46,8 +47,7 @@
 
 .vc-dialog[data-ending-style] {
   opacity: 0;
-  transition-duration: 130ms;
-  transition-timing-function: linear;
+  transition-duration: var(--vc-fast);
 }
 
 .vc-dialog__body {
@@ -57,17 +57,17 @@
 }
 
 .vc-dialog__body > * {
-  animation: vc-fade 100ms linear 200ms both;
+  animation: vc-fade var(--vc-fast) var(--vc-ease) 100ms both;
 }
 
 .vc-dialog__body > :nth-child(2) {
-  animation-delay: 233ms;
+  animation-delay: 133ms;
 }
 .vc-dialog__body > :nth-child(3) {
-  animation-delay: 266ms;
+  animation-delay: 166ms;
 }
 .vc-dialog__body > :nth-child(n + 4) {
-  animation-delay: 300ms;
+  animation-delay: 200ms;
 }
 
 .vc-dialog__title,

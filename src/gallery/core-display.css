@@ -191,10 +191,11 @@
   overflow: hidden;
 }
 
+/* The official map has a white grid-letter margin down each side; bleed it out of the frame. */
 .cd-map__img {
   position: absolute;
-  inset: 0;
-  width: 100%;
+  inset: 0 auto 0 -3.5%;
+  width: 107%;
   height: 100%;
   object-fit: cover;
 }

@@ -74,5 +74,5 @@
 }
 
 .vc-cycle[data-disabled] {
-  opacity: 0.45;
+  opacity: var(--vc-disabled);
 }

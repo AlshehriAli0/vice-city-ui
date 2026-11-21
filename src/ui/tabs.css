@@ -24,6 +24,50 @@
   scrollbar-width: none;
 }
 
+/* A list too wide for its bar scrolls; its edges fade only on the side with more tabs, like the
+   scroll area. Where scroll timelines aren't supported the list just scrolls. */
+@property --vc-tabs-fade-start {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+@property --vc-tabs-fade-end {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+@keyframes vc-tabs-fade {
+  from {
+    --vc-tabs-fade-start: 0px;
+    --vc-tabs-fade-end: 32px;
+  }
+  15%,
+  85% {
+    --vc-tabs-fade-start: 32px;
+    --vc-tabs-fade-end: 32px;
+  }
+  to {
+    --vc-tabs-fade-start: 32px;
+    --vc-tabs-fade-end: 0px;
+  }
+}
+
+@supports (animation-timeline: scroll()) {
+  .vc-tabs__list {
+    mask: linear-gradient(
+      90deg,
+      transparent,
+      #000 var(--vc-tabs-fade-start),
+      #000 calc(100% - var(--vc-tabs-fade-end)),
+      transparent
+    );
+    animation: vc-tabs-fade linear both;
+    animation-timeline: scroll(self inline);
+  }
+}
+
 .vc-tabs__tab {
   position: relative;
   z-index: 1;
@@ -43,7 +87,7 @@
 }
 
 .vc-tabs__tab[data-disabled] {
-  opacity: 0.4;
+  opacity: var(--vc-disabled);
   cursor: not-allowed;
 }
 
@@ -79,7 +123,7 @@
   background: linear-gradient(90deg, transparent, var(--vc-pink-hot) 20%, var(--vc-pink-hot) 80%, transparent);
 }
 
-.vc-tabs[data-variant="underline"] .vc-tabs__tab:hover:not([data-selected]) {
+.vc-tabs[data-variant="underline"] .vc-tabs__tab:hover:not([data-selected], [data-disabled]) {
   color: #fff;
 }
 
@@ -93,7 +137,7 @@
 .vc-tabs:is([data-variant="chips"], [data-variant="pill"], [data-variant="slant"]) .vc-tabs__tab {
   height: calc(33 * var(--vc-u));
   padding: 0 calc(16 * var(--vc-u));
-  font-size: calc(28 * var(--vc-u));
+  font-size: calc(26 * var(--vc-u));
   isolation: isolate;
 }
 
@@ -107,7 +151,8 @@
   box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.14);
 }
 
-.vc-tabs:is([data-variant="chips"], [data-variant="pill"], [data-variant="slant"]) .vc-tabs__tab:hover::before {
+.vc-tabs:is([data-variant="chips"], [data-variant="pill"], [data-variant="slant"])
+  .vc-tabs__tab:hover:not([data-selected], [data-disabled])::before {
   background: rgb(255 255 255 / 0.14);
 }
 
@@ -121,11 +166,11 @@
   box-shadow: none;
 }
 
-/* Tab content fades in over 167ms, linear, after the tab itself has snapped. */
+/* Tab content fades in after the tab itself has snapped. */
 .vc-tabs__panel {
   min-width: 0;
   outline: none;
-  animation: vc-fade 167ms linear both;
+  animation: vc-fade var(--vc-base) var(--vc-ease) both;
 }
 
 .vc-tabs__panel:focus-visible {

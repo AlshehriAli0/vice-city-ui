@@ -18,11 +18,16 @@
   cursor: pointer;
 }
 
-.vc-collapsible__trigger:hover,
+.vc-collapsible__trigger:hover:not([data-disabled]),
 .vc-collapsible__trigger:focus-visible {
   background: var(--vc-row);
   color: var(--vc-ink);
   outline: none;
+}
+
+.vc-collapsible__trigger[data-disabled] {
+  opacity: var(--vc-disabled);
+  cursor: not-allowed;
 }
 
 .vc-collapsible__chevron {
@@ -46,5 +51,5 @@
 
 .vc-collapsible__content {
   padding: calc(8 * var(--vc-u)) 0 calc(4 * var(--vc-u));
-  animation: vc-fade 167ms linear both;
+  animation: vc-fade var(--vc-base) var(--vc-ease) both;
 }

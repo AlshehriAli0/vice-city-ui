@@ -88,7 +88,7 @@
   min-width: calc(120 * var(--vc-u));
 }
 
-.vc-field[data-layout="row"]:is(:hover, :focus-within) .vc-slider__track {
+.vc-field[data-layout="row"]:not([data-disabled]):is(:hover, :focus-within) .vc-slider__track {
   background: rgb(31 32 47 / 0.22);
 }
 
@@ -98,5 +98,5 @@
 }
 
 .vc-slider[data-disabled] {
-  opacity: 0.45;
+  opacity: var(--vc-disabled);
 }

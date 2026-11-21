@@ -79,7 +79,7 @@
 }
 
 /* The value cluster keeps its size; when the row is too narrow it drops under the label, right-aligned. */
-.vc-field[data-layout="row"] > :not(.vc-label, .vc-description, .vc-error) {
+.vc-field[data-layout="row"] > :not(.vc-label, .vc-description, .vc-error, .vc-pop, .vc-surface) {
   flex: 0 1 auto;
   margin-inline-start: auto;
   min-width: 0;
@@ -93,9 +93,7 @@
   padding-bottom: calc(4 * var(--vc-u));
 }
 
-.vc-field[data-layout="row"]:hover,
-.vc-field[data-layout="row"]:focus-within,
-.vc-field[data-layout="row"]:has([data-open]) {
+.vc-field[data-layout="row"]:not([data-disabled]):is(:hover, :focus-within, :has([data-open])) {
   background: var(--vc-row);
   color: var(--vc-ink);
 }
@@ -105,16 +103,16 @@
   outline: none;
 }
 
-.vc-field[data-layout="row"]:is(:hover, :focus-within, :has([data-open])) .vc-description {
+.vc-field[data-layout="row"]:not([data-disabled]):is(:hover, :focus-within, :has([data-open])) .vc-description {
   color: rgb(31 32 47 / 0.7);
 }
 
-.vc-field[data-layout="row"]:is(:hover, :focus-within) .vc-error {
+.vc-field[data-layout="row"]:not([data-disabled]):is(:hover, :focus-within) .vc-error {
   color: #9a1834;
 }
 
 .vc-field[data-layout="row"][data-disabled] {
-  opacity: 0.45;
+  opacity: var(--vc-disabled);
 }
 
 /* A settings list with an optional section header ("INVERTED CONTROLS"), 50px above its first row. */
@@ -171,11 +169,16 @@
 }
 
 .vc-field[data-layout="choice"][data-disabled] {
-  opacity: 0.45;
+  opacity: var(--vc-disabled);
   cursor: not-allowed;
 }
 
 .vc-field-group {
   display: grid;
   min-width: 0;
+}
+
+.vc-field[data-disabled] .vc-label,
+.vc-field[data-layout="row"][data-disabled] > .vc-label:has(~ .vc-switch) {
+  cursor: not-allowed;
 }

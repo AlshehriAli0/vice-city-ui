@@ -88,12 +88,12 @@
   outline: none;
 }
 
-.vc-cal__day:hover {
+.vc-cal__day:hover:not([data-disabled], [data-unavailable], [data-selected]) {
   background: var(--vc-muted);
 }
 
 .vc-cal__day[data-outside] {
-  opacity: 0.4;
+  opacity: 0.55;
 }
 
 .vc-cal__day[data-today] {
@@ -124,7 +124,7 @@
 
 .vc-cal__day[data-disabled],
 .vc-cal__day[data-unavailable] {
-  opacity: 0.3;
+  opacity: var(--vc-disabled);
   text-decoration: line-through;
   cursor: not-allowed;
 }

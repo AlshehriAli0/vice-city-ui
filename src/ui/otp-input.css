@@ -47,7 +47,7 @@
 }
 
 .vc-otp[data-disabled] {
-  opacity: 0.45;
+  opacity: var(--vc-disabled);
 }
 
 @keyframes vc-caret {

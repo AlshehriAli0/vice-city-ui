@@ -29,11 +29,16 @@
   cursor: pointer;
 }
 
-.vc-accordion__trigger:hover,
+.vc-accordion__trigger:hover:not([data-disabled]),
 .vc-accordion__trigger:focus-visible {
   background: var(--vc-row);
   color: var(--vc-ink);
   outline: none;
+}
+
+.vc-accordion__trigger[data-disabled] {
+  opacity: var(--vc-disabled);
+  cursor: not-allowed;
 }
 
 .vc-accordion__chevron {
@@ -62,7 +67,7 @@
   font-size: calc(24 * var(--vc-u));
   line-height: 1.45;
   color: var(--vc-text);
-  animation: vc-fade 167ms linear both;
+  animation: vc-fade var(--vc-base) var(--vc-ease) both;
 }
 
 .vc-accordion__content b,

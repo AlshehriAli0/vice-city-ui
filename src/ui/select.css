@@ -41,11 +41,12 @@
 }
 
 .vc-row__text {
-  display: grid;
+  display: block;
   min-width: 0;
 }
 
 .vc-row__hint {
+  display: block;
   font-size: calc(20 * var(--vc-u));
   opacity: 0.6;
 }
