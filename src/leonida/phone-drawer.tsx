@@ -7,6 +7,7 @@ import {
   type ComponentProps,
   type ReactElement,
   type Ref,
+  type RefObject,
 } from "react";
 
 import { merge } from "../ui/cx";
@@ -99,7 +100,27 @@ type PhoneDrawerContentProps = Omit<ComponentProps<typeof DialogContent>, "child
   reminders?: number;
 };
 
-const SCROLL_KEYS = new Set(["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "PageUp", "PageDown"]);
+const PAGE_SCROLL_KEYS = new Set(["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "PageUp", "PageDown"]);
+
+function usePhoneScreenFocus(
+  screenKey: string,
+  canMoveFocus: boolean,
+  content: RefObject<HTMLDivElement | null>,
+  view: RefObject<HTMLDivElement | null>
+) {
+  const shown = useRef(screenKey);
+
+  useLayoutEffect(() => {
+    if (shown.current === screenKey) return;
+    shown.current = screenKey;
+    if (!canMoveFocus) return;
+    const active = document.activeElement;
+    if (active && active !== document.body && !content.current?.contains(active)) return;
+    const items = view.current?.querySelectorAll<HTMLElement>('[data-slot="phone-menu-item"][tabindex="0"]');
+    const target = items?.[items.length - 1] ?? view.current ?? content.current;
+    target?.focus({ preventScroll: false });
+  }, [screenKey, canMoveFocus, content, view]);
+}
 
 function PhoneDrawerContent({
   time = "8:00 am",
@@ -174,21 +195,7 @@ function PhoneDrawerContent({
   );
 
   const screenKey = `${stack.length}-${entry.screen}-${entry.param ?? ""}-${entry.sheet ?? ""}`;
-  const shown = useRef(screenKey);
-  const open = root.open;
-  const exiting = phase === "out";
-  // A new screen takes D-pad focus, but only while the phone is up and only when focus was in the phone (or dropped with
-  // the old screen): never on mount, never on the way out, and never away from a page control that changed the app.
-  useLayoutEffect(() => {
-    if (shown.current === screenKey) return;
-    shown.current = screenKey;
-    if (!open || exiting) return;
-    const active = document.activeElement;
-    if (active && active !== document.body && !content.current?.contains(active)) return;
-    const items = view.current?.querySelectorAll<HTMLElement>('[data-slot="phone-menu-item"][tabindex="0"]');
-    const target = items?.[items.length - 1] ?? view.current ?? content.current;
-    target?.focus({ preventScroll: false });
-  }, [screenKey, open, exiting]);
+  usePhoneScreenFocus(screenKey, root.open && phase !== "out", content, view);
 
   function select() {
     const items = view.current?.querySelectorAll<HTMLElement>('[data-slot="phone-menu-item"][tabindex="0"]');
@@ -217,10 +224,9 @@ function PhoneDrawerContent({
         data-pose={inCar ? "car" : "foot"}
         data-exit={exit}
         initialFocus={initialFocus}
-        onKeyDown={(event) => {
+        onKeyDown={event => {
           props.onKeyDown?.(event);
-          // The D-pad never scrolls the page behind, even on a screen with nothing to move between.
-          if (SCROLL_KEYS.has(event.key)) event.preventDefault();
+          if (PAGE_SCROLL_KEYS.has(event.key)) event.preventDefault();
         }}
       >
         <DialogTitle className="ld-sr">Phone</DialogTitle>

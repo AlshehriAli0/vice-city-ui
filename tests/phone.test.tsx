@@ -448,7 +448,7 @@ test("changing the app from a page control leaves focus on that control", async 
     <>
       <button type="button">Examples</button>
       <Controlled app="home" />
-    </>,
+    </>
   );
   await wait(400);
   const outside = screen.getByRole("button", { name: "Examples" });
@@ -457,11 +457,11 @@ test("changing the app from a page control leaves focus on that control", async 
     <>
       <button type="button">Examples</button>
       <Controlled app="whatup" />
-    </>,
+    </>
   );
   expect(view()).toHaveAttribute("data-screen", "whatup");
   expect(outside).toHaveFocus();
-  // Inside the phone, a new screen still takes focus.
+
   await user.click(screen.getByRole("menuitem", { name: "Jordan" }));
   expect(view()).toHaveAttribute("data-screen", "thread");
   expect(view()).toHaveFocus();
