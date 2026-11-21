@@ -28,6 +28,8 @@
   text-transform: uppercase;
   overflow-wrap: anywhere;
   filter: var(--vice-edge);
+  /* Safari paints nothing for a filtered background-clip:text box unless it gets its own layer. */
+  will-change: transform;
 }
 
 [data-slot="vice-text-fill"] {
