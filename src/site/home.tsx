@@ -17,7 +17,7 @@ function Masthead(): ReactElement {
       <h1 className="masthead__title" id="home-title" tabIndex={-1}>
         <ViceText>Vice City UI</ViceText>
       </h1>
-      <p className="masthead__lede">The menus, HUD and phone, as accessible React components.</p>
+      <p className="masthead__lede">A complete design system of accessible React components.</p>
       <p className="masthead__intro">
         Built on Vercel UI SDK, which gives every control its keyboard, focus and ARIA. Open any of the {ENTRIES.length}{" "}
         components for its live demo.
