@@ -1,5 +1,6 @@
 /* Settings rows that open: 67px plus a hairline, the bar on hover and focus, content fading in. */
 .vc-accordion {
+  --vc-ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
   display: grid;
   width: 100%;
 }
@@ -46,6 +47,7 @@
   margin-inline-start: auto;
   width: calc(22 * var(--vc-u));
   height: calc(22 * var(--vc-u));
+  transition: rotate 220ms var(--vc-ease-out);
 }
 
 .vc-accordion__trigger[data-open] .vc-accordion__chevron {
@@ -55,6 +57,7 @@
 .vc-accordion__panel {
   height: var(--accordion-panel-height);
   overflow: hidden;
+  transition: height 220ms var(--vc-ease-out);
 }
 
 .vc-accordion__panel[data-starting-style],
@@ -67,7 +70,11 @@
   font-size: calc(24 * var(--vc-u));
   line-height: 1.45;
   color: var(--vc-text);
-  animation: vc-fade var(--vc-base) var(--vc-ease) both;
+  transition: opacity 220ms var(--vc-ease-out);
+}
+
+.vc-accordion__panel:is([data-starting-style], [data-ending-style]) .vc-accordion__content {
+  opacity: 0;
 }
 
 .vc-accordion__content b,
