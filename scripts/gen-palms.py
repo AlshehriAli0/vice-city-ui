@@ -52,9 +52,8 @@ def palm(base_x, crown, lean, size):
 body = palm(260, (330, 120), -40, 300) + palm(960, (860, 95), 45, 330)
 svg = (
     f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" preserveAspectRatio="xMidYMid slice">'
-    '<filter id="soft"><feGaussianBlur stdDeviation="0.8"/></filter>'
-    '<linearGradient id="fade" x1="0" y1="0" x2="0" y2="1"><stop offset="0.27" stop-color="#fff"/><stop offset="0.5" stop-color="#fff" stop-opacity="0"/></linearGradient>'
-    f'<mask id="sunwash"><rect width="{W}" height="{H}" fill="url(#fade)"/></mask>'
-    f'<g fill="{INK}" opacity="0.55" filter="url(#soft)" mask="url(#sunwash)">{body}</g></svg>'
+    f'<linearGradient id="sunwash" gradientUnits="userSpaceOnUse" x1="0" y1="{0.27 * H:g}" x2="0" y2="{0.5 * H:g}">'
+    f'<stop offset="0" stop-color="{INK}" stop-opacity="1"/><stop offset="1" stop-color="{INK}" stop-opacity="0"/></linearGradient>'
+    f'<g fill="url(#sunwash)" opacity="0.55">{body}</g></svg>'
 )
 open("public/textures/palms.svg", "w").write(svg)

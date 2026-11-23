@@ -13,6 +13,11 @@
   pointer-events: none;
 }
 
+/* With no toasts, Safari 26 would read the empty fixed region at the bottom edge and paint its toolbar solid. */
+.ld-slot:not([data-inline]):has(> ol:empty) {
+  display: none;
+}
+
 /* Instant in (well under 60ms), a 130ms linear fade out, no movement. */
 .ld-text,
 .ld-call {
