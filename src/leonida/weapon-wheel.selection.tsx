@@ -1,11 +1,11 @@
-import { useEffect, useEffectEvent, useState, type ReactElement } from "react";
+import { useEffect, useEffectEvent, useState } from "react";
 
 import { cssVariables } from "../ui/css-variables";
 import { KeyCap } from "./menu-backdrop";
 import type { WheelTab } from "./weapon-wheel";
 import type { Slot } from "./weapon-wheel.art";
 
-function useLagged<T>(value: T, ms = 50): T {
+const useLagged = <T,>(value: T, ms = 50): T => {
   const [shown, setShown] = useState(value);
   const pending = !Object.is(value, shown);
   const reveal = useEffectEvent(() => setShown(value));
@@ -17,9 +17,9 @@ function useLagged<T>(value: T, ms = 50): T {
   }, [pending, ms]);
 
   return shown;
-}
+};
 
-function Stats({ slot }: { slot: Slot }): ReactElement | null {
+const Stats = ({ slot }: { slot: Slot }) => {
   if (!slot.stats || !slot.name) return null;
   const rows: [string, number][] = [
     ["Damage", slot.stats.damage],
@@ -47,17 +47,9 @@ function Stats({ slot }: { slot: Slot }): ReactElement | null {
       ))}
     </div>
   );
-}
+};
 
-function WheelSelection({
-  focused,
-  held,
-  tab,
-}: {
-  focused: Slot | undefined;
-  held: string;
-  tab: WheelTab;
-}): ReactElement {
+const WheelSelection = ({ focused, held, tab }: { focused: Slot | undefined; held: string; tab: WheelTab }) => {
   const shown = useLagged(focused);
   return (
     <>
@@ -70,6 +62,6 @@ function WheelSelection({
       {tab === "weapons" && focused && <Stats slot={focused} />}
     </>
   );
-}
+};
 
 export { WheelSelection };

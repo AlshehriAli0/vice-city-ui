@@ -7,7 +7,7 @@ import { FullHud } from "./full-hud";
 import { EVIDENCE, EVIDENCE_CONTROLS, STATES, policeState, washOf } from "./hud-wanted";
 import type { Demo, Playground, Value, Values } from "./types";
 
-function WantedDemo({ values, set }: Playground) {
+const WantedDemo = ({ values, set }: Playground) => {
   const heat = Number(values.heat);
   const state = policeState(values.police);
   const shown = heat > 0 && state !== "seen" ? EVIDENCE.filter(item => values[item]) : [];
@@ -35,14 +35,14 @@ function WantedDemo({ values, set }: Playground) {
       </HudStage>
     </div>
   );
-}
+};
 
-function updateHudControl(values: Values, name: string, value: Value): Values {
+const updateHudControl = (values: Values, name: string, value: Value): Values => {
   const next = { ...values, [name]: value };
   if (name === "driving" && value) next.sprinting = false;
   if (name === "sprinting" && value) next.driving = false;
   return next;
-}
+};
 
 const hudMetersDemos: Demo[] = [
   {

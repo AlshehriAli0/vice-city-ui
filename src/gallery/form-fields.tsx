@@ -1,5 +1,3 @@
-import type { ReactElement } from "react";
-
 import { Button } from "../ui/button";
 import { Field, FieldError, FieldLabel } from "../ui/field";
 import { Input, InputClear, InputGroup, Textarea } from "../ui/input";
@@ -19,22 +17,20 @@ const BUTTON_VARIANTS = labeledOptions(
 
 const INPUT_LAYOUTS = labeledOptions(["row", "Row"], ["stack", "Stack"]);
 
-function ButtonDemo({ values: v }: Playground): ReactElement {
-  return (
-    <FormStage center>
-      <Button
-        variant={optionValue(v.variant, BUTTON_VARIANTS)}
-        size={optionValue(v.size, SIZES)}
-        disabled={Boolean(v.disabled)}
-        onClick={v.pending ? () => new Promise(done => setTimeout(done, 1600)) : undefined}
-      >
-        {String(v.label)}
-      </Button>
-    </FormStage>
-  );
-}
+const ButtonDemo = ({ values: v }: Playground) => (
+  <FormStage center>
+    <Button
+      variant={optionValue(v.variant, BUTTON_VARIANTS)}
+      size={optionValue(v.size, SIZES)}
+      disabled={Boolean(v.disabled)}
+      onClick={v.pending ? () => new Promise(done => setTimeout(done, 1600)) : undefined}
+    >
+      {String(v.label)}
+    </Button>
+  </FormStage>
+);
 
-function DemoInput({ values }: Pick<Playground, "values">): ReactElement {
+const DemoInput = ({ values }: Pick<Playground, "values">) => {
   const placeholder = String(values.placeholder);
   const required = Boolean(values.required);
   const size = optionValue(values.size, SIZES);
@@ -48,25 +44,23 @@ function DemoInput({ values }: Pick<Playground, "values">): ReactElement {
       <InputClear aria-label="Clear" />
     </InputGroup>
   );
-}
+};
 
-function InputDemo({ values: v }: Playground): ReactElement {
-  return (
-    <FormStage>
-      <Field
-        layout={optionValue(v.layout, INPUT_LAYOUTS)}
-        disabled={Boolean(v.disabled)}
-        invalid={v.error ? true : undefined}
-      >
-        <FieldLabel>{String(v.label)}</FieldLabel>
-        <DemoInput values={v} />
-        {v.error ? <FieldError match>{String(v.error)}</FieldError> : null}
-      </Field>
-    </FormStage>
-  );
-}
+const InputDemo = ({ values: v }: Playground) => (
+  <FormStage>
+    <Field
+      layout={optionValue(v.layout, INPUT_LAYOUTS)}
+      disabled={Boolean(v.disabled)}
+      invalid={v.error ? true : undefined}
+    >
+      <FieldLabel>{String(v.label)}</FieldLabel>
+      <DemoInput values={v} />
+      {v.error ? <FieldError match>{String(v.error)}</FieldError> : null}
+    </Field>
+  </FormStage>
+);
 
-function inputCode(v: Playground["values"]): string {
+const inputCode = (v: Playground["values"]): string => {
   const control = v.multiline ? "Textarea" : "Input";
   const field = `${str("layout", v.layout, "row")}${flag("disabled", v.disabled)}${flag("invalid", v.error)}`;
   const own = `${str("placeholder", v.placeholder)}${flag("required", v.required)}`;
@@ -81,7 +75,7 @@ function inputCode(v: Playground["values"]): string {
   else lines.push(`  <${control}${own}${v.multiline ? "" : str("size", v.size, "md")} />`);
   if (v.error) lines.push(`  <FieldError match>${v.error}</FieldError>`);
   return [...lines, "</Field>"].join("\n");
-}
+};
 
 const formFieldsDemos: Demo[] = [
   {

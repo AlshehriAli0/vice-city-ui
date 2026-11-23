@@ -11,9 +11,11 @@ type Camera = { x: number; y: number; zoom: number };
 const clampZoom = (zoom: number) => Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, zoom));
 const clamp = (value: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, value));
 
-const cameraAt = (point: { x: number; y: number }, zoom: number): Camera => {
-  return { x: CENTRE.x - point.x * zoom, y: CENTRE.y - point.y * zoom, zoom };
-};
+const cameraAt = (point: { x: number; y: number }, zoom: number): Camera => ({
+  x: CENTRE.x - point.x * zoom,
+  y: CENTRE.y - point.y * zoom,
+  zoom,
+});
 
 const bounded = (camera: Camera): Camera => {
   const zoom = clampZoom(camera.zoom);

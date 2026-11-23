@@ -1,7 +1,7 @@
 import { bindLayer } from "@ui-sdk/core";
 import { createRadioGroupController } from "@ui-sdk/react/radio";
 import { useShortcut } from "@ui-sdk/react/shortcuts";
-import { useEffect, useEffectEvent, useLayoutEffect, useRef, useState, type ReactElement, type RefObject } from "react";
+import { useEffect, useEffectEvent, useLayoutEffect, useRef, useState, type RefObject } from "react";
 
 import { GameFrame, MenuBackdrop } from "./menu-backdrop";
 import { FEATURES, SHOWS, STATIONS, offset, type Source } from "./radio-dial.data";
@@ -67,7 +67,7 @@ type RadioDialProps = {
   onOpenChange?: (open: boolean) => void;
 };
 
-function RadioDial({
+const RadioDial = ({
   label = "Radio station",
   value,
   defaultValue = "flash",
@@ -81,7 +81,7 @@ function RadioDial({
   open,
   defaultOpen = true,
   onOpenChange,
-}: RadioDialProps): ReactElement {
+}: RadioDialProps) => {
   const [ownValue, setOwnValue] = useState(defaultValue);
   const [ownOn, setOwnOn] = useState(defaultOn);
   const [ownOpen, setOwnOpen] = useState(defaultOpen);
@@ -112,31 +112,31 @@ function RadioDial({
   const track = useRef<HTMLDivElement>(null);
   useTrackGlide(track, source, index, tiles.length);
 
-  function pick(next: string) {
+  const pick = (next: string) => {
     if (source === "radio") {
       setOwnValue(next);
       onValueChange?.(next);
     } else if (source === "vehicle") setFeature(next);
     else setShow(next);
-  }
+  };
 
-  function step(by: number, event: MouseEvent | KeyboardEvent) {
+  const step = (by: number, event: MouseEvent | KeyboardEvent) => {
     const reason = event instanceof KeyboardEvent ? "list-navigation" : "item-press";
     strip.setValue(tiles[(index + by + tiles.length) % tiles.length].value, { reason, event });
-  }
+  };
 
-  function act() {
+  const act = () => {
     if (source === "radio") {
       setOwnOn(!playing);
       onOnChange?.(!playing);
     } else if (source === "vehicle") setLit(now => ({ ...now, [feature]: !now[feature] }));
-  }
+  };
 
-  function setOpen(next: boolean) {
+  const setOpen = (next: boolean) => {
     if (!next && ui.current?.contains(document.activeElement)) stage.current?.focus({ preventScroll: true });
     setOwnOpen(next);
     onOpenChange?.(next);
-  }
+  };
 
   const dismiss = useEffectEvent(() => setOpen(false));
   useEffect(() => {
@@ -151,10 +151,10 @@ function RadioDial({
   const lines = statusLines(source, playing, index, featureNow.states[featureState]);
   const action = actionLabel(source, playing, featureNow.action[featureState]);
 
-  function changeSource(next: Source) {
+  const changeSource = (next: Source) => {
     setOwnSource(next);
     onSourceChange?.(next);
-  }
+  };
 
   return (
     <GameFrame className="ld-radio">
@@ -190,7 +190,7 @@ function RadioDial({
       </div>
     </GameFrame>
   );
-}
+};
 
 export { RadioDial };
 export type { Source as RadioSource, Station } from "./radio-dial.data";

@@ -1,5 +1,3 @@
-import type { ReactElement } from "react";
-
 import { Field, FieldLabel } from "../ui/field";
 import {
   Select,
@@ -24,25 +22,23 @@ const STATIONS: Choice[] = [
   { value: "back-country", label: "Back Country Radio", art: "radio-back-country-radio" },
 ];
 
-function SelectItems({ items, icons }: { items: Choice[]; icons: boolean }): ReactElement {
-  return (
-    <SelectContent>
-      {items.map(item => (
-        <SelectItem key={item.value} value={item.value} label={item.label}>
-          {icons && item.art && (
-            <SelectItemIcon>
-              <img src={`/vc/${item.art}.jpg`} alt="" />
-            </SelectItemIcon>
-          )}
-          <SelectItemText>{item.label}</SelectItemText>
-          <SelectItemIndicator />
-        </SelectItem>
-      ))}
-    </SelectContent>
-  );
-}
+const SelectItems = ({ items, icons }: { items: Choice[]; icons: boolean }) => (
+  <SelectContent>
+    {items.map(item => (
+      <SelectItem key={item.value} value={item.value} label={item.label}>
+        {icons && item.art && (
+          <SelectItemIcon>
+            <img src={`/vc/${item.art}.jpg`} alt="" />
+          </SelectItemIcon>
+        )}
+        <SelectItemText>{item.label}</SelectItemText>
+        <SelectItemIndicator />
+      </SelectItem>
+    ))}
+  </SelectContent>
+);
 
-function SelectDemo({ values: v }: Playground): ReactElement {
+const SelectDemo = ({ values: v }: Playground) => {
   const multiple = Boolean(v.multiple);
   return (
     <FormStage>
@@ -64,9 +60,9 @@ function SelectDemo({ values: v }: Playground): ReactElement {
       </Field>
     </FormStage>
   );
-}
+};
 
-function selectCode(v: Playground["values"]): string {
+const selectCode = (v: Playground["values"]): string => {
   const root = `${flag("multiple", v.multiple)}${str("placeholder", v.placeholder)}${flag("required", v.required)}${flag("disabled", v.disabled)}`;
   return `<Field>
   <FieldLabel>${v.label}</FieldLabel>
@@ -84,7 +80,7 @@ ${v.icons ? `          <SelectItemIcon><img src={station.art} alt="" /></SelectI
     </SelectContent>
   </Select>
 </Field>`;
-}
+};
 
 const formSelectDemos: Demo[] = [
   {

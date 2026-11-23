@@ -10,7 +10,7 @@ import { APP_OPTIONS } from "./phone-options";
 import type { Playground } from "./types";
 import { useMirroredControl } from "./use-mirrored-control";
 
-export function PhoneDemo({ values, set }: Playground) {
+export const PhoneDemo = ({ values, set }: Playground) => {
   const [slot] = useState(createSlot);
   const [open, setOpen] = useMirroredControl(Boolean(values.open), next => set("open", next));
   const [app, setApp] = useMirroredControl(optionValue(values.app, APP_OPTIONS) ?? "home", next => set("app", next));
@@ -31,4 +31,4 @@ export function PhoneDemo({ values, set }: Playground) {
       </PhoneDrawer>
     </div>
   );
-}
+};

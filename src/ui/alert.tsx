@@ -1,5 +1,4 @@
 import { renderElement, type PartProps } from "@ui-sdk/react/primitive";
-import type { ReactElement } from "react";
 
 import { merge } from "./cx";
 import { plain } from "./plain";
@@ -9,7 +8,7 @@ import "./alert.css";
 
 type AlertProps = PartProps<"div"> & { tone?: "info" | "success" | "warning" | "danger" };
 
-function Alert({ tone = "info", render, className, ...props }: AlertProps): ReactElement {
+const Alert = ({ tone = "info", render, className, ...props }: AlertProps) => {
   "use memo";
 
   return renderElement(
@@ -17,7 +16,7 @@ function Alert({ tone = "info", render, className, ...props }: AlertProps): Reac
     { ...props, className: merge("vc-alert", className), "data-slot": "alert", "data-tone": tone },
     render
   );
-}
+};
 
 const AlertTitle = plain("p", "alert-title", "vc-alert__title");
 const AlertDescription = plain("div", "alert-description", "vc-alert__text");

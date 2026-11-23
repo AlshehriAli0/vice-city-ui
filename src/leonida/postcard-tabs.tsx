@@ -1,5 +1,5 @@
 import { Tabs, TabsIndicator, TabsList, TabsPanel, TabsTab } from "@ui-sdk/react/tabs";
-import type { ComponentProps, ReactElement, ReactNode } from "react";
+import type { ComponentProps, ReactNode } from "react";
 
 import { merge, styled } from "../ui/cx";
 
@@ -68,63 +68,53 @@ const SKY: Record<Place["scene"], string> = {
   peak: "swamp",
 };
 
-function PostcardTabs({
-  defaultValue = PLACES[0].value,
-  className,
-  ...props
-}: ComponentProps<typeof Tabs>): ReactElement {
-  return (
-    <Tabs
-      {...props}
-      defaultValue={props.value === undefined ? defaultValue : undefined}
-      className={merge("ld-postcards", className)}
-    />
-  );
-}
+const PostcardTabs = ({ defaultValue = PLACES[0].value, className, ...props }: ComponentProps<typeof Tabs>) => (
+  <Tabs
+    {...props}
+    defaultValue={props.value === undefined ? defaultValue : undefined}
+    className={merge("ld-postcards", className)}
+  />
+);
 
-function PostcardTabsList({
+const PostcardTabsList = ({
   className,
   children,
   ...props
-}: Omit<ComponentProps<typeof TabsList>, "children"> & { children?: ReactNode }): ReactElement {
-  return (
-    <TabsList {...props} className={merge("ld-postcards__list", className)}>
-      {children}
-      <TabsIndicator className="ld-postcards__indicator" />
-    </TabsList>
-  );
-}
+}: Omit<ComponentProps<typeof TabsList>, "children"> & { children?: ReactNode }) => (
+  <TabsList {...props} className={merge("ld-postcards__list", className)}>
+    {children}
+    <TabsIndicator className="ld-postcards__indicator" />
+  </TabsList>
+);
 
 const PostcardTab = styled(TabsTab, "ld-postcards__tab");
 
 type PostcardProps = Omit<ComponentProps<typeof TabsPanel>, "value" | "children"> & { place: Place };
 
-function Postcard({ place, className, ...props }: PostcardProps): ReactElement {
-  return (
-    <TabsPanel
-      {...props}
-      value={place.value}
-      className={merge("ld-postcard", className)}
-      data-scene={place.scene}
-      data-sky={SKY[place.scene]}
-    >
-      <figure className="ld-postcard__card" data-slot="postcard-card" aria-hidden="true">
-        <img
-          className="ld-postcard__photo"
-          src={`/vc/art-${place.value.replace("mount-", "")}.jpg`}
-          alt=""
-          loading="lazy"
-        />
-        <img className="ld-postcard__frame" src={`/vc/frame-${place.value}.png`} alt="" loading="lazy" />
-      </figure>
-      <div className="ld-postcard__copy" data-slot="postcard-copy">
-        <h4 className="ld-postcard__name">{place.name}</h4>
-        <p className="ld-postcard__region">{place.region}</p>
-        <p className="ld-postcard__blurb">{place.blurb}</p>
-      </div>
-    </TabsPanel>
-  );
-}
+const Postcard = ({ place, className, ...props }: PostcardProps) => (
+  <TabsPanel
+    {...props}
+    value={place.value}
+    className={merge("ld-postcard", className)}
+    data-scene={place.scene}
+    data-sky={SKY[place.scene]}
+  >
+    <figure className="ld-postcard__card" data-slot="postcard-card" aria-hidden="true">
+      <img
+        className="ld-postcard__photo"
+        src={`/vc/art-${place.value.replace("mount-", "")}.jpg`}
+        alt=""
+        loading="lazy"
+      />
+      <img className="ld-postcard__frame" src={`/vc/frame-${place.value}.png`} alt="" loading="lazy" />
+    </figure>
+    <div className="ld-postcard__copy" data-slot="postcard-copy">
+      <h4 className="ld-postcard__name">{place.name}</h4>
+      <p className="ld-postcard__region">{place.region}</p>
+      <p className="ld-postcard__blurb">{place.blurb}</p>
+    </div>
+  </TabsPanel>
+);
 
 export { PLACES, Postcard, PostcardTab, PostcardTabs, PostcardTabsList };
 export type { Place };

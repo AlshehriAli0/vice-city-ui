@@ -1,5 +1,5 @@
 import { CarFront, Navigation2 } from "lucide-react";
-import { useId, type CSSProperties, type HTMLAttributes, type ReactElement } from "react";
+import { useId, type CSSProperties, type HTMLAttributes, type ReactNode } from "react";
 
 import { cssVariables } from "../ui/css-variables";
 import { cx } from "../ui/cx";
@@ -21,7 +21,7 @@ const H = 168;
 const PX = W / 2;
 const PY = H * 0.78;
 
-function edgePoint(screenBearing: number): { x: number; y: number } {
+const edgePoint = (screenBearing: number): { x: number; y: number } => {
   const rad = (screenBearing * Math.PI) / 180;
   const dx = Math.sin(rad);
   const dy = -Math.cos(rad);
@@ -29,14 +29,14 @@ function edgePoint(screenBearing: number): { x: number; y: number } {
   const ty = dy === 0 ? Infinity : ((dy > 0 ? H : 0) - PY) / dy;
   const t = Math.min(tx, ty);
   return { x: PX + dx * t, y: PY + dy * t };
-}
+};
 
-function pin(screenBearing: number): CSSProperties {
+const pin = (screenBearing: number): CSSProperties => {
   const { x, y } = edgePoint(screenBearing);
   return cssVariables({ "--x": x, "--y": y });
-}
+};
 
-const BLIP_GLYPH: Record<Blip["kind"], ReactElement | null> = {
+const BLIP_GLYPH: Record<Blip["kind"], ReactNode> = {
   destination: null,
   store: <span className="ld-minimap__sign">$</span>,
   vehicle: <CarFront strokeWidth={2.5} aria-hidden="true" />,
@@ -52,7 +52,7 @@ type HudMinimapProps = HTMLAttributes<HTMLElement> & {
   blips?: Blip[];
 };
 
-function HudMinimap({
+const HudMinimap = ({
   heading = 0,
   wash = "none",
   route = "none",
@@ -61,7 +61,7 @@ function HudMinimap({
   className,
   style,
   ...props
-}: HudMinimapProps): ReactElement {
+}: HudMinimapProps) => {
   const fade = `ld-route${useId().replace(/[^a-z0-9]/gi, "")}`;
   return (
     <figure
@@ -129,7 +129,7 @@ function HudMinimap({
       ))}
     </figure>
   );
-}
+};
 
 type TurnCardProps = HTMLAttributes<HTMLDivElement> & {
   turn: "left" | "right";
@@ -138,7 +138,7 @@ type TurnCardProps = HTMLAttributes<HTMLDivElement> & {
   label?: string;
 };
 
-function TurnCard({ turn, distance, tone = "mission", label, className, ...props }: TurnCardProps): ReactElement {
+const TurnCard = ({ turn, distance, tone = "mission", label, className, ...props }: TurnCardProps) => {
   const instruction = label ?? (turn === "right" ? "Turn Right" : "Turn Left");
   useAnnouncement(instruction);
   return (
@@ -155,7 +155,7 @@ function TurnCard({ turn, distance, tone = "mission", label, className, ...props
       </span>
     </div>
   );
-}
+};
 
 export { HudMinimap, TurnCard };
 export type { Blip, Route, Wash };

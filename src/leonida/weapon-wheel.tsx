@@ -1,7 +1,7 @@
 import { bindLayer } from "@ui-sdk/core";
 import { sectorOf } from "@ui-sdk/core/gesture";
 import { createRadioGroupController } from "@ui-sdk/react/radio";
-import { useEffect, useEffectEvent, useRef, useState, type PointerEvent, type ReactElement } from "react";
+import { useEffect, useEffectEvent, useRef, useState, type PointerEvent } from "react";
 
 import { GameFrame, MenuBackdrop } from "./menu-backdrop";
 import { useMenuPhase } from "./use-menu-phase";
@@ -38,7 +38,7 @@ const firstOf = (list: Slot[]) => list.find(slot => slot.name) ?? list.at(0);
 const canEquip = (opening: boolean, slot: Slot | undefined, tab: WheelTab): slot is Slot =>
   !opening && Boolean(slot?.name) && tab === "weapons";
 
-function WeaponWheel({
+const WeaponWheel = ({
   weapons,
   items = [],
   value,
@@ -55,7 +55,7 @@ function WeaponWheel({
   onTabChange,
   heals = [2, 0],
   label = "Weapon wheel",
-}: WeaponWheelProps): ReactElement {
+}: WeaponWheelProps) => {
   const [ownValue, setOwnValue] = useState(defaultValue ?? weapons.at(0)?.value);
   const [ownHand, setOwnHand] = useState(defaultInHand);
   const [ownOpen, setOwnOpen] = useState(defaultOpen);
@@ -72,12 +72,12 @@ function WeaponWheel({
   const focused = slots.find(slot => slot.value === picked) ?? firstOf(slots);
   const selected = focused?.value;
 
-  function select(next: string) {
+  const select = (next: string) => {
     setOwnValue(next);
     onValueChange?.(next);
-  }
+  };
 
-  function setOpen(next: boolean) {
+  const setOpen = (next: boolean) => {
     if (!next && ui.current?.contains(document.activeElement)) canvas.current?.focus({ preventScroll: true });
     setOwnOpen(next);
     onOpenChange?.(next);
@@ -85,9 +85,9 @@ function WeaponWheel({
       setOwnHand(focused.value);
       onEquip?.(focused.value);
     }
-  }
+  };
 
-  function aim(event: PointerEvent<HTMLDivElement>) {
+  const aim = (event: PointerEvent<HTMLDivElement>) => {
     const box = canvas.current?.getBoundingClientRect();
     if (!box || event.pointerType === "touch") return;
     const k = box.width / 1920;
@@ -97,7 +97,7 @@ function WeaponWheel({
     const slot = sector >= 0 ? slots.at(sector) : undefined;
     if (slot && slot.value !== selected)
       rings[tab].setValue(slot.value, { reason: "item-press", event: event.nativeEvent });
-  }
+  };
 
   const close = useEffectEvent(() => setOpen(false));
   useEffect(() => {
@@ -152,7 +152,7 @@ function WeaponWheel({
       </div>
     </GameFrame>
   );
-}
+};
 
 export { GameIcon } from "./weapon-wheel.art";
 export { WeaponWheel };

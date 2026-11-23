@@ -1,5 +1,3 @@
-import type { ReactElement } from "react";
-
 import { toast } from "../leonida/mission-toast.store";
 import { Alert, AlertAction, AlertDescription, AlertTitle } from "../ui/alert";
 import { AvatarGroup, AvatarGroupCount } from "../ui/avatar";
@@ -18,7 +16,7 @@ const AVATAR_SHAPES = opts(["circle", "Circle"], ["square", "Square"]);
 
 const AVATAR_RINGS = opts(["none", "None"], ["sunset", "Sunset"], ["pink", "Pink"], ["teal", "Teal"]);
 
-function AvatarDemo({ values: v }: Playground): ReactElement {
+const AvatarDemo = ({ values: v }: Playground) => {
   const size = v.size === "md" ? undefined : optionValue(v.size, AVATAR_SIZES);
   const look = {
     shape: optionValue(v.shape, AVATAR_SHAPES),
@@ -60,27 +58,25 @@ function AvatarDemo({ values: v }: Playground): ReactElement {
       </div>
     </div>
   );
-}
+};
 
 const ALERT_TONES = opts(["info", "Info"], ["success", "Success"], ["warning", "Warning"], ["danger", "Danger"]);
 
-function AlertDemo({ values: v }: Playground): ReactElement {
-  return (
-    <div className="cd-stack">
-      <Alert tone={optionValue(v.tone, ALERT_TONES)}>
-        <AlertTitle>{String(v.title)}</AlertTitle>
-        {v.description ? <AlertDescription>{String(v.description)}</AlertDescription> : null}
-        {v.action && (
-          <AlertAction>
-            <Button size="sm" variant="outline" onClick={() => toast("Retrying")}>
-              Retry
-            </Button>
-          </AlertAction>
-        )}
-      </Alert>
-    </div>
-  );
-}
+const AlertDemo = ({ values: v }: Playground) => (
+  <div className="cd-stack">
+    <Alert tone={optionValue(v.tone, ALERT_TONES)}>
+      <AlertTitle>{String(v.title)}</AlertTitle>
+      {v.description ? <AlertDescription>{String(v.description)}</AlertDescription> : null}
+      {v.action && (
+        <AlertAction>
+          <Button size="sm" variant="outline" onClick={() => toast("Retrying")}>
+            Retry
+          </Button>
+        </AlertAction>
+      )}
+    </Alert>
+  </div>
+);
 
 const displayContactsDemos: Demo[] = [
   {

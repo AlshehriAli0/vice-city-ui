@@ -13,9 +13,7 @@ const STATES = options(
 const EVIDENCE: Evidence[] = ["clothing", "face", "vehicle", "cctv", "weapon"];
 const EVIDENCE_CONTROLS = EVIDENCE.map(item => ({ type: "boolean" as const, name: item, label: EVIDENCE_LABEL[item] }));
 
-const policeState = (value: Value | undefined): WantedState => {
-  return optionValue(value, STATES) ?? "seen";
-};
+const policeState = (value: Value | undefined): WantedState => optionValue(value, STATES) ?? "seen";
 
 const washOf = (heat: number, state: WantedState): Wash => {
   if (heat === 0 || state === "escaped") return "none";

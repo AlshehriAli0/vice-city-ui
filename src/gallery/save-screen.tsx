@@ -41,7 +41,7 @@ const demoSaves = (used: number, autosave: boolean): SaveGame[] => {
 
 const screenOf = (values: Values): GameMenuScreen => optionValue(values.screen, SCREENS) ?? "menu";
 
-function GameMenuDemo({ values, set }: Playground) {
+const GameMenuDemo = ({ values, set }: Playground) => {
   const used = Number(values.used);
   const autosave = Boolean(values.autosave);
   const [run, setRun] = useState(0);
@@ -82,7 +82,7 @@ function GameMenuDemo({ values, set }: Playground) {
       onBack={() => toast("Back to the pause menu")}
     />
   );
-}
+};
 
 const saveScreenDemos: Demo[] = [
   {

@@ -5,7 +5,7 @@ import {
   MeterTrack as MeterTrackRoot,
   MeterValue as MeterValueRoot,
 } from "@ui-sdk/react/meter";
-import type { ComponentProps, ReactElement } from "react";
+import type { ComponentProps } from "react";
 
 import { merge, styled } from "./cx";
 import { plain } from "./plain";
@@ -16,10 +16,10 @@ import "./progress.css";
 
 type MeterProps = ComponentProps<typeof MeterRoot> & VitalProps;
 
-function Meter({ tone, segments, dimWhenIdle, className, style, ...props }: MeterProps): ReactElement {
+const Meter = ({ tone, segments, dimWhenIdle, className, style, ...props }: MeterProps) => {
   const vital = useVital(props.value, { tone, segments, dimWhenIdle }, style);
   return <MeterRoot {...props} {...vital} className={merge("vc-vital", className)} />;
-}
+};
 
 const MeterIcon = plain("span", "meter-icon", "vc-vital__icon");
 const MeterLabel = styled(MeterLabelRoot, "vc-vital__label");

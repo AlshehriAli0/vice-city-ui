@@ -1,5 +1,4 @@
 import { renderElement, type PartProps } from "@ui-sdk/react/primitive";
-import type { ReactElement } from "react";
 
 import { merge } from "./cx";
 import { plain } from "./plain";
@@ -22,7 +21,7 @@ const GLYPH_TEXT: Record<GlyphName, string> = {
 
 type GlyphProps = Omit<PartProps<"span">, "children"> & { name: GlyphName };
 
-function Glyph({ name, render, className, ...props }: GlyphProps): ReactElement {
+const Glyph = ({ name, render, className, ...props }: GlyphProps) => {
   const glyph = (
     <svg viewBox="0 0 20 20" aria-hidden="true">
       {name === "cross" && <path d="M6.3 6.3l7.4 7.4M13.7 6.3l-7.4 7.4" />}
@@ -44,7 +43,7 @@ function Glyph({ name, render, className, ...props }: GlyphProps): ReactElement 
     },
     render
   );
-}
+};
 
 type PromptProps = Omit<PartProps<"span">, "children"> & {
   label: string;
@@ -53,7 +52,7 @@ type PromptProps = Omit<PartProps<"span">, "children"> & {
   disabled?: boolean;
 };
 
-function Prompt({ label, glyph, keys, disabled, render, className, ...props }: PromptProps): ReactElement {
+const Prompt = ({ label, glyph, keys, disabled, render, className, ...props }: PromptProps) => {
   const children = (
     <>
       {label}
@@ -72,11 +71,11 @@ function Prompt({ label, glyph, keys, disabled, render, className, ...props }: P
     },
     render
   );
-}
+};
 
 type PromptsProps = PartProps<"div"> & { stack?: boolean };
 
-function Prompts({ stack, render, className, ...props }: PromptsProps): ReactElement {
+const Prompts = ({ stack, render, className, ...props }: PromptsProps) => {
   "use memo";
 
   return renderElement(
@@ -89,7 +88,7 @@ function Prompts({ stack, render, className, ...props }: PromptsProps): ReactEle
     },
     render
   );
-}
+};
 
 export { Bumper, Glyph, Kbd, Prompt, Prompts };
 export type { GlyphName };

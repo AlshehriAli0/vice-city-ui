@@ -2,7 +2,7 @@ import { Button } from "@ui-sdk/react/button";
 import { useShortcut } from "@ui-sdk/react/shortcuts";
 import { Toast, ToastAction, ToastDescription, ToastRegion, ToastTitle } from "@ui-sdk/react/toast";
 import { Phone } from "lucide-react";
-import { useEffect, useState, type ComponentProps, type ReactElement, type ReactNode } from "react";
+import { useEffect, useState, type ComponentProps, type ReactNode } from "react";
 
 import { merge } from "../ui/cx";
 import { ButtonGlyph } from "./button-prompt";
@@ -11,7 +11,7 @@ import { toast, type CallHandlers, type CallState, type SlotData } from "./missi
 import "./game-ui.css";
 import "./mission-toast.css";
 
-function CallLine({ data }: { data: Pick<SlotData, "state" | "since"> }): ReactElement {
+const CallLine = ({ data }: { data: Pick<SlotData, "state" | "since"> }) => {
   const [now, setNow] = useState(() => Date.now());
   useEffect(() => {
     if (data.state !== "connected") return undefined;
@@ -27,28 +27,26 @@ function CallLine({ data }: { data: Pick<SlotData, "state" | "since"> }): ReactE
       {String(Math.floor(seconds / 60)).padStart(2, "0")}:{String(seconds % 60).padStart(2, "0")}
     </span>
   );
-}
+};
 
-function DpadHint(): ReactElement {
-  return (
-    <span className="ld-text__hint" data-slot="notification-hint" aria-hidden="true">
-      <svg aria-hidden="true" viewBox="0 0 24 24">
-        <path d="M9 1h6v7l-3 3-3-3z" fill="#fff" />
-        <path d="M9 23h6v-7l-3-3-3 3zM1 9v6h7l3-3-3-3zM23 9v6h-7l-3-3 3-3z" fill="rgb(255 255 255 / 0.4)" />
-      </svg>
-    </span>
-  );
-}
+const DpadHint = () => (
+  <span className="ld-text__hint" data-slot="notification-hint" aria-hidden="true">
+    <svg aria-hidden="true" viewBox="0 0 24 24">
+      <path d="M9 1h6v7l-3 3-3-3z" fill="#fff" />
+      <path d="M9 23h6v-7l-3-3-3 3zM1 9v6h7l3-3-3-3zM23 9v6h-7l-3-3 3-3z" fill="rgb(255 255 255 / 0.4)" />
+    </svg>
+  </span>
+);
 
 type ToastProps = ComponentProps<typeof Toast>;
 
-function TextNotification({
+const TextNotification = ({
   avatar,
   name,
   className,
   children,
   ...props
-}: Omit<ToastProps, "children"> & { avatar?: string; name?: string; children?: ReactNode }): ReactElement {
+}: Omit<ToastProps, "children"> & { avatar?: string; name?: string; children?: ReactNode }) => {
   const contact = [avatar, name].some(Boolean);
   return (
     <Toast {...props} className={merge("ld-text", className)}>
@@ -66,9 +64,9 @@ function TextNotification({
       {children}
     </Toast>
   );
-}
+};
 
-function CallNotification({
+const CallNotification = ({
   state = "dialing",
   since,
   avatar,
@@ -82,7 +80,7 @@ function CallNotification({
   since?: number;
   avatar?: string;
   name?: string;
-} & CallHandlers): ReactElement {
+} & CallHandlers) => {
   useShortcut("arrowup", () => onAnswer?.(), {
     when: () => state === "incoming" && Boolean(onAnswer),
     description: "Answer (D-pad Up)",
@@ -112,18 +110,16 @@ function CallNotification({
       </span>
     </Toast>
   );
-}
+};
 
-function DpadUp(): ReactElement {
-  return (
-    <svg className="ld-call__dpad" viewBox="0 0 32 32" aria-hidden="true">
-      <path d="M12.6 3h6.8v7.4L16 13.8l-3.4-3.4z" data-on="" />
-      <path d="M12.6 29h6.8v-7.4L16 18.2l-3.4 3.4zM3 12.6v6.8h7.4l3.4-3.4-3.4-3.4zM29 12.6v6.8h-7.4L18.2 16l3.4-3.4z" />
-    </svg>
-  );
-}
+const DpadUp = () => (
+  <svg className="ld-call__dpad" viewBox="0 0 32 32" aria-hidden="true">
+    <path d="M12.6 3h6.8v7.4L16 13.8l-3.4-3.4z" data-on="" />
+    <path d="M12.6 29h6.8v-7.4L16 18.2l-3.4 3.4zM3 12.6v6.8h7.4l3.4-3.4-3.4-3.4zM29 12.6v6.8h-7.4L18.2 16l3.4-3.4z" />
+  </svg>
+);
 
-function renderNotification(item: { title?: unknown; data?: unknown }): ReactElement {
+const renderNotification = (item: { title?: unknown; data?: unknown }) => {
   const data = (item.data ?? {}) as SlotData;
   const name = typeof item.title === "string" ? item.title : "";
   if (data.kind === "call")
@@ -138,57 +134,51 @@ function renderNotification(item: { title?: unknown; data?: unknown }): ReactEle
       />
     );
   return <TextNotification avatar={data.avatar} name={data.kind === "message" ? name : undefined} />;
-}
+};
 
 type NotificationSlotProps = Omit<ComponentProps<typeof ToastRegion>, "children"> & {
   inline?: boolean;
   children?: ComponentProps<typeof ToastRegion>["children"];
 };
 
-function NotificationSlot({
+const NotificationSlot = ({
   toaster = toast,
   inline,
   className,
   children = renderNotification,
   ...props
-}: NotificationSlotProps): ReactElement {
-  return (
-    <ToastRegion
-      side="bottom"
-      align="end"
-      maxVisible={1}
-      shortcut={inline ? null : undefined}
-      aria-label="Notifications"
-      data-agent-hidden
-      {...props}
-      toaster={toaster}
-      className={merge("ld-slot", className)}
-      data-inline={inline ? true : undefined}
-    >
-      {children}
-    </ToastRegion>
-  );
-}
+}: NotificationSlotProps) => (
+  <ToastRegion
+    side="bottom"
+    align="end"
+    maxVisible={1}
+    shortcut={inline ? null : undefined}
+    aria-label="Notifications"
+    data-agent-hidden
+    {...props}
+    toaster={toaster}
+    className={merge("ld-slot", className)}
+    data-inline={inline ? true : undefined}
+  >
+    {children}
+  </ToastRegion>
+);
 
-function TextCardStill({ name, body }: { name: string; body: string }): ReactElement {
-  return (
-    <div className="ld-slot" data-slot="notification-still" data-inline="" data-still="" aria-hidden="true">
-      <div className="ld-text">
-        <DpadHint />
-        <span className="ld-text__head" data-slot="notification-head">
-          <span className="ld-text__avatar" data-slot="notification-avatar">
-            {name.slice(0, 1)}
-          </span>
-          <b className="ld-text__name">{name}</b>
+const TextCardStill = ({ name, body }: { name: string; body: string }) => (
+  <div className="ld-slot" data-slot="notification-still" data-inline="" data-still="" aria-hidden="true">
+    <div className="ld-text">
+      <DpadHint />
+      <span className="ld-text__head" data-slot="notification-head">
+        <span className="ld-text__avatar" data-slot="notification-avatar">
+          {name.slice(0, 1)}
         </span>
-        <p className="ld-text__body">{body}</p>
-      </div>
+        <b className="ld-text__name">{name}</b>
+      </span>
+      <p className="ld-text__body">{body}</p>
     </div>
-  );
-}
+  </div>
+);
 
-function LeonidaToasts(): ReactElement {
-  return <NotificationSlot />;
-}
+const LeonidaToasts = () => <NotificationSlot />;
 
 export { CallNotification, LeonidaToasts, NotificationSlot, TextCardStill, TextNotification };

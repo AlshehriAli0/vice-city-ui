@@ -1,6 +1,6 @@
-import { Fragment, type ReactElement } from "react";
+import { Fragment } from "react";
 
-function FormattedText({ text, emphasis = "em" }: { text: string; emphasis?: "em" | "strong" }): ReactElement {
+const FormattedText = ({ text, emphasis = "em" }: { text: string; emphasis?: "em" | "strong" }) => {
   const matches = [...text.matchAll(/\*([^*]+)\*/g)];
   const endOf = (match: RegExpMatchArray) => (match.index ?? 0) + match[0].length;
   const tail = matches.at(-1);
@@ -19,6 +19,6 @@ function FormattedText({ text, emphasis = "em" }: { text: string; emphasis?: "em
       {text.slice(tail ? endOf(tail) : 0)}
     </>
   );
-}
+};
 
 export { FormattedText };

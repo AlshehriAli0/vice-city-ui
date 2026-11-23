@@ -1,17 +1,9 @@
-import type { ReactElement, ReactNode } from "react";
+import type { ReactNode } from "react";
 
 import type { CssVariables } from "../ui/css-variables";
 import type { Crop } from "./crops";
 
-function CropStage({
-  crop,
-  maxScale = 1.5,
-  children,
-}: {
-  crop: Crop;
-  maxScale?: number;
-  children: ReactNode;
-}): ReactElement {
+const CropStage = ({ crop, maxScale = 1.5, children }: { crop: Crop; maxScale?: number; children: ReactNode }) => {
   const vars: CssVariables = {
     "--crop-x": `${crop.x}px`,
     "--crop-y": `${crop.y}px`,
@@ -27,17 +19,9 @@ function CropStage({
       </div>
     </div>
   );
-}
+};
 
-function FrameCrop({
-  crop,
-  maxScale = 1.25,
-  children,
-}: {
-  crop: Crop;
-  maxScale?: number;
-  children: ReactNode;
-}): ReactElement {
+const FrameCrop = ({ crop, maxScale = 1.25, children }: { crop: Crop; maxScale?: number; children: ReactNode }) => {
   const vars: CssVariables = {
     "--crop-x": `${crop.x}px`,
     "--crop-y": `${crop.y}px`,
@@ -50,6 +34,6 @@ function FrameCrop({
       {children}
     </div>
   );
-}
+};
 
 export { CropStage, FrameCrop };

@@ -1,6 +1,6 @@
 import { ScrollArea, ScrollAreaViewport } from "@ui-sdk/react/scroll-area";
 import { Tabs, TabsList, TabsPanel, TabsTab } from "@ui-sdk/react/tabs";
-import { useEffect, useState, type ReactElement } from "react";
+import { useEffect, useState } from "react";
 
 import { CopyButton } from "./copy-button";
 import { HighlightedCode } from "./highlighted-code";
@@ -17,7 +17,7 @@ const sourceFiles = (file: string) =>
     return load ? [{ ext, name, load }] : [];
   });
 
-function Source({ file }: { file: string }): ReactElement | null {
+const Source = ({ file }: { file: string }) => {
   const files = sourceFiles(file);
   const [code, setCode] = useState<string[] | undefined>();
 
@@ -65,6 +65,6 @@ function Source({ file }: { file: string }): ReactElement | null {
       ))}
     </Tabs>
   );
-}
+};
 
 export { Source };

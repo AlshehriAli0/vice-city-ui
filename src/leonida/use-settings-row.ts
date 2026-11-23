@@ -4,9 +4,7 @@ import { useList } from "./settings-list";
 
 type RowProps = { id: string; label: string; disabled?: boolean; className?: string; style?: CSSProperties };
 
-const useFocus = (control: { focus: () => void }): (() => void) => {
-  return useMemo(() => () => control.focus(), [control]);
-};
+const useFocus = (control: { focus: () => void }): (() => void) => useMemo(() => () => control.focus(), [control]);
 
 const useRow = (key: string, focus: () => void, disabled?: boolean) => {
   const list = useList();

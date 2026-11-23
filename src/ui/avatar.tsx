@@ -4,7 +4,7 @@ import {
   AvatarImage as AvatarImageRoot,
 } from "@ui-sdk/react/avatar";
 import { renderElement, type PartProps } from "@ui-sdk/react/primitive";
-import type { ComponentProps, CSSProperties, ReactElement, ReactNode } from "react";
+import type { ComponentProps, CSSProperties, ReactNode } from "react";
 
 import type { CssVariables } from "./css-variables";
 import { merge, styled } from "./cx";
@@ -22,29 +22,19 @@ type AvatarProps = Omit<ComponentProps<typeof AvatarRoot>, "children"> & {
   children?: ReactNode;
 };
 
-function Avatar({
-  size,
-  ring = "none",
-  status,
-  shape = "circle",
-  className,
-  children,
-  ...props
-}: AvatarProps): ReactElement {
-  return (
-    <AvatarRoot
-      role="img"
-      {...props}
-      className={merge("vc-avatar", className)}
-      data-size={size}
-      data-ring={ring}
-      data-shape={shape}
-      data-status={status}
-    >
-      <span className="vc-avatar__clip">{children}</span>
-    </AvatarRoot>
-  );
-}
+const Avatar = ({ size, ring = "none", status, shape = "circle", className, children, ...props }: AvatarProps) => (
+  <AvatarRoot
+    role="img"
+    {...props}
+    className={merge("vc-avatar", className)}
+    data-size={size}
+    data-ring={ring}
+    data-shape={shape}
+    data-status={status}
+  >
+    <span className="vc-avatar__clip">{children}</span>
+  </AvatarRoot>
+);
 
 type AvatarImageProps = Omit<ComponentProps<typeof AvatarImageRoot>, "style"> & {
   focus?: string;
@@ -53,7 +43,7 @@ type AvatarImageProps = Omit<ComponentProps<typeof AvatarImageRoot>, "style"> & 
   style?: CSSProperties;
 };
 
-function AvatarImage({ focus, origin, zoom, className, style, ...props }: AvatarImageProps): ReactElement {
+const AvatarImage = ({ focus, origin, zoom, className, style, ...props }: AvatarImageProps) => {
   const vars = {
     "--avatar-focus": focus,
     "--avatar-origin": origin ?? focus,
@@ -62,13 +52,13 @@ function AvatarImage({ focus, origin, zoom, className, style, ...props }: Avatar
   return (
     <AvatarImageRoot alt="" {...props} className={merge("vc-avatar__img", className)} style={{ ...vars, ...style }} />
   );
-}
+};
 
 const AvatarFallback = styled(AvatarFallbackRoot, "vc-avatar__fallback");
 
 type AvatarGroupProps = PartProps<"div"> & { size?: AvatarSize };
 
-function AvatarGroup({ size, render, className, ...props }: AvatarGroupProps): ReactElement {
+const AvatarGroup = ({ size, render, className, ...props }: AvatarGroupProps) => {
   "use memo";
 
   return renderElement(
@@ -82,9 +72,9 @@ function AvatarGroup({ size, render, className, ...props }: AvatarGroupProps): R
     },
     render
   );
-}
+};
 
-function AvatarGroupCount({ render, className, ...props }: PartProps<"span">): ReactElement {
+const AvatarGroupCount = ({ render, className, ...props }: PartProps<"span">) => {
   "use memo";
 
   return renderElement(
@@ -92,7 +82,7 @@ function AvatarGroupCount({ render, className, ...props }: PartProps<"span">): R
     { role: "img", ...props, className: merge("vc-avatar-group__more", className), "data-slot": "avatar-group-count" },
     render
   );
-}
+};
 
 export { Avatar, AvatarFallback, AvatarGroup, AvatarGroupCount, AvatarImage };
 export type { AvatarProps };

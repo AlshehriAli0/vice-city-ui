@@ -23,7 +23,7 @@ const currentKey = (values: Values) =>
     ? String(values.build)
     : paintKey(String(values.colour), optionValue(values.paintType, TYPE_OPTIONS) ?? "gloss");
 
-function updateShop(values: Values, name: string, value: Value): Values {
+const updateShop = (values: Values, name: string, value: Value): Values => {
   const next = { ...values, [name]: value };
   if (name === "family") next.colour = FAMILIES.find(family => family.value === value)?.swatches[0].value ?? "";
   if (
@@ -36,9 +36,9 @@ function updateShop(values: Values, name: string, value: Value): Values {
   if (name === "owned") next[slot] = value ? currentKey(next) : "";
   else next.owned = next[slot] === currentKey(next);
   return next;
-}
+};
 
-function ModShopDemo({ values, set }: Playground) {
+const ModShopDemo = ({ values, set }: Playground) => {
   const section = optionValue(values.section, SECTION_OPTIONS) ?? "respray";
   const applied = [values.appliedPaint, values.appliedBuild].filter((item): item is string => Boolean(item));
   return (
@@ -63,7 +63,7 @@ function ModShopDemo({ values, set }: Playground) {
       }}
     />
   );
-}
+};
 
 const quote = (value: Value) => JSON.stringify(String(value));
 

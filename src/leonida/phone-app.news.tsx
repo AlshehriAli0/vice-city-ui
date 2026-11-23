@@ -1,5 +1,4 @@
 import { ChevronLeft, MapPin, Sun, Cloud } from "lucide-react";
-import type { ReactElement } from "react";
 
 import { cssVariables } from "../ui/css-variables";
 import { App, AppMenu, Scroll } from "./phone-app.parts";
@@ -15,16 +14,14 @@ const STORIES = [
   { id: "s6", tone: "linear-gradient(150deg,#c8a070,#6a4a30)" },
 ];
 
-function Source(): ReactElement {
-  return (
-    <small className="ld-news__source">
-      <i aria-hidden="true" />
-      News outlet
-    </small>
-  );
-}
+const Source = () => (
+  <small className="ld-news__source">
+    <i aria-hidden="true" />
+    News outlet
+  </small>
+);
 
-function News(): ReactElement {
+const News = () => {
   const { go } = usePhone();
   return (
     <App screen="news">
@@ -48,9 +45,9 @@ function News(): ReactElement {
       </Scroll>
     </App>
   );
-}
+};
 
-function Article(): ReactElement {
+const Article = () => {
   const { entry } = usePhone();
   const story = STORIES.find(item => item.id === entry.param) ?? STORIES[0];
   return (
@@ -68,7 +65,7 @@ function Article(): ReactElement {
       </Scroll>
     </App>
   );
-}
+};
 
 const HOURS = [
   ["10", "AM", 78],
@@ -80,7 +77,7 @@ const HOURS = [
 
 const WEATHER_WORD = { cloud: "Cloudy", partly: "Partly Cloudy", sun: "Clear" };
 
-function Weather(): ReactElement {
+const Weather = () => {
   const { temperature, weather } = usePhone();
   const Glyph = weather === "cloud" ? Cloud : Sun;
   const word = WEATHER_WORD[weather];
@@ -127,6 +124,6 @@ function Weather(): ReactElement {
       </div>
     </App>
   );
-}
+};
 
 export { News, Article, Weather };

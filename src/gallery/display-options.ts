@@ -1,8 +1,8 @@
 import { options as opts } from "./options";
 import type { Value } from "./types";
 
-const attrs = (...list: [name: string, value: Value | undefined, fallback?: Value][]): string => {
-  return list
+const attrs = (...list: [name: string, value: Value | undefined, fallback?: Value][]): string =>
+  list
     .map(([name, value, fallback]) => {
       const omitted = value === undefined || value === false || value === "";
       if (omitted || value === fallback) return "";
@@ -10,7 +10,6 @@ const attrs = (...list: [name: string, value: Value | undefined, fallback?: Valu
       return typeof value === "number" ? ` ${name}={${value}}` : ` ${name}="${value}"`;
     })
     .join("");
-};
 
 const SIDES = opts(["top", "Top"], ["right", "Right"], ["bottom", "Bottom"], ["left", "Left"]);
 

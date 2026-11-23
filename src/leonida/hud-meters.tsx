@@ -1,6 +1,6 @@
 import { Meter, MeterIndicator, MeterLabel, MeterTrack } from "@ui-sdk/react/meter";
 import { Eye, Heart, House, Wallet, Zap } from "lucide-react";
-import { useEffect, useState, type HTMLAttributes, type ReactElement } from "react";
+import { useEffect, useState, type HTMLAttributes } from "react";
 
 import { cssVariables } from "../ui/css-variables";
 import { cx } from "../ui/cx";
@@ -23,15 +23,7 @@ type HudVitalsProps = HTMLAttributes<HTMLDivElement> & {
   length?: { health?: number; stamina?: number; focus?: number };
 };
 
-function HudVitals({
-  health,
-  stamina,
-  focus,
-  show = "all",
-  length = {},
-  className,
-  ...props
-}: HudVitalsProps): ReactElement {
+const HudVitals = ({ health, stamina, focus, show = "all", length = {}, className, ...props }: HudVitalsProps) => {
   const values = { health, stamina, focus };
   const [lit, setLit] = useState(false);
   const levels = `${health}/${stamina}/${focus}`;
@@ -78,14 +70,14 @@ function HudVitals({
       ))}
     </div>
   );
-}
+};
 
-function HudCash({
+const HudCash = ({
   wallet,
   bank,
   className,
   ...props
-}: HTMLAttributes<HTMLDListElement> & { wallet: number; bank?: number }): ReactElement {
+}: HTMLAttributes<HTMLDListElement> & { wallet: number; bank?: number }) => {
   const money = (n: number) => `$${n.toLocaleString("en-US")}`;
   return (
     <dl {...props} className={cx("ld-cash", className)} data-slot="hud-cash">
@@ -112,34 +104,32 @@ function HudCash({
       )}
     </dl>
   );
-}
+};
 
 type HudAmmoProps = HTMLAttributes<HTMLDivElement> & { clip: number; reserve: number; weapon?: string; image?: string };
 
-function HudAmmo({
+const HudAmmo = ({
   clip,
   reserve,
   weapon = "Pistol",
   image = "/vc/hud-pistol.png",
   className,
   ...props
-}: HudAmmoProps): ReactElement {
-  return (
-    <div
-      {...props}
-      className={cx("ld-ammo", className)}
-      data-slot="hud-ammo"
-      role="group"
-      aria-label={`${weapon}: ${clip} in the clip, ${reserve} in reserve`}
-    >
-      <p className="ld-ammo__count" aria-hidden="true">
-        <span>{clip}</span>
-        <span data-kind="reserve">{reserve}</span>
-      </p>
-      <img className="ld-ammo__weapon" src={image} alt="" />
-    </div>
-  );
-}
+}: HudAmmoProps) => (
+  <div
+    {...props}
+    className={cx("ld-ammo", className)}
+    data-slot="hud-ammo"
+    role="group"
+    aria-label={`${weapon}: ${clip} in the clip, ${reserve} in reserve`}
+  >
+    <p className="ld-ammo__count" aria-hidden="true">
+      <span>{clip}</span>
+      <span data-kind="reserve">{reserve}</span>
+    </p>
+    <img className="ld-ammo__weapon" src={image} alt="" />
+  </div>
+);
 
 export { HudAmmo, HudCash, HudVitals };
 export type { VitalsShow };

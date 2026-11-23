@@ -2,7 +2,7 @@ import { Button } from "@ui-sdk/react/button";
 import { Radio, RadioGroup } from "@ui-sdk/react/radio";
 import { Tabs, TabsList, TabsPanel, TabsTab } from "@ui-sdk/react/tabs";
 import { BookOpen, MapPin, Wallet } from "lucide-react";
-import { useEffect, useState, type ReactElement } from "react";
+import { useEffect, useState } from "react";
 
 import { cssVariables } from "../ui/css-variables";
 import { ButtonPrompt, ButtonPrompts, PadGlyph, type Glyph } from "./button-prompt";
@@ -16,33 +16,23 @@ import { BriefPanel, CharacterPanel, ProgressPanel } from "./map-screen.panels";
 
 import "./map-screen.css";
 
-function StickPrompt({
-  stick,
-  children,
-  onClick,
-}: {
-  stick: "L3" | "R3";
-  children: string;
-  onClick: () => void;
-}): ReactElement {
-  return (
-    <Button className="ld-prompt" onClick={onClick}>
-      <span className="ld-prompt__label">{children}</span>
-      <svg className="ld-btnglyph" viewBox="0 0 32 32" aria-hidden="true">
-        <circle className="ld-btnglyph__disc" cx="16" cy="16" r="15" />
-        <text className="ld-map__stick" x="16" y="21.5" textAnchor="middle">
-          {stick}
-        </text>
-      </svg>
-    </Button>
-  );
-}
+const StickPrompt = ({ stick, children, onClick }: { stick: "L3" | "R3"; children: string; onClick: () => void }) => (
+  <Button className="ld-prompt" onClick={onClick}>
+    <span className="ld-prompt__label">{children}</span>
+    <svg className="ld-btnglyph" viewBox="0 0 32 32" aria-hidden="true">
+      <circle className="ld-btnglyph__disc" cx="16" cy="16" r="15" />
+      <text className="ld-map__stick" x="16" y="21.5" textAnchor="middle">
+        {stick}
+      </text>
+    </svg>
+  </Button>
+);
 
 type MapPanelProps = Pick<MapScreenProps, "zoom" | "defaultZoom" | "onZoomChange"> & {
   navigation: ReturnType<typeof useMapNavigation>;
 };
 
-function MapPanel({ navigation, zoom, defaultZoom, onZoomChange }: MapPanelProps): ReactElement {
+const MapPanel = ({ navigation, zoom, defaultZoom, onZoomChange }: MapPanelProps) => {
   const {
     camera,
     category,
@@ -142,7 +132,7 @@ function MapPanel({ navigation, zoom, defaultZoom, onZoomChange }: MapPanelProps
       </p>
     </TabsPanel>
   );
-}
+};
 
 const prompt = (glyph: Glyph, label: string, onClick: () => void, muted?: boolean) => (
   <ButtonPrompt glyph={glyph} onClick={onClick} muted={muted} disabled={muted} focusableWhenDisabled>
@@ -150,13 +140,13 @@ const prompt = (glyph: Glyph, label: string, onClick: () => void, muted?: boolea
   </ButtonPrompt>
 );
 
-function MapPrompts({
+const MapPrompts = ({
   navigation,
   onExit,
 }: {
   navigation: ReturnType<typeof useMapNavigation>;
   onExit?: () => void;
-}): ReactElement {
+}) => {
   const { camera, flat, goal, hovered, hoveredCategory, marker, pressDestination, pressMarker, setView } = navigation;
   return (
     <ButtonPrompts label="Map prompts" stack>
@@ -171,9 +161,9 @@ function MapPrompts({
       {prompt("circle", "Exit", () => onExit?.())}
     </ButtonPrompts>
   );
-}
+};
 
-function MapScreen({
+const MapScreen = ({
   value,
   defaultValue = "map",
   onValueChange,
@@ -189,7 +179,7 @@ function MapScreen({
   view,
   defaultView = "3d",
   onViewChange,
-}: MapScreenProps): ReactElement {
+}: MapScreenProps) => {
   const [ownTab, setOwnTab] = useState(defaultValue);
   const tab = value ?? ownTab;
   const setTab = (next: string) => {
@@ -260,7 +250,7 @@ function MapScreen({
       )}
     </GameScreen>
   );
-}
+};
 
 export { MapScreen };
 export type { MapScreenProps, View as MapView } from "./map-screen.navigation";

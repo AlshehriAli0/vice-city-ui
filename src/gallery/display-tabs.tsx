@@ -1,5 +1,3 @@
-import type { ReactElement } from "react";
-
 import { Accordion, AccordionHeader, AccordionItem, AccordionPanel, AccordionTrigger } from "../ui/accordion";
 import { Bumper } from "../ui/kbd";
 import { Tabs, TabsBar, TabsList, TabsPanel, TabsTab } from "../ui/tabs";
@@ -11,34 +9,32 @@ const TABS = opts(["map", "Map"], ["brief", "Brief"], ["progress", "Progress"]);
 
 const TAB_VARIANTS = opts(["underline", "Underline"], ["chips", "Chips"], ["pill", "Pill"], ["slant", "Slant"]);
 
-function TabsDemo({ values: v, set }: Playground): ReactElement {
-  return (
-    <div className="cd-stack cd-stack--plum">
-      <Tabs
-        variant={optionValue(v.variant, TAB_VARIANTS)}
-        value={String(v.tab)}
-        onValueChange={tab => tab && set("tab", tab)}
-      >
-        <TabsBar>
-          {v.bumpers && <Bumper>L1</Bumper>}
-          <TabsList aria-label="Pause menu">
-            {TABS.map(tab => (
-              <TabsTab key={tab.value} value={tab.value}>
-                {tab.label}
-              </TabsTab>
-            ))}
-          </TabsList>
-          {v.bumpers && <Bumper>R1</Bumper>}
-        </TabsBar>
-        {TABS.map(tab => (
-          <TabsPanel key={tab.value} value={tab.value} className="cd-panel">
-            {tab.label} content.
-          </TabsPanel>
-        ))}
-      </Tabs>
-    </div>
-  );
-}
+const TabsDemo = ({ values: v, set }: Playground) => (
+  <div className="cd-stack cd-stack--plum">
+    <Tabs
+      variant={optionValue(v.variant, TAB_VARIANTS)}
+      value={String(v.tab)}
+      onValueChange={tab => tab && set("tab", tab)}
+    >
+      <TabsBar>
+        {v.bumpers && <Bumper>L1</Bumper>}
+        <TabsList aria-label="Pause menu">
+          {TABS.map(tab => (
+            <TabsTab key={tab.value} value={tab.value}>
+              {tab.label}
+            </TabsTab>
+          ))}
+        </TabsList>
+        {v.bumpers && <Bumper>R1</Bumper>}
+      </TabsBar>
+      {TABS.map(tab => (
+        <TabsPanel key={tab.value} value={tab.value} className="cd-panel">
+          {tab.label} content.
+        </TabsPanel>
+      ))}
+    </Tabs>
+  </div>
+);
 
 const TOPICS = [
   {
@@ -58,32 +54,28 @@ const TOPICS = [
   },
 ];
 
-function openItems(value: Value | undefined): string[] {
-  return !value || value === "none" ? [] : String(value).split(",");
-}
+const openItems = (value: Value | undefined): string[] => (!value || value === "none" ? [] : String(value).split(","));
 
-function AccordionDemo({ values: v, set }: Playground): ReactElement {
-  return (
-    <div className="cd-list">
-      <Accordion
-        aria-label="Help topics"
-        value={openItems(v.open)}
-        onValueChange={open => set("open", open.join(",") || "none")}
-        multiple={Boolean(v.multiple)}
-        disabled={Boolean(v.disabled)}
-      >
-        {TOPICS.map(topic => (
-          <AccordionItem key={topic.value} value={topic.value}>
-            <AccordionHeader render={props => <h4 {...props}>{props.children}</h4>}>
-              <AccordionTrigger>{topic.title}</AccordionTrigger>
-            </AccordionHeader>
-            <AccordionPanel>{topic.text}</AccordionPanel>
-          </AccordionItem>
-        ))}
-      </Accordion>
-    </div>
-  );
-}
+const AccordionDemo = ({ values: v, set }: Playground) => (
+  <div className="cd-list">
+    <Accordion
+      aria-label="Help topics"
+      value={openItems(v.open)}
+      onValueChange={open => set("open", open.join(",") || "none")}
+      multiple={Boolean(v.multiple)}
+      disabled={Boolean(v.disabled)}
+    >
+      {TOPICS.map(topic => (
+        <AccordionItem key={topic.value} value={topic.value}>
+          <AccordionHeader render={props => <h4 {...props}>{props.children}</h4>}>
+            <AccordionTrigger>{topic.title}</AccordionTrigger>
+          </AccordionHeader>
+          <AccordionPanel>{topic.text}</AccordionPanel>
+        </AccordionItem>
+      ))}
+    </Accordion>
+  </div>
+);
 
 const displayTabsDemos: Demo[] = [
   {

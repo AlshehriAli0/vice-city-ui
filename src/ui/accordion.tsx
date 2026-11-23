@@ -6,7 +6,7 @@ import {
   AccordionTrigger as AccordionTriggerRoot,
 } from "@ui-sdk/react/accordion";
 import { ChevronDown } from "lucide-react";
-import type { ComponentProps, ReactElement, ReactNode } from "react";
+import type { ComponentProps, ReactNode } from "react";
 
 import { merge, styled } from "./cx";
 
@@ -19,23 +19,19 @@ const AccordionHeader = styled(AccordionHeaderRoot, "vc-accordion__header");
 
 type AccordionTriggerProps = Omit<ComponentProps<typeof AccordionTriggerRoot>, "children"> & { children?: ReactNode };
 
-function AccordionTrigger({ className, children, ...props }: AccordionTriggerProps): ReactElement {
-  return (
-    <AccordionTriggerRoot {...props} className={merge("vc-accordion__trigger", className)}>
-      {children}
-      <ChevronDown className="vc-accordion__chevron" aria-hidden="true" />
-    </AccordionTriggerRoot>
-  );
-}
+const AccordionTrigger = ({ className, children, ...props }: AccordionTriggerProps) => (
+  <AccordionTriggerRoot {...props} className={merge("vc-accordion__trigger", className)}>
+    {children}
+    <ChevronDown className="vc-accordion__chevron" aria-hidden="true" />
+  </AccordionTriggerRoot>
+);
 
 type AccordionPanelProps = Omit<ComponentProps<typeof AccordionPanelRoot>, "children"> & { children?: ReactNode };
 
-function AccordionPanel({ className, children, ...props }: AccordionPanelProps): ReactElement {
-  return (
-    <AccordionPanelRoot {...props} className={merge("vc-accordion__panel", className)}>
-      <div className="vc-accordion__content">{children}</div>
-    </AccordionPanelRoot>
-  );
-}
+const AccordionPanel = ({ className, children, ...props }: AccordionPanelProps) => (
+  <AccordionPanelRoot {...props} className={merge("vc-accordion__panel", className)}>
+    <div className="vc-accordion__content">{children}</div>
+  </AccordionPanelRoot>
+);
 
 export { Accordion, AccordionHeader, AccordionItem, AccordionPanel, AccordionTrigger };

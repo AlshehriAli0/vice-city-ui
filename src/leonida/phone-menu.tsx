@@ -8,7 +8,7 @@ import {
   type RovingFocus,
 } from "@ui-sdk/core";
 import { createParts, usePart, usePrimitive, type PartProps } from "@ui-sdk/react/primitive";
-import type { ComponentProps, ReactElement } from "react";
+import type { ComponentProps } from "react";
 
 type PhoneMenuValueChangeReason = "list-navigation" | "item-press" | "imperative";
 
@@ -149,21 +149,12 @@ const parts = createParts(phoneMenu, { item: "button" });
 
 type PhoneMenuProps = PhoneMenuOptions & Omit<PartProps<"div">, "defaultValue" | "onChange">;
 
-function PhoneMenu({
-  value,
-  defaultValue,
-  onValueChange,
-  onOpen,
-  columns,
-  ...props
-}: PhoneMenuProps): ReactElement | null {
+const PhoneMenu = ({ value, defaultValue, onValueChange, onOpen, columns, ...props }: PhoneMenuProps) => {
   const handle = usePrimitive(phoneMenu, { value, defaultValue, onValueChange, onOpen, columns });
   return usePart(handle, "root", {}, props, "div");
-}
+};
 
-function PhoneMenuItem(props: ComponentProps<typeof parts.Item>): ReactElement {
-  return <parts.Item {...props} />;
-}
+const PhoneMenuItem = (props: ComponentProps<typeof parts.Item>) => <parts.Item {...props} />;
 
 export { PhoneMenu, PhoneMenuItem };
 export type { PhoneMenuOptions, PhoneMenuProps, PhoneMenuValueChangeReason };

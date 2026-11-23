@@ -2,7 +2,7 @@ import { Button } from "@ui-sdk/react/button";
 import { Radio, RadioGroup } from "@ui-sdk/react/radio";
 import { useShortcut } from "@ui-sdk/react/shortcuts";
 import { Tabs, TabsPanel } from "@ui-sdk/react/tabs";
-import { useRef, useState, type KeyboardEvent, type ReactElement } from "react";
+import { useRef, useState, type KeyboardEvent } from "react";
 
 import { ButtonPrompt, ButtonPrompts, PadGlyph } from "./button-prompt";
 import { GameScreen } from "./game-screen";
@@ -18,28 +18,26 @@ import "./mod-shop.css";
 
 const VIEWS = ["Front three-quarter", "Side", "Front"];
 
-function Wallet({ cash, buckme }: { cash: number; buckme: number }): ReactElement {
-  return (
-    <dl className="ld-shop__wallet" aria-label="Balance">
-      <div>
-        <dt className="ld-sr">BuckMe</dt>
-        <dd>
-          {money(buckme)}
-          <BuckMeIcon />
-        </dd>
-      </div>
-      <div>
-        <dt className="ld-sr">Cash</dt>
-        <dd>
-          {money(cash)}
-          <WalletIcon />
-        </dd>
-      </div>
-    </dl>
-  );
-}
+const Wallet = ({ cash, buckme }: { cash: number; buckme: number }) => (
+  <dl className="ld-shop__wallet" aria-label="Balance">
+    <div>
+      <dt className="ld-sr">BuckMe</dt>
+      <dd>
+        {money(buckme)}
+        <BuckMeIcon />
+      </dd>
+    </div>
+    <div>
+      <dt className="ld-sr">Cash</dt>
+      <dd>
+        {money(cash)}
+        <WalletIcon />
+      </dd>
+    </div>
+  </dl>
+);
 
-function Respray({ shop }: { shop: ModShopState }): ReactElement {
+const Respray = ({ shop }: { shop: ModShopState }) => {
   const { family, swatch, type, item, owned, short } = shop;
   return (
     <>
@@ -80,9 +78,9 @@ function Respray({ shop }: { shop: ModShopState }): ReactElement {
       </Tabs>
     </>
   );
-}
+};
 
-function FullKits({ shop }: { shop: ModShopState }): ReactElement {
+const FullKits = ({ shop }: { shop: ModShopState }) => {
   const { build, item, owned, short } = shop;
   const onKeyDownCapture = (event: KeyboardEvent<HTMLDivElement>) => {
     if (event.key === "Enter") shop.buy();
@@ -113,27 +111,25 @@ function FullKits({ shop }: { shop: ModShopState }): ReactElement {
       </p>
     </div>
   );
-}
+};
 
-function Vehicle({ shop, view, onView }: { shop: ModShopState; view: number; onView: () => void }): ReactElement {
-  return (
-    <section className="ld-shop__vehicle" aria-label="Vehicle">
-      <Button className="ld-shop__camera" aria-label={`Camera view, ${VIEWS[view]}`} onClick={onView}>
-        {VIEWS.map((name, at) => (
-          <span key={name} className="ld-shop__dot" data-active={at === view || undefined} />
-        ))}
-        <span className="ld-shop__stick">R</span>
-      </Button>
-      <div className="ld-shop__card">
-        <p className="ld-shop__make">Grotti</p>
-        <p className="ld-shop__model">{"Jason's Cheetah"}</p>
-      </div>
-      {!shop.respray && <StatPanel current={shop.appliedBuild} preview={shop.build} />}
-    </section>
-  );
-}
+const Vehicle = ({ shop, view, onView }: { shop: ModShopState; view: number; onView: () => void }) => (
+  <section className="ld-shop__vehicle" aria-label="Vehicle">
+    <Button className="ld-shop__camera" aria-label={`Camera view, ${VIEWS[view]}`} onClick={onView}>
+      {VIEWS.map((name, at) => (
+        <span key={name} className="ld-shop__dot" data-active={at === view || undefined} />
+      ))}
+      <span className="ld-shop__stick">R</span>
+    </Button>
+    <div className="ld-shop__card">
+      <p className="ld-shop__make">Grotti</p>
+      <p className="ld-shop__model">{"Jason's Cheetah"}</p>
+    </div>
+    {!shop.respray && <StatPanel current={shop.appliedBuild} preview={shop.build} />}
+  </section>
+);
 
-function Prompts({ shop, onBack }: { shop: ModShopState; onBack?: () => void }): ReactElement {
+const Prompts = ({ shop, onBack }: { shop: ModShopState; onBack?: () => void }) => {
   const { item, owned, short } = shop;
   return (
     <ButtonPrompts label="Mod shop prompts">
@@ -160,9 +156,9 @@ function Prompts({ shop, onBack }: { shop: ModShopState; onBack?: () => void }):
       </ButtonPrompt>
     </ButtonPrompts>
   );
-}
+};
 
-function ModShop(props: ModShopProps): ReactElement {
+const ModShop = (props: ModShopProps) => {
   const root = useRef<HTMLDivElement>(null);
   const shop = useModShop(props);
   const [view, setView] = useState(0);
@@ -192,7 +188,7 @@ function ModShop(props: ModShopProps): ReactElement {
       </GameScreen>
     </div>
   );
-}
+};
 
 export { ModShop };
 export type { ModShopProps, Purchase } from "./mod-shop.state";

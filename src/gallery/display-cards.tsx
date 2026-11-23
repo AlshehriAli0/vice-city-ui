@@ -1,5 +1,3 @@
-import type { ReactElement } from "react";
-
 import { toast } from "../leonida/mission-toast.store";
 import { Badge, BadgeDot } from "../ui/badge";
 import { Button } from "../ui/button";
@@ -11,33 +9,31 @@ import type { Demo, Playground } from "./types";
 
 const CARD_VARIANTS = opts(["glass", "Glass"], ["solid", "Solid"], ["sticker", "Sticker"], ["sunset", "Sunset"]);
 
-function CardDemo({ values: v }: Playground): ReactElement {
-  return (
-    <div className="cd-center cd-center--card">
-      <Card variant={optionValue(v.variant, CARD_VARIANTS)} interactive={Boolean(v.interactive)} className="cd-card">
-        {v.media && (
-          <CardMedia ratio="4 / 3" focus="50% 60%">
-            <img src="/vc/ue-grotti-cheetah.jpg" alt="" loading="lazy" />
-          </CardMedia>
-        )}
-        <CardHeader>
-          <CardTitle render={props => <h4 {...props}>{props.children}</h4>}>{String(v.title)}</CardTitle>
-          {v.description ? <CardDescription>{String(v.description)}</CardDescription> : null}
-        </CardHeader>
-        {v.footer && (
-          <CardFooter>
-            <Badge variant="outline">Owned</Badge>
-            <Button size="sm" className="cd-push" onClick={() => toast("Waypoint set")}>
-              Set waypoint
-            </Button>
-          </CardFooter>
-        )}
-      </Card>
-    </div>
-  );
-}
+const CardDemo = ({ values: v }: Playground) => (
+  <div className="cd-center cd-center--card">
+    <Card variant={optionValue(v.variant, CARD_VARIANTS)} interactive={Boolean(v.interactive)} className="cd-card">
+      {v.media && (
+        <CardMedia ratio="4 / 3" focus="50% 60%">
+          <img src="/vc/ue-grotti-cheetah.jpg" alt="" loading="lazy" />
+        </CardMedia>
+      )}
+      <CardHeader>
+        <CardTitle render={props => <h4 {...props}>{props.children}</h4>}>{String(v.title)}</CardTitle>
+        {v.description ? <CardDescription>{String(v.description)}</CardDescription> : null}
+      </CardHeader>
+      {v.footer && (
+        <CardFooter>
+          <Badge variant="outline">Owned</Badge>
+          <Button size="sm" className="cd-push" onClick={() => toast("Waypoint set")}>
+            Set waypoint
+          </Button>
+        </CardFooter>
+      )}
+    </Card>
+  </div>
+);
 
-function ViceTextDemo({ values: v }: Playground): ReactElement {
+const ViceTextDemo = ({ values: v }: Playground) => {
   const text = String(v.text).trim() || "Your name";
   return (
     <div className="cd-vice">
@@ -46,7 +42,7 @@ function ViceTextDemo({ values: v }: Playground): ReactElement {
       </ViceText>
     </div>
   );
-}
+};
 
 const BADGE_VARIANTS = opts(
   ["solid", "Solid"],
@@ -66,24 +62,22 @@ const BADGE_TONES = opts(
   ["neutral", "Neutral"]
 );
 
-function BadgeDemo({ values: v }: Playground): ReactElement {
-  return (
-    <div className="cd-list">
-      <div className="cd-line">
-        <span className="cd-line__main">
-          Item name
-          <small>Vice City</small>
-        </span>
-        <span className="cd-line__meta">
-          <Badge variant={optionValue(v.variant, BADGE_VARIANTS)} tone={optionValue(v.tone, BADGE_TONES)}>
-            {v.dot && <BadgeDot />}
-            {String(v.text)}
-          </Badge>
-        </span>
-      </div>
+const BadgeDemo = ({ values: v }: Playground) => (
+  <div className="cd-list">
+    <div className="cd-line">
+      <span className="cd-line__main">
+        Item name
+        <small>Vice City</small>
+      </span>
+      <span className="cd-line__meta">
+        <Badge variant={optionValue(v.variant, BADGE_VARIANTS)} tone={optionValue(v.tone, BADGE_TONES)}>
+          {v.dot && <BadgeDot />}
+          {String(v.text)}
+        </Badge>
+      </span>
     </div>
-  );
-}
+  </div>
+);
 
 const displayCardsDemos: Demo[] = [
   {

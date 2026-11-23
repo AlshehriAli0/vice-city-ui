@@ -1,6 +1,6 @@
 import { Radio, RadioGroup } from "@ui-sdk/react/radio";
 import { TabsPanel } from "@ui-sdk/react/tabs";
-import { useState, type ReactElement } from "react";
+import { useState } from "react";
 
 import { cssVariables } from "../ui/css-variables";
 import { FormattedText } from "./formatted-text";
@@ -38,7 +38,7 @@ const STATS = [
   ["Photos taken", "41"],
 ];
 
-function BriefPanel(): ReactElement {
+const BriefPanel = () => {
   const [filter, setFilter] = useState("all");
   return (
     <TabsPanel value="brief" className="ld-map__panel ld-map__panel--plum">
@@ -64,9 +64,9 @@ function BriefPanel(): ReactElement {
       </ul>
     </TabsPanel>
   );
-}
+};
 
-function ProgressPanel(): ReactElement {
+const ProgressPanel = () => {
   const [tile, setTile] = useState("stats");
   const tileAt = TILES.findIndex(item => item.value === tile);
   return (
@@ -91,27 +91,25 @@ function ProgressPanel(): ReactElement {
       </p>
     </TabsPanel>
   );
-}
+};
 
-function CharacterPanel(): ReactElement {
-  return (
-    <TabsPanel value="characters" className="ld-map__panel ld-map__panel--plum">
-      <div className="ld-map__people" aria-hidden="true">
-        <img src="/vc/art-jason.jpg" alt="" />
-      </div>
-      <table className="ld-map__stats">
-        <caption>Stats</caption>
-        <tbody>
-          {STATS.map(([label, value]) => (
-            <tr key={label}>
-              <th scope="row">{label}</th>
-              <td>{value}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </TabsPanel>
-  );
-}
+const CharacterPanel = () => (
+  <TabsPanel value="characters" className="ld-map__panel ld-map__panel--plum">
+    <div className="ld-map__people" aria-hidden="true">
+      <img src="/vc/art-jason.jpg" alt="" />
+    </div>
+    <table className="ld-map__stats">
+      <caption>Stats</caption>
+      <tbody>
+        {STATS.map(([label, value]) => (
+          <tr key={label}>
+            <th scope="row">{label}</th>
+            <td>{value}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </TabsPanel>
+);
 
 export { BriefPanel, CharacterPanel, ProgressPanel };

@@ -7,7 +7,7 @@ import {
   AlertDialogTitle,
 } from "@ui-sdk/react/alert-dialog";
 import { useShortcut } from "@ui-sdk/react/shortcuts";
-import { useRef, type ReactElement } from "react";
+import { useRef } from "react";
 
 import { ButtonPromptLabel, PadGlyph } from "./button-prompt";
 
@@ -22,7 +22,7 @@ type GameConfirmProps = {
   onAnswer: (yes: boolean) => void;
 };
 
-function GameConfirm({ open, variant = "screen", title, body, consequence, onAnswer }: GameConfirmProps): ReactElement {
+const GameConfirm = ({ open, variant = "screen", title, body, consequence, onAnswer }: GameConfirmProps) => {
   const content = useRef<HTMLDivElement>(null);
   const yes = useRef<HTMLButtonElement>(null);
   const no = useRef<HTMLButtonElement>(null);
@@ -61,7 +61,7 @@ function GameConfirm({ open, variant = "screen", title, body, consequence, onAns
       </AlertDialogContent>
     </AlertDialog>
   );
-}
+};
 
 export { GameConfirm };
 export type { GameConfirmProps };

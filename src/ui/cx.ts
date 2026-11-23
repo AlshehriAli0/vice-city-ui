@@ -1,21 +1,16 @@
-import { createElement, type ComponentType, type ReactElement } from "react";
+import { createElement, type ComponentType } from "react";
 
 type ClassName<S> = string | ((state: S) => string | undefined) | undefined;
 
-function cx(base: string, extra?: string): string;
-function cx<S>(base: string, extra: ClassName<S>): ClassName<S>;
-function cx<S>(base: string, extra: ClassName<S>): ClassName<S> {
+const cx = (base: string, extra?: string): string => (extra ? `${base} ${extra}` : base);
+
+const merge = <S>(base: string, extra: ClassName<S>): ClassName<S> => {
   if (typeof extra === "function") return (state: S) => `${base} ${extra(state) ?? ""}`.trim();
-  return extra ? `${base} ${extra}` : base;
-}
+  return cx(base, extra);
+};
 
-const merge = cx as <S>(base: string, extra: ClassName<S>) => ClassName<S>;
-
-const styled = <P extends { className?: ClassName<never> }>(
-  Component: ComponentType<P>,
-  base: string
-): ((props: P) => ReactElement) => {
-  const Styled = (props: P): ReactElement => {
+const styled = <P extends { className?: ClassName<never> }>(Component: ComponentType<P>, base: string) => {
+  const Styled = (props: P) => {
     "use memo";
 
     return createElement(Component, { ...props, className: merge(base, props.className) });

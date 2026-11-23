@@ -9,7 +9,7 @@ import {
   SelectTrigger as SelectTriggerRoot,
   SelectValue as SelectValueRoot,
 } from "@ui-sdk/react/select";
-import type { ComponentProps, ReactElement, ReactNode } from "react";
+import type { ComponentProps, ReactNode } from "react";
 
 import { merge, POPUP_CLEARANCE, styled } from "./cx";
 import { Check, ChevronDown } from "./icons";
@@ -19,45 +19,33 @@ import "./select.css";
 
 type SelectTriggerProps = ComponentProps<typeof SelectTriggerRoot> & { size?: "sm" | "md" | "lg" };
 
-function SelectTrigger({ size, className, children, ...props }: SelectTriggerProps): ReactElement {
-  return (
-    <SelectTriggerRoot {...props} className={merge("vc-control vc-select", className)} data-size={size}>
-      {typeof children === "function" ? state => withChevron(children(state)) : withChevron(children)}
-    </SelectTriggerRoot>
-  );
-}
+const SelectTrigger = ({ size, className, children, ...props }: SelectTriggerProps) => (
+  <SelectTriggerRoot {...props} className={merge("vc-control vc-select", className)} data-size={size}>
+    {typeof children === "function" ? state => withChevron(children(state)) : withChevron(children)}
+  </SelectTriggerRoot>
+);
 
-function withChevron(children: ReactNode): ReactElement {
-  return (
-    <>
-      {children}
-      <ChevronDown className="vc-chevron" />
-    </>
-  );
-}
+const withChevron = (children: ReactNode) => (
+  <>
+    {children}
+    <ChevronDown className="vc-chevron" />
+  </>
+);
 
-function SelectContent({ className, ...props }: ComponentProps<typeof SelectContentRoot>): ReactElement {
-  return (
-    <SelectContentRoot
-      sideOffset={6}
-      collisionPadding={POPUP_CLEARANCE}
-      {...props}
-      className={merge("vc-pop vc-select__list", className)}
-    />
-  );
-}
+const SelectContent = ({ className, ...props }: ComponentProps<typeof SelectContentRoot>) => (
+  <SelectContentRoot
+    sideOffset={6}
+    collisionPadding={POPUP_CLEARANCE}
+    {...props}
+    className={merge("vc-pop vc-select__list", className)}
+  />
+);
 
-function SelectItemIndicator({
-  className,
-  children,
-  ...props
-}: ComponentProps<typeof SelectItemIndicatorRoot>): ReactElement {
-  return (
-    <SelectItemIndicatorRoot {...props} className={merge("vc-row__check", className)}>
-      {children ?? <Check />}
-    </SelectItemIndicatorRoot>
-  );
-}
+const SelectItemIndicator = ({ className, children, ...props }: ComponentProps<typeof SelectItemIndicatorRoot>) => (
+  <SelectItemIndicatorRoot {...props} className={merge("vc-row__check", className)}>
+    {children ?? <Check />}
+  </SelectItemIndicatorRoot>
+);
 
 const SelectLabel = styled(SelectLabelRoot, "vc-label");
 const SelectValue = styled(SelectValueRoot, "vc-select__value");

@@ -1,5 +1,5 @@
 import { useShortcut } from "@ui-sdk/react/shortcuts";
-import { useRef, type ReactElement } from "react";
+import { useRef } from "react";
 
 import { GameConfirm } from "./game-confirm";
 import { GameScreen } from "./game-screen";
@@ -8,7 +8,7 @@ import { useSaveScreen, type SaveScreenProps } from "./save-screen.state";
 
 import "./save-screen.css";
 
-function SaveScreen(props: SaveScreenProps): ReactElement {
+const SaveScreen = (props: SaveScreenProps) => {
   const root = useRef<HTMLDivElement>(null);
   const state = useSaveScreen(props);
   const { mode, phase, confirm, asking, busy } = state;
@@ -59,7 +59,7 @@ function SaveScreen(props: SaveScreenProps): ReactElement {
       </GameScreen>
     </div>
   );
-}
+};
 
 export { SaveScreen };
 export type { SaveChangeReason, SaveScreenProps } from "./save-screen.state";

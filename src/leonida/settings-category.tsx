@@ -1,4 +1,4 @@
-import type { CSSProperties, ReactElement } from "react";
+import type { CSSProperties } from "react";
 
 import { cssVariables } from "../ui/css-variables";
 import { SettingsCycle } from "./settings-cycle";
@@ -8,7 +8,7 @@ import type { Category, Row, Value } from "./settings-screen.data";
 
 type Change = (id: string, value: Value) => void;
 
-function SettingRow({
+const SettingRow = ({
   row,
   value,
   onChange,
@@ -18,7 +18,7 @@ function SettingRow({
   value: Value;
   onChange: Change;
   style: CSSProperties;
-}): ReactElement {
+}) => {
   const common = { id: row.id, label: row.label, disabled: row.disabled, style };
   if (row.kind === "toggle")
     return (
@@ -46,7 +46,7 @@ function SettingRow({
       onValueChange={next => onChange(row.id, next)}
     />
   );
-}
+};
 
 type SettingsCategoryProps = {
   category: Category;
@@ -68,7 +68,7 @@ const sectionOffsets = (category: Category): number[] => {
 
 const choiceValue = (value: Value, fallback: string): string => (typeof value === "string" ? value : fallback);
 
-function SettingsCategory({ category, active, onActiveChange, values, change }: SettingsCategoryProps): ReactElement {
+const SettingsCategory = ({ category, active, onActiveChange, values, change }: SettingsCategoryProps) => {
   const offsets = sectionOffsets(category);
   const stagger = (index: number) => cssVariables({ "--i": Math.min(index, 12) });
   return (
@@ -107,7 +107,7 @@ function SettingsCategory({ category, active, onActiveChange, values, change }: 
       ))}
     </SettingsList>
   );
-}
+};
 
 export { SettingsCategory };
 export type { Change };

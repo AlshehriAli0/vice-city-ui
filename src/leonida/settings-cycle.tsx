@@ -4,18 +4,16 @@ import {
   SegmentedControl,
   SegmentedControlItem,
 } from "@ui-sdk/react/segmented-control";
-import { useId, useState, type ReactElement } from "react";
+import { useId, useState } from "react";
 
 import { cx } from "../ui/cx";
 import { useFocus, useRow, type RowProps } from "./use-settings-row";
 
-function Chevron({ flip }: { flip?: boolean }): ReactElement {
-  return (
-    <svg viewBox="0 0 10 16" width="10" height="16" aria-hidden="true">
-      <path d={flip ? "M2 2l6 6-6 6" : "M8 2L2 8l6 6"} />
-    </svg>
-  );
-}
+const Chevron = ({ flip }: { flip?: boolean }) => (
+  <svg viewBox="0 0 10 16" width="10" height="16" aria-hidden="true">
+    <path d={flip ? "M2 2l6 6-6 6" : "M8 2L2 8l6 6"} />
+  </svg>
+);
 
 type CycleProps = RowProps & {
   options: string[];
@@ -24,7 +22,7 @@ type CycleProps = RowProps & {
   onValueChange?: (value: string) => void;
 };
 
-function SettingsCycle({
+const SettingsCycle = ({
   id,
   label,
   disabled,
@@ -34,7 +32,7 @@ function SettingsCycle({
   onValueChange,
   className,
   style,
-}: CycleProps): ReactElement {
+}: CycleProps) => {
   const labelId = useId();
   const [control] = useState(() => createSegmentedControlController());
   const [own, setOwn] = useState(defaultValue ?? options[0]);
@@ -97,6 +95,6 @@ function SettingsCycle({
       </span>
     </div>
   );
-}
+};
 
 export { SettingsCycle };

@@ -128,12 +128,12 @@ main:focus {
   position: relative;
   width: var(--site-inner);
   margin: 0 auto;
-  padding: 96px 0 72px;
+  padding: 136px 0 96px;
   text-align: center;
 }
 
 .masthead__kicker {
-  margin: 0 0 20px;
+  margin: 0 0 32px;
   font-family: var(--font-ui);
   font-weight: 700;
   font-size: 14px;
@@ -147,7 +147,7 @@ main:focus {
   flex-wrap: wrap;
   justify-content: center;
   gap: 12px;
-  margin-top: 32px;
+  margin-top: 48px;
 }
 
 /* The site's soft sun behind the headline, in the hour's colours. */
@@ -164,7 +164,7 @@ main:focus {
   content: "";
   display: block;
   height: 2px;
-  margin-top: 64px;
+  margin-top: 104px;
   background: linear-gradient(90deg, transparent, var(--fill-2) 30%, var(--fill-3) 70%, transparent);
 }
 
@@ -183,8 +183,8 @@ main:focus {
 }
 
 .masthead__lede {
-  max-width: 30ch;
-  margin: 24px auto 0;
+  margin: 44px auto 0;
+  text-wrap: balance;
   background: linear-gradient(0deg, var(--fill-2) 0%, var(--fill-1) 100%);
   -webkit-background-clip: text;
   background-clip: text;
@@ -196,10 +196,11 @@ main:focus {
 }
 
 .masthead__intro {
-  max-width: 56ch;
-  margin: 16px auto 0;
-  font-size: 15px;
-  line-height: 1.55;
+  max-width: 52ch;
+  margin: 20px auto 0;
+  font-size: 16px;
+  line-height: 1.6;
+  text-wrap: pretty;
   color: var(--sky-lilac);
 }
 
@@ -568,6 +569,11 @@ main:focus {
   max-width: 100%;
 }
 
+/* Growing content would re-centre and drag the rows above it, so it hangs from the top. */
+.detail__stage:has(.vc-accordion) {
+  align-items: start;
+}
+
 .detail__frame-placeholder {
   width: 100%;
   aspect-ratio: 16 / 9;
@@ -914,11 +920,37 @@ main:focus {
   }
 
   .masthead {
-    padding: 40px 0 32px;
+    padding: 64px 0 40px;
+  }
+
+  .masthead::after {
+    margin-top: 64px;
+  }
+
+  .masthead__kicker {
+    margin-bottom: 24px;
+    font-size: 12px;
+    letter-spacing: 0.16em;
   }
 
   .masthead__title {
     font-size: 18.5vw;
+  }
+
+  .masthead__lede {
+    margin-top: 32px;
+  }
+
+  .masthead__intro {
+    margin-top: 16px;
+    font-size: 15px;
+  }
+
+  .masthead__actions {
+    flex-direction: column;
+    align-items: stretch;
+    max-width: 320px;
+    margin: 36px auto 0;
   }
 
   .topbar {
@@ -954,7 +986,20 @@ main:focus {
   }
 
   .detail__stage {
-    min-height: 300px;
+    min-height: 200px;
+    padding: 12px;
+  }
+
+  .pg-bar .vc-segments {
+    max-width: 100%;
+    padding: 2px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .pg-bar .vc-segments__item {
+    flex: none;
+    white-space: nowrap;
   }
 
   .pager {

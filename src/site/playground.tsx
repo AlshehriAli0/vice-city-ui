@@ -1,5 +1,4 @@
 import { RotateCcw } from "lucide-react";
-import type { ReactElement } from "react";
 
 import type { Control, Demo, Playground, Value, Values } from "../gallery/types";
 import { Button } from "../ui/button";
@@ -22,11 +21,10 @@ import { CopyButton } from "./copy-button";
 import { HighlightedCode } from "./highlighted-code";
 import { usePlayground, type PlaygroundState } from "./playground-state";
 
-function same(values: Values, preset: Values, defaults: Values = {}): boolean {
-  return Object.entries({ ...defaults, ...preset }).every(([key, value]) => values[key] === value);
-}
+const same = (values: Values, preset: Values, defaults: Values = {}): boolean =>
+  Object.entries({ ...defaults, ...preset }).every(([key, value]) => values[key] === value);
 
-function ControlRow({
+const ControlRow = ({
   control,
   value,
   set,
@@ -34,7 +32,7 @@ function ControlRow({
   control: Control;
   value: Value | undefined;
   set: Playground["set"];
-}): ReactElement {
+}) => {
   if (control.type === "boolean")
     return (
       <Field>
@@ -104,14 +102,14 @@ function ControlRow({
       </Select>
     </Field>
   );
-}
+};
 
-function Examples({
+const Examples = ({
   demo,
   values,
   apply,
   reset,
-}: { demo: Demo } & Pick<PlaygroundState, "values" | "apply" | "reset">): ReactElement | null {
+}: { demo: Demo } & Pick<PlaygroundState, "values" | "apply" | "reset">) => {
   const examples = demo.examples;
   const current = examples?.find(example => same(values, example.values, demo.defaults))?.label ?? null;
   if (!examples?.length && !demo.controls?.length) return null;
@@ -141,9 +139,9 @@ function Examples({
       ) : null}
     </div>
   );
-}
+};
 
-function ControlsPanel({ demo, state }: { demo: Demo; state: PlaygroundState }): ReactElement | null {
+const ControlsPanel = ({ demo, state }: { demo: Demo; state: PlaygroundState }) => {
   if (!demo.controls?.length && !demo.actions?.length) return null;
   return (
     <section className="pg-panel" aria-labelledby="pg-title">
@@ -166,9 +164,9 @@ function ControlsPanel({ demo, state }: { demo: Demo; state: PlaygroundState }):
       ) : null}
     </section>
   );
-}
+};
 
-function Usage({ demo, values }: { demo: Demo; values: Values }): ReactElement | null {
+const Usage = ({ demo, values }: { demo: Demo; values: Values }) => {
   const code = demo.code?.(values);
   if (!code) return null;
   return (
@@ -182,9 +180,9 @@ function Usage({ demo, values }: { demo: Demo; values: Values }): ReactElement |
       </pre>
     </section>
   );
-}
+};
 
-function PlaygroundView({ demo }: { demo: Demo }): ReactElement {
+const PlaygroundView = ({ demo }: { demo: Demo }) => {
   const state = usePlayground(demo);
   return (
     <>
@@ -193,6 +191,6 @@ function PlaygroundView({ demo }: { demo: Demo }): ReactElement {
       <ControlsPanel demo={demo} state={state} />
     </>
   );
-}
+};
 
 export { ControlsPanel, Examples, PlaygroundView, Usage };

@@ -1,5 +1,3 @@
-import type { ReactElement } from "react";
-
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage } from "../ui/breadcrumb";
 import {
   Pagination,
@@ -16,7 +14,7 @@ import type { Demo, Playground } from "./types";
 
 const PAGES = 12;
 
-function NavDemo({ values: v, set }: Playground): ReactElement {
+const NavDemo = ({ values: v, set }: Playground) => {
   if (v.component === "breadcrumb")
     return (
       <div className="cd-list">
@@ -67,7 +65,7 @@ function NavDemo({ values: v, set }: Playground): ReactElement {
       </div>
     </div>
   );
-}
+};
 
 const displayPaginationDemos: Demo[] = [
   {

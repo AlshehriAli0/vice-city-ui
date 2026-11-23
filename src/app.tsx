@@ -1,5 +1,5 @@
 import { OverlayHost } from "@ui-sdk/react/overlays";
-import { useEffect, useLayoutEffect, useRef, type ReactElement } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 
 import { LeonidaToasts } from "./leonida/mission-toast";
 import { BY_ID } from "./site/catalog";
@@ -9,7 +9,7 @@ import { useRoute } from "./site/route";
 import { Search } from "./site/search";
 import { ViceText } from "./ui/vice-text";
 
-function App(): ReactElement {
+const App = () => {
   const route = useRoute();
   const homeScroll = useRef(0);
   const lastId = useRef<string | null>(null);
@@ -62,6 +62,6 @@ function App(): ReactElement {
       </main>
     </>
   );
-}
+};
 
 export { App };

@@ -1,5 +1,3 @@
-import type { ReactElement } from "react";
-
 import { Checkbox, CheckboxIndicator } from "../ui/checkbox";
 import { Field, FieldDescription, FieldLabel, FieldList } from "../ui/field";
 import {
@@ -26,18 +24,18 @@ const CHECKED = [
 
 const toChecked = (state: string) => (state === "indeterminate" ? "indeterminate" : state === "checked");
 
-function checkedValue(value: boolean | "indeterminate"): string {
+const checkedValue = (value: boolean | "indeterminate"): string => {
   if (value === "indeterminate") return value;
   return value ? "checked" : "unchecked";
-}
+};
 
-function defaultCheckedProp(value: Value | undefined): string {
+const defaultCheckedProp = (value: Value | undefined): string => {
   if (value === "checked") return " defaultChecked";
   if (value === "indeterminate") return ' defaultChecked="indeterminate"';
   return "";
-}
+};
 
-function CheckboxDemo(playground: Playground): ReactElement {
+const CheckboxDemo = (playground: Playground) => {
   const v = playground.values;
   const [state, setState] = useMirroredControl(String(v.checked), next => playground.set("checked", next));
   return (
@@ -57,7 +55,7 @@ function CheckboxDemo(playground: Playground): ReactElement {
       </div>
     </FormStage>
   );
-}
+};
 
 const TEXT_SIZES = [
   { value: "small", label: "Small", description: "Smaller subtitles and menus." },
@@ -68,7 +66,7 @@ const TEXT_SIZES = [
 
 const RADIO_VARIANTS = labeledOptions(["stacked", "Stacked"], ["inline", "Inline"]);
 
-function RadioDemo(playground: Playground): ReactElement {
+const RadioDemo = (playground: Playground) => {
   const v = playground.values;
   const [value, setValue] = useMirroredControl(String(v.value), next => playground.set("value", next));
   return (
@@ -95,9 +93,9 @@ function RadioDemo(playground: Playground): ReactElement {
       </RadioGroup>
     </FormStage>
   );
-}
+};
 
-function SwitchDemo(playground: Playground): ReactElement {
+const SwitchDemo = (playground: Playground) => {
   const v = playground.values;
   const [checked, setChecked] = useMirroredControl(Boolean(v.checked), next => playground.set("checked", next));
   return (
@@ -113,7 +111,7 @@ function SwitchDemo(playground: Playground): ReactElement {
       </FieldList>
     </FormStage>
   );
-}
+};
 
 const formChoicesDemos: Demo[] = [
   {

@@ -4,7 +4,7 @@ import {
   TabsPanel as TabsPanelRoot,
   TabsTab as TabsTabRoot,
 } from "@ui-sdk/react/tabs";
-import type { ComponentProps, ReactElement } from "react";
+import type { ComponentProps } from "react";
 
 import { merge, styled } from "./cx";
 import { plain } from "./plain";
@@ -14,9 +14,9 @@ import "./tabs.css";
 
 type TabsProps = ComponentProps<typeof TabsRoot> & { variant?: "underline" | "chips" | "pill" | "slant" };
 
-function Tabs({ variant = "underline", className, ...props }: TabsProps): ReactElement {
-  return <TabsRoot {...props} className={merge("vc-tabs", className)} data-variant={variant} />;
-}
+const Tabs = ({ variant = "underline", className, ...props }: TabsProps) => (
+  <TabsRoot {...props} className={merge("vc-tabs", className)} data-variant={variant} />
+);
 
 const TabsBar = plain("div", "tabs-bar", "vc-tabs__bar");
 const TabsList = styled(TabsListRoot, "vc-tabs__list");

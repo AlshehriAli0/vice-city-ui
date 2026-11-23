@@ -1,9 +1,9 @@
 import { Check, Copy } from "lucide-react";
-import { useEffect, useState, type ReactElement } from "react";
+import { useEffect, useState } from "react";
 
 import { Button } from "../ui/button";
 
-function CopyButton({ text, label }: { text: string; label?: string }): ReactElement {
+const CopyButton = ({ text, label }: { text: string; label?: string }) => {
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
@@ -36,6 +36,6 @@ function CopyButton({ text, label }: { text: string; label?: string }): ReactEle
       </span>
     </>
   );
-}
+};
 
 export { CopyButton };

@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactElement } from "react";
+import { useEffect, useState } from "react";
 
 import { ButtonPrompt, ButtonPrompts } from "../leonida/button-prompt";
 import { HelpBox, HelpButton, HelpEvidence, HelpStar } from "../leonida/hint-tooltip";
@@ -18,13 +18,13 @@ const BLIPS: Blip[] = [
   { id: "car", bearing: 125, kind: "vehicle", label: "Your vehicle" },
 ];
 
-function FullHudVitals({
+const FullHudVitals = ({
   sprinting,
   subscribeAction,
 }: {
   sprinting: boolean;
   subscribeAction: Playground["subscribeAction"];
-}): ReactElement {
+}) => {
   const [health, setHealth] = useState(78);
   const [stamina, setStamina] = useState(100);
   const recovering = !sprinting && stamina < 100;
@@ -52,32 +52,30 @@ function FullHudVitals({
       />
     </div>
   );
-}
+};
 
-function FullHudFeed({ subscribeAction }: { subscribeAction: Playground["subscribeAction"] }): ReactElement {
+const FullHudFeed = ({ subscribeAction }: { subscribeAction: Playground["subscribeAction"] }) => {
   const feed = useFeed("crime");
   useAction(subscribeAction, "feed", feed.push);
   return <HudFeed lines={feed.lines} onDone={feed.done} />;
-}
+};
 
-function HudHelp({ profiled }: { profiled: boolean }): ReactElement {
-  return (
-    <div data-hud="help">
-      {profiled ? (
-        <HelpBox>
-          Out of sight for now. Change your look <HelpEvidence items={["face", "clothing"]} /> and wait out the search{" "}
-          <HelpStar />
-        </HelpBox>
-      ) : (
-        <HelpBox>
-          Hold <HelpButton glyph="L1" /> and press <HelpButton glyph="square" /> to heal.
-        </HelpBox>
-      )}
-    </div>
-  );
-}
+const HudHelp = ({ profiled }: { profiled: boolean }) => (
+  <div data-hud="help">
+    {profiled ? (
+      <HelpBox>
+        Out of sight for now. Change your look <HelpEvidence items={["face", "clothing"]} /> and wait out the search{" "}
+        <HelpStar />
+      </HelpBox>
+    ) : (
+      <HelpBox>
+        Hold <HelpButton glyph="L1" /> and press <HelpButton glyph="square" /> to heal.
+      </HelpBox>
+    )}
+  </div>
+);
 
-function HudStatus({ heat, state, profiled }: { heat: number; state: WantedState; profiled: boolean }): ReactElement {
+const HudStatus = ({ heat, state, profiled }: { heat: number; state: WantedState; profiled: boolean }) => {
   const wanted = heat > 0;
   return (
     <div data-hud="right">
@@ -100,9 +98,9 @@ function HudStatus({ heat, state, profiled }: { heat: number; state: WantedState
       </div>
     </div>
   );
-}
+};
 
-function DrivingTurnCard({ driving }: { driving: boolean }): ReactElement | null {
+const DrivingTurnCard = ({ driving }: { driving: boolean }) => {
   const [feet, setFeet] = useState(448);
 
   useEffect(() => {
@@ -118,9 +116,9 @@ function DrivingTurnCard({ driving }: { driving: boolean }): ReactElement | null
       <TurnCard turn="right" distance={`${feet} ft`} />
     </div>
   );
-}
+};
 
-function HudMissionObjective({ wanted }: { wanted: boolean }): ReactElement {
+const HudMissionObjective = ({ wanted }: { wanted: boolean }) => {
   if (wanted)
     return (
       <Objective>
@@ -132,9 +130,9 @@ function HudMissionObjective({ wanted }: { wanted: boolean }): ReactElement {
       Drive to the <em>marina</em>
     </Objective>
   );
-}
+};
 
-function FullHud({ values, set, subscribeAction }: Playground): ReactElement {
+const FullHud = ({ values, set, subscribeAction }: Playground) => {
   const heat = Number(values.heat);
   const state = policeState(values.police);
   const sprinting = Boolean(values.sprinting);
@@ -174,6 +172,6 @@ function FullHud({ values, set, subscribeAction }: Playground): ReactElement {
       </HudStage>
     </div>
   );
-}
+};
 
 export { FullHud };

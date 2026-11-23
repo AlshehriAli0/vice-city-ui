@@ -1,13 +1,13 @@
 import { Radio, RadioGroup } from "@ui-sdk/react/radio";
 import { TabsList, TabsTab } from "@ui-sdk/react/tabs";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useLayoutEffect, useRef, useState, type KeyboardEvent, type ReactElement } from "react";
+import { useLayoutEffect, useRef, useState, type KeyboardEvent } from "react";
 
 import { cssVariables } from "../ui/css-variables";
 import { CheckDisc } from "./mod-shop.parts";
 import { FAMILIES, type Family } from "./mod-shop.swatches";
 
-function SwatchStrip({
+const SwatchStrip = ({
   family,
   value,
   onValueChange,
@@ -25,7 +25,7 @@ function SwatchStrip({
   onPaintStep: () => void;
   onBuy: () => void;
   focusOnMount: boolean;
-}): ReactElement {
+}) => {
   const list = family.swatches;
   const index = Math.max(
     0,
@@ -96,9 +96,9 @@ function SwatchStrip({
       {list.length > 6 && <span className="ld-shop__scroll" aria-hidden="true" />}
     </div>
   );
-}
+};
 
-function FamilyTabs({ family }: { family: string }): ReactElement {
+const FamilyTabs = ({ family }: { family: string }) => {
   const clip = useRef<HTMLDivElement>(null);
   const [shift, setShift] = useState(0);
   useLayoutEffect(() => {
@@ -121,6 +121,6 @@ function FamilyTabs({ family }: { family: string }): ReactElement {
       </TabsList>
     </div>
   );
-}
+};
 
 export { FamilyTabs, SwatchStrip };

@@ -1,4 +1,4 @@
-import { act, fireEvent, render, screen, within } from "@testing-library/react";
+import { act, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { createAgent } from "@ui-sdk/react/agent";
 import { afterEach, expect, test, vi } from "vitest";
@@ -27,7 +27,7 @@ const agent = createAgent({ allow: step => !step.confirm });
 function Page({ onSelect }: { onSelect?: (value: string) => void }) {
   return (
     <>
-      <PauseMenu onSelect={onSelect} />
+      <PauseMenu onSelect={onSelect} settings={false} map={false} />
       <SettingsScreen defaultValue="ui" />
       <MapScreen />
     </>
@@ -76,7 +76,7 @@ test("pause rows are one tab stop: arrows move the bar, Enter, Space and Select 
   const user = userEvent.setup();
   const onSelect = vi.fn();
   const onValueChange = vi.fn();
-  render(<PauseMenu onSelect={onSelect} onValueChange={onValueChange} />);
+  render(<PauseMenu onSelect={onSelect} onValueChange={onValueChange} settings={false} map={false} />);
   const rows = within(screen.getByRole("toolbar", { name: "Pause menu" })).getAllByRole("button");
   expect(rows.map(row => row.textContent)).toEqual(["Map", "Game", "Store", "Help", "Photo Studio", "Settings"]);
   expect(rows[0]).toHaveAttribute("data-current");
@@ -589,4 +589,32 @@ test("the map playground drives the tab, cash, clock, zoom, destination and view
   await user.type(panel().getByRole("textbox", { name: "Clock" }), "9:40 pm");
   expect(screen.getByText("9:40 pm")).toBeInTheDocument();
   delete document.documentElement.dataset.motion;
+});
+
+test("the pause menu opens Settings and the Map in place, and Back returns to their rows", async () => {
+  const user = userEvent.setup();
+  render(<PauseMenu />);
+  const row = (name: string) =>
+    within(screen.getByRole("toolbar", { name: "Pause menu" })).getByRole("button", { name });
+
+  await user.click(row("Settings"));
+  const categories = screen.getByRole("tablist", { name: "Settings categories" });
+  await waitFor(() => expect(within(categories).getByRole("tab", { selected: true })).toHaveFocus());
+  await user.keyboard("{Backspace}");
+  await waitFor(() => expect(row("Settings")).toHaveFocus());
+
+  await user.click(row("Map"));
+  const tabs = screen.getByRole("tablist", { name: "Map menu" });
+  await waitFor(() => expect(within(tabs).getByRole("tab", { selected: true })).toHaveFocus());
+  await user.click(within(screen.getByRole("group", { name: "Map prompts" })).getByRole("button", { name: /Exit/ }));
+  await waitFor(() => expect(row("Map")).toHaveFocus());
+});
+
+test("a pause menu without a screen keeps the row as a plain choice", async () => {
+  const user = userEvent.setup();
+  const onSelect = vi.fn();
+  render(<PauseMenu settings={false} map={false} onSelect={onSelect} />);
+  await user.click(screen.getByRole("button", { name: "Settings" }));
+  expect(onSelect).toHaveBeenCalledWith("settings");
+  expect(screen.getByRole("toolbar", { name: "Pause menu" })).toBeInTheDocument();
 });

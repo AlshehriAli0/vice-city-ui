@@ -1,4 +1,4 @@
-import type { ReactElement } from "react";
+import type { ReactNode } from "react";
 
 import { toast } from "../leonida/mission-toast.store";
 import { Button } from "../ui/button";
@@ -14,14 +14,14 @@ import type { Demo, Playground } from "./types";
 
 const KEEP_OPEN = new Set(["outside-press", "focus-out"]);
 
-function FloatingDemo({ values: v, set }: Playground): ReactElement {
+const FloatingDemo = ({ values: v, set }: Playground) => {
   const open = Boolean(v.open);
   const onOpenChange = (next: boolean, details?: { reason: string }) => {
     if (!next && details && KEEP_OPEN.has(details.reason)) return;
     set("open", next);
   };
   const place = { side: optionValue(v.side, SIDES), align: optionValue(v.align, ALIGNS) };
-  let body: ReactElement;
+  let body: ReactNode;
   if (v.component === "tooltip")
     body = (
       <Tooltip open={open} onOpenChange={onOpenChange}>
@@ -70,7 +70,7 @@ function FloatingDemo({ values: v, set }: Playground): ReactElement {
       <div className="cd-map__center">{body}</div>
     </div>
   );
-}
+};
 
 const displayFloatingDemos: Demo[] = [
   {

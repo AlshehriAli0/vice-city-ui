@@ -1,11 +1,11 @@
-import { useLayoutEffect, useRef, type ReactElement, type ReactNode } from "react";
+import { useLayoutEffect, useRef, type ReactNode } from "react";
 
 type Preview = { fit: HTMLDivElement; stage: HTMLElement };
 
 const fitted = new Map<Element, Preview>();
 let observer: ResizeObserver | undefined;
 
-function resizePreviews(entries: ResizeObserverEntry[]): void {
+const resizePreviews = (entries: ResizeObserverEntry[]): void => {
   const previews = new Set(entries.flatMap(({ target }) => fitted.get(target) ?? []));
   for (const { fit } of previews) fit.style.zoom = "1";
 
@@ -20,9 +20,9 @@ function resizePreviews(entries: ResizeObserverEntry[]): void {
   for (const { fit, scale } of sizes) {
     fit.style.zoom = scale < 0.995 ? String(Math.floor(scale * 100) / 100) : "";
   }
-}
+};
 
-function observeFit(fit: HTMLDivElement, stage: HTMLElement): () => void {
+const observeFit = (fit: HTMLDivElement, stage: HTMLElement): (() => void) => {
   const resize = (observer ??= new ResizeObserver(resizePreviews));
   const preview = { fit, stage };
   for (const element of [stage, fit]) {
@@ -35,9 +35,9 @@ function observeFit(fit: HTMLDivElement, stage: HTMLElement): () => void {
       resize.unobserve(element);
     }
   };
-}
+};
 
-function FitStage({ width, children }: { width: number; children: ReactNode }): ReactElement {
+const FitStage = ({ width, children }: { width: number; children: ReactNode }) => {
   const box = useRef<HTMLDivElement>(null);
   useLayoutEffect(() => {
     const fit = box.current;
@@ -50,6 +50,6 @@ function FitStage({ width, children }: { width: number; children: ReactNode }): 
       {children}
     </div>
   );
-}
+};
 
 export { FitStage };

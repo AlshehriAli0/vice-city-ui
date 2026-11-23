@@ -6,7 +6,7 @@ import {
   SliderTrack as SliderTrackRoot,
   SliderValue as SliderValueRoot,
 } from "@ui-sdk/react/slider";
-import type { ComponentProps, ReactElement } from "react";
+import type { ComponentProps } from "react";
 
 import { merge, styled } from "./cx";
 
@@ -15,7 +15,7 @@ import "./slider.css";
 
 type SliderProps = ComponentProps<typeof SliderRoot> & { thumbLabels?: string[]; showValue?: boolean };
 
-function Slider({ thumbLabels, showValue = true, className, children, ...props }: SliderProps): ReactElement {
+const Slider = ({ thumbLabels, showValue = true, className, children, ...props }: SliderProps) => {
   const initial = props.value ?? props.defaultValue ?? props.min ?? 0;
   const count = Array.isArray(initial) ? initial.length : 1;
   return (
@@ -35,7 +35,7 @@ function Slider({ thumbLabels, showValue = true, className, children, ...props }
       )}
     </SliderRoot>
   );
-}
+};
 
 const SliderControl = styled(SliderControlRoot, "vc-slider__control");
 const SliderTrack = styled(SliderTrackRoot, "vc-slider__track");

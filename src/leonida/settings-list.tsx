@@ -8,7 +8,6 @@ import {
   useState,
   type HTMLAttributes,
   type KeyboardEvent,
-  type ReactElement,
 } from "react";
 
 import { cssVariables } from "../ui/css-variables";
@@ -24,13 +23,13 @@ type ListContext = {
 
 const List = createContext<ListContext | null>(null);
 
-function useList(): ListContext {
+const useList = (): ListContext => {
   "use memo";
 
   const list = use(List);
   if (!list) throw new Error("Settings rows go inside a SettingsList.");
   return list;
-}
+};
 
 type SettingsListProps = Omit<HTMLAttributes<HTMLDivElement>, "defaultValue" | "onChange"> & {
   value?: string | null;
@@ -44,14 +43,14 @@ const orderRows = (rows: Map<string, RowEntry>) =>
     return x && y && x.compareDocumentPosition(y) & Node.DOCUMENT_POSITION_PRECEDING ? 1 : -1;
   });
 
-function SettingsList({
+const SettingsList = ({
   value,
   defaultValue = null,
   onValueChange,
   className,
   children,
   ...props
-}: SettingsListProps): ReactElement {
+}: SettingsListProps) => {
   const [own, setOwn] = useState(defaultValue);
   const active = value === undefined ? own : value;
   const rows = useRef(new Map<string, RowEntry>());
@@ -129,7 +128,7 @@ function SettingsList({
       {height > shown && <span className="ld-set__scrollbar" aria-hidden="true" style={vars} />}
     </List>
   );
-}
+};
 
 export { SettingsList, useList };
 export type { SettingsListProps };

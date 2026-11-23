@@ -8,17 +8,7 @@ import {
   SliderTrack,
 } from "@ui-sdk/react/slider";
 import { createSwitchController, Switch, SwitchThumb } from "@ui-sdk/react/switch";
-import {
-  createContext,
-  use,
-  useId,
-  useMemo,
-  useRef,
-  useState,
-  type CSSProperties,
-  type ReactElement,
-  type ReactNode,
-} from "react";
+import { createContext, use, useId, useMemo, useRef, useState, type CSSProperties, type ReactNode } from "react";
 
 import { cx } from "../ui/cx";
 import { useFocus, useRow, type RowProps } from "./use-settings-row";
@@ -29,7 +19,7 @@ type SwitchRowProps = RowProps & {
   onCheckedChange?: (checked: boolean) => void;
 };
 
-function SettingsSwitch({
+const SettingsSwitch = ({
   id,
   label,
   disabled,
@@ -38,7 +28,7 @@ function SettingsSwitch({
   onCheckedChange,
   className,
   style,
-}: SwitchRowProps): ReactElement {
+}: SwitchRowProps) => {
   const labelId = useId();
   const [control] = useState(createSwitchController);
   const [own, setOwn] = useState(defaultChecked);
@@ -78,7 +68,7 @@ function SettingsSwitch({
       </Switch>
     </div>
   );
-}
+};
 
 type SliderRowProps = RowProps & {
   value?: number;
@@ -88,7 +78,7 @@ type SliderRowProps = RowProps & {
   max?: number;
 };
 
-function SettingsSlider({
+const SettingsSlider = ({
   id,
   label,
   disabled,
@@ -99,7 +89,7 @@ function SettingsSlider({
   onValueChange,
   className,
   style,
-}: SliderRowProps): ReactElement {
+}: SliderRowProps) => {
   const labelId = useId();
   const [control] = useState(() => createSliderController());
   const [own, setOwn] = useState(defaultValue ?? min);
@@ -142,7 +132,7 @@ function SettingsSlider({
       </span>
     </div>
   );
-}
+};
 
 type RadioGroupRowsProps = {
   id: string;
@@ -155,14 +145,7 @@ type RadioGroupRowsProps = {
 
 const Group = createContext<string>("");
 
-function SettingsRadioGroup({
-  id,
-  label,
-  value,
-  defaultValue,
-  onValueChange,
-  children,
-}: RadioGroupRowsProps): ReactElement {
+const SettingsRadioGroup = ({ id, label, value, defaultValue, onValueChange, children }: RadioGroupRowsProps) => {
   const [group] = useState(() => createRadioGroupController());
   return (
     <Group value={id}>
@@ -177,11 +160,11 @@ function SettingsRadioGroup({
       </RadioGroup>
     </Group>
   );
-}
+};
 
 type RadioRowProps = { value: string; children: ReactNode; className?: string; style?: CSSProperties };
 
-function SettingsRadio({ value, children, className, style }: RadioRowProps): ReactElement {
+const SettingsRadio = ({ value, children, className, style }: RadioRowProps) => {
   const group = use(Group);
   const radio = useRef<HTMLButtonElement>(null);
   const focus = useMemo(() => () => radio.current?.focus(), []);
@@ -194,25 +177,15 @@ function SettingsRadio({ value, children, className, style }: RadioRowProps): Re
       </Radio>
     </label>
   );
-}
+};
 
-function SettingsSection({
-  title,
-  children,
-  style,
-}: {
-  title: string;
-  children: ReactNode;
-  style?: CSSProperties;
-}): ReactElement {
-  return (
-    <section data-slot="settings-section">
-      <h3 className="ld-set__heading" style={style}>
-        {title}
-      </h3>
-      {children}
-    </section>
-  );
-}
+const SettingsSection = ({ title, children, style }: { title: string; children: ReactNode; style?: CSSProperties }) => (
+  <section data-slot="settings-section">
+    <h3 className="ld-set__heading" style={style}>
+      {title}
+    </h3>
+    {children}
+  </section>
+);
 
 export { SettingsRadio, SettingsRadioGroup, SettingsSection, SettingsSlider, SettingsSwitch };

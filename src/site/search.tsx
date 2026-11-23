@@ -8,7 +8,7 @@ import {
   CommandList,
 } from "@ui-sdk/react/command";
 import { Search as SearchIcon } from "lucide-react";
-import { useEffect, useState, type ReactElement } from "react";
+import { useEffect, useState } from "react";
 
 import { Button } from "../ui/button";
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "../ui/dialog";
@@ -18,16 +18,14 @@ import { hrefOf } from "./route";
 import { rank } from "./search-ranking";
 
 const isMac = typeof navigator !== "undefined" && /Mac|iPhone|iPad/.test(navigator.platform);
-function Item({ entry, chapter }: { entry: Entry; chapter?: boolean }): ReactElement {
-  return (
-    <CommandItem value={entry.id} className="search__item">
-      <span className="search__name">{entry.name}</span>
-      <span className="search__sdk">{chapter ? entry.section.title : entry.sdk}</span>
-    </CommandItem>
-  );
-}
+const Item = ({ entry, chapter }: { entry: Entry; chapter?: boolean }) => (
+  <CommandItem value={entry.id} className="search__item">
+    <span className="search__name">{entry.name}</span>
+    <span className="search__sdk">{chapter ? entry.section.title : entry.sdk}</span>
+  </CommandItem>
+);
 
-function Search(): ReactElement {
+const Search = () => {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const results = query.trim() ? rank(query) : null;
@@ -96,6 +94,6 @@ function Search(): ReactElement {
       </DialogContent>
     </Dialog>
   );
-}
+};
 
 export { Search };

@@ -1,12 +1,11 @@
 import { Check } from "lucide-react";
-import type { ReactElement } from "react";
 
 import { App, AppHeader, AppMenu, Face, Scroll } from "./phone-app.parts";
 import { ownerFace, RINGTONES, WALLPAPERS, usePhone } from "./phone-data";
 import { AppMark } from "./phone-icons";
 import { PhoneMenuItem } from "./phone-menu";
 
-function Settings(): ReactElement {
+const Settings = () => {
   const { owner, go, wallpaper, ringtone } = usePhone();
   return (
     <App screen="settings">
@@ -35,9 +34,9 @@ function Settings(): ReactElement {
       </Scroll>
     </App>
   );
-}
+};
 
-function WallpaperPicker(): ReactElement {
+const WallpaperPicker = () => {
   const { entry, wallpaper, setWallpaper } = usePhone();
   const focused =
     WALLPAPERS.find(item => item.id === entry.focus) ?? WALLPAPERS.find(item => item.id === wallpaper) ?? WALLPAPERS[0];
@@ -68,9 +67,9 @@ function WallpaperPicker(): ReactElement {
       <p className="ld-wall__caption">{focused.name}</p>
     </App>
   );
-}
+};
 
-function RingtonePicker(): ReactElement {
+const RingtonePicker = () => {
   const { ringtone, setRingtone } = usePhone();
   return (
     <App screen="ringtone">
@@ -92,7 +91,7 @@ function RingtonePicker(): ReactElement {
       </Scroll>
     </App>
   );
-}
+};
 
 const REMINDERS = [
   { id: "call", app: "contacts", title: "Missed call", line: "Contact name", opens: "contacts" },
@@ -101,7 +100,7 @@ const REMINDERS = [
   { id: "post", app: "snapmatic", title: "New post", line: "Post preview", opens: "snapmatic" },
 ] as const;
 
-function Reminders(): ReactElement {
+const Reminders = () => {
   const { go } = usePhone();
   return (
     <App screen="reminders">
@@ -134,19 +133,17 @@ function Reminders(): ReactElement {
       </Scroll>
     </App>
   );
-}
+};
 
-function Waink(): ReactElement {
-  return (
-    <App screen="waink" tone="pink">
-      <div className="ld-waink">
-        <span className="ld-waink__icon" data-slot="phone-app-icon" data-app="waink">
-          <AppMark app="waink" />
-        </span>
-        <h2>WAiNK</h2>
-      </div>
-    </App>
-  );
-}
+const Waink = () => (
+  <App screen="waink" tone="pink">
+    <div className="ld-waink">
+      <span className="ld-waink__icon" data-slot="phone-app-icon" data-app="waink">
+        <AppMark app="waink" />
+      </span>
+      <h2>WAiNK</h2>
+    </div>
+  </App>
+);
 
 export { Settings, WallpaperPicker, RingtonePicker, Reminders, Waink };

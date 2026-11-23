@@ -1,5 +1,4 @@
 import { renderElement, type PartProps } from "@ui-sdk/react/primitive";
-import type { ReactElement } from "react";
 
 import { merge } from "./cx";
 import { plain } from "./plain";
@@ -12,7 +11,7 @@ type BadgeProps = PartProps<"span"> & {
   tone?: "pink" | "teal" | "amber" | "cash" | "red" | "violet" | "neutral";
 };
 
-function Badge({ variant = "soft", tone = "pink", render, className, ...props }: BadgeProps): ReactElement {
+const Badge = ({ variant = "soft", tone = "pink", render, className, ...props }: BadgeProps) => {
   "use memo";
 
   return renderElement(
@@ -26,7 +25,7 @@ function Badge({ variant = "soft", tone = "pink", render, className, ...props }:
     },
     render
   );
-}
+};
 
 const BadgeDot = plain("span", "badge-dot", "vc-badge__dot");
 

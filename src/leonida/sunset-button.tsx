@@ -1,5 +1,5 @@
 import { Button } from "@ui-sdk/react/button";
-import type { ComponentProps, ReactElement, ReactNode } from "react";
+import type { ComponentProps, ReactNode } from "react";
 
 import { merge } from "../ui/cx";
 
@@ -11,29 +11,20 @@ type SunsetButtonProps = ComponentProps<typeof Button> & {
   icon?: ReactNode;
 };
 
-function SunsetButton({
-  variant = "sunset",
-  size = "md",
-  icon,
-  className,
-  children,
-  ...props
-}: SunsetButtonProps): ReactElement {
-  return (
-    <Button {...props} className={merge("ld-btn", className)} data-variant={variant} data-size={size}>
-      {state => (
-        <>
-          {icon && (
-            <span className="ld-btn__icon" aria-hidden="true">
-              {icon}
-            </span>
-          )}
-          {typeof children === "function" ? children(state) : children}
-        </>
-      )}
-    </Button>
-  );
-}
+const SunsetButton = ({ variant = "sunset", size = "md", icon, className, children, ...props }: SunsetButtonProps) => (
+  <Button {...props} className={merge("ld-btn", className)} data-variant={variant} data-size={size}>
+    {state => (
+      <>
+        {icon && (
+          <span className="ld-btn__icon" aria-hidden="true">
+            {icon}
+          </span>
+        )}
+        {typeof children === "function" ? children(state) : children}
+      </>
+    )}
+  </Button>
+);
 
 export { SunsetButton };
 export type { SunsetButtonProps };

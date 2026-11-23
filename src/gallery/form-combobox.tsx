@@ -5,7 +5,7 @@ import type { Demo, Playground } from "./types";
 
 const ComboboxDemo = lazy(() => import("./form-combobox-demo").then(module => ({ default: module.ComboboxDemo })));
 
-function comboboxCode(v: Playground["values"]): string {
+const comboboxCode = (v: Playground["values"]): string => {
   const input = `<ComboboxInput${str("placeholder", v.placeholder)} />`;
   const control = v.multiple
     ? `    <ComboboxChips>
@@ -33,7 +33,7 @@ ${v.icons ? `          <ComboboxItemIcon><img src={place.art} alt="" /></Combobo
     </ComboboxList>
   </ComboboxContent>
 </Combobox>`;
-}
+};
 
 const formComboboxDemos: Demo[] = [
   {

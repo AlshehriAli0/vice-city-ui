@@ -1,6 +1,6 @@
 import { Button } from "@ui-sdk/react/button";
 import { Tabs, TabsList, TabsPanel, TabsTab } from "@ui-sdk/react/tabs";
-import { useState, type ReactElement } from "react";
+import { useState } from "react";
 
 import { ButtonPrompt, ButtonPrompts, PadGlyph } from "./button-prompt";
 import { FormattedText } from "./formatted-text";
@@ -13,8 +13,8 @@ import "./settings-screen.css";
 
 type Detail = { key: string; id: string; label: string; info: string; preview?: Preview };
 
-function details(category: Category): Detail[] {
-  return category.sections.flatMap(section =>
+const details = (category: Category): Detail[] =>
+  category.sections.flatMap(section =>
     "radio" in section
       ? section.radio.options.map(choice => ({
           key: `${section.radio.id}:${choice.value}`,
@@ -25,7 +25,6 @@ function details(category: Category): Detail[] {
         }))
       : section.rows.map(row => ({ key: row.id, id: row.id, label: row.label, info: row.info, preview: row.preview }))
   );
-}
 
 const paragraphsWithPositions = (text: string) => {
   let offset = 0;
@@ -36,17 +35,15 @@ const paragraphsWithPositions = (text: string) => {
   });
 };
 
-function SettingsText({ text }: { text: string }): ReactElement {
-  return (
-    <>
-      {paragraphsWithPositions(text).map(({ paragraph, position }) => (
-        <p key={position}>
-          <FormattedText text={paragraph} emphasis="strong" />
-        </p>
-      ))}
-    </>
-  );
-}
+const SettingsText = ({ text }: { text: string }) => (
+  <>
+    {paragraphsWithPositions(text).map(({ paragraph, position }) => (
+      <p key={position}>
+        <FormattedText text={paragraph} emphasis="strong" />
+      </p>
+    ))}
+  </>
+);
 
 type SettingsScreenProps = {
   value?: string;
@@ -57,12 +54,7 @@ type SettingsScreenProps = {
 
 const INITIAL_VALUES = defaults();
 
-function SettingsScreen({
-  value,
-  defaultValue = "controller",
-  onValueChange,
-  onBack,
-}: SettingsScreenProps): ReactElement {
+const SettingsScreen = ({ value, defaultValue = "controller", onValueChange, onBack }: SettingsScreenProps) => {
   const [ownTab, setOwnTab] = useState(defaultValue);
   const tab = value ?? ownTab;
   const [values, setValues] = useState<Record<string, Value>>(defaults);
@@ -174,7 +166,7 @@ function SettingsScreen({
       </ButtonPrompts>
     </GameScreen>
   );
-}
+};
 
 export { SettingsList } from "./settings-list";
 export { SettingsCycle } from "./settings-cycle";

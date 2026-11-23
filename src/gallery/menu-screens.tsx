@@ -15,19 +15,21 @@ const SettingsScreen = lazy(() =>
   import("../leonida/settings-screen").then(module => ({ default: module.SettingsScreen }))
 );
 
+const SCREEN_ROWS = new Set(["map", "game", "settings"]);
+
 const MAP_VIEWS = labeledOptions(["3d", "3D"], ["2d", "2D"]);
 
 const labelOf = (list: { value: string; label: string }[], value: unknown) =>
   list.find(item => item.value === value)?.label ?? "";
 
-function useReplay(subscribeAction: Playground["subscribeAction"]): [number, () => void] {
+const useReplay = (subscribeAction: Playground["subscribeAction"]): [number, () => void] => {
   const [run, setRun] = useState(0);
   const replay = () => setRun(n => n + 1);
   useAction(subscribeAction, "replay", replay);
   return [run, replay];
-}
+};
 
-function PauseDemo({ values, set, subscribeAction }: Playground) {
+const PauseDemo = ({ values, set, subscribeAction }: Playground) => {
   const [run, replay] = useReplay(subscribeAction);
   return (
     <PauseMenu
@@ -36,14 +38,16 @@ function PauseDemo({ values, set, subscribeAction }: Playground) {
       onValueChange={row => set("row", row)}
       chapter={String(values.chapter)}
       title={String(values.title)}
-      onSelect={row => toast(`Opening ${labelOf(PAUSE_ROWS, row)}`)}
+      onSelect={row => {
+        if (!SCREEN_ROWS.has(row)) toast(`Opening ${labelOf(PAUSE_ROWS, row)}`);
+      }}
       onAction={action => toast(action === "retry" ? "Back to the last checkpoint" : "Mission restarted")}
       onResume={replay}
     />
   );
-}
+};
 
-function MapDemo({ values, set, subscribeAction }: Playground) {
+const MapDemo = ({ values, set, subscribeAction }: Playground) => {
   const [run, replay] = useReplay(subscribeAction);
   return (
     <MapScreen
@@ -61,7 +65,7 @@ function MapDemo({ values, set, subscribeAction }: Playground) {
       onExit={replay}
     />
   );
-}
+};
 
 const menuScreensDemos: Demo[] = [
   {
@@ -70,12 +74,13 @@ const menuScreensDemos: Demo[] = [
     name: "Pause Menu",
     sdk: "Toolbar · Button",
     caption:
-      "The pause menu at 1080p: blurred world, a 544px panel that slides in, the smear bar and filled icons. Back plays the unpause, then the 750ms open runs again.",
+      "The pause menu at 1080p: blurred world, a 544px panel that slides in, the smear bar and filled icons. Map, Game and Settings open their screens in place, and Back returns to the row. Back on the menu plays the unpause, then the 750ms open runs again.",
     wide: true,
     frame: false,
     keys: [
       ["↑ ↓", "Move the bar between Map, Game, Store, Help, Photo Studio and Settings"],
-      ["Enter / Space", "Open the row with the bar"],
+      ["Enter / Space", "Open the row with the bar: Map, Game and Settings open their screens"],
+      ["Backspace", "Back from a screen to its row"],
       ["Home / End", "First or last row"],
       ["Tab", "Into Retry Checkpoint, Restart Mission and the prompts"],
     ],
@@ -96,7 +101,7 @@ const menuScreensDemos: Demo[] = [
   onValueChange={setRow}
   chapter="${v.chapter}"
   title="${v.title}"
-  onSelect={openScreen}
+  onSelect={openScreen} // Map, Game and Settings open in place; pass map={false} to handle one yourself
   onAction={(action) => (action === "retry" ? retry() : restart())}
   onResume={resume}
 />`,

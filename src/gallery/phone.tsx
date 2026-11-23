@@ -14,13 +14,13 @@ const PhoneDemo = lazy(() => import("./phone-demo").then(module => ({ default: m
 
 type Card = "text" | CallState;
 
-function deliverCard(slot: Slot, card: Card, name: string, body: string): void {
+const deliverCard = (slot: Slot, card: Card, name: string, body: string): void => {
   if (card === "text") slot.message(name, body);
   else if (card === "dialing") slot.dial(name);
   else slot.call(name, card);
-}
+};
 
-function createCardPreview(card: Card, name: string, body: string) {
+const createCardPreview = (card: Card, name: string, body: string) => {
   const slot = createSlot();
   const initial = { card, name, body };
   let previous = initial;
@@ -36,9 +36,9 @@ function createCardPreview(card: Card, name: string, body: string) {
       deliverCard(slot, nextCard, nextName, nextBody);
     },
   };
-}
+};
 
-function NotificationDemo({ values, subscribeAction }: Playground) {
+const NotificationDemo = ({ values, subscribeAction }: Playground) => {
   const card = optionValue(values.card, CARDS) ?? "text";
   const name = String(values.name);
   const body = String(values.body);
@@ -76,7 +76,7 @@ function NotificationDemo({ values, subscribeAction }: Playground) {
       </div>
     </div>
   );
-}
+};
 
 const CARDS: { value: Card; label: string }[] = [
   { value: "text", label: "Text" },
@@ -85,13 +85,13 @@ const CARDS: { value: Card; label: string }[] = [
   { value: "connected", label: "Connected" },
 ];
 
-function notificationCode({ card, name, body }: Playground["values"]): string {
+const notificationCode = ({ card, name, body }: Playground["values"]): string => {
   const host = "<LeonidaToasts />\n\n";
   if (card === "text") return `${host}message("${name}", "${body}")`;
   if (card === "dialing") return `${host}dial("${name}")`;
   if (card === "incoming") return `${host}ring("${name}")`;
   return `${host}call("${name}", "connected")`;
-}
+};
 
 const phone: Demo[] = [
   {

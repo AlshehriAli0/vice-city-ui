@@ -1,5 +1,5 @@
 import { Map as MapIcon, SlidersVertical, Smartphone, Trash2 } from "lucide-react";
-import { useState, type ReactElement } from "react";
+import { useState } from "react";
 
 import { toast } from "../leonida/mission-toast.store";
 import {
@@ -23,7 +23,7 @@ import { SIDES, ALIGNS } from "./display-options";
 import { optionValue } from "./options";
 import type { Playground } from "./types";
 
-function MenuDemo({ values: v, set }: Playground): ReactElement {
+const MenuDemo = ({ values: v, set }: Playground) => {
   const [anchor, setAnchor] = useState<HTMLElement | null>(null);
   const menu = { open: Boolean(v.open), onOpenChange: (next: boolean) => set("open", next) };
   const place = { side: optionValue(v.side, SIDES), align: optionValue(v.align, ALIGNS) };
@@ -105,6 +105,6 @@ function MenuDemo({ values: v, set }: Playground): ReactElement {
       </Menu>
     </div>
   );
-}
+};
 
 export { MenuDemo };

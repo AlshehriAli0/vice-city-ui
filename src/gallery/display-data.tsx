@@ -1,5 +1,5 @@
 import { Eye, Heart, Zap } from "lucide-react";
-import { lazy, Suspense, type ReactElement } from "react";
+import { lazy, Suspense } from "react";
 
 import { Meter, MeterIcon, MeterIndicator, MeterTrack } from "../ui/meter";
 import { Progress, ProgressIcon, ProgressIndicator, ProgressLabel, ProgressTrack, ProgressValue } from "../ui/progress";
@@ -21,7 +21,7 @@ const TONE_ICON = { health: Heart, stamina: Zap, focus: Eye };
 
 const VITAL_TONES = opts(["health", "Health"], ["stamina", "Stamina"], ["focus", "Focus"]);
 
-function VitalsDemo({ values: v }: Playground): ReactElement {
+const VitalsDemo = ({ values: v }: Playground) => {
   if (v.component === "skeleton")
     return (
       <div className="cd-list">
@@ -76,9 +76,9 @@ function VitalsDemo({ values: v }: Playground): ReactElement {
       </div>
     </div>
   );
-}
+};
 
-function DataDemo({ values: v }: Playground): ReactElement {
+const DataDemo = ({ values: v }: Playground) => {
   if (v.component === "scroll")
     return (
       <div className="cd-data">
@@ -121,9 +121,9 @@ function DataDemo({ values: v }: Playground): ReactElement {
       </Suspense>
     </div>
   );
-}
+};
 
-function dataCode(v: Playground["values"]): string {
+const dataCode = (v: Playground["values"]): string => {
   if (v.component === "scroll")
     return `<ScrollArea>
   <ScrollAreaViewport role="region" aria-label="Message log">
@@ -143,7 +143,7 @@ function dataCode(v: Playground["values"]): string {
   onValueChange={${setter}}
   marked={["2026-11-19"]}${v.monday ? "\n  weekStartsOn={1}" : ""}${v.outside ? "" : "\n  showOutsideDays={false}"}${v.disabled ? "\n  disabled" : ""}
 />`;
-}
+};
 
 const displayDataDemos: Demo[] = [
   {

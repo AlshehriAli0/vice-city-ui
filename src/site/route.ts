@@ -27,13 +27,9 @@ const subscribe = (onChange: () => void): (() => void) => {
   return () => window.removeEventListener("hashchange", onChange);
 };
 
-const useRoute = (): Route => {
-  return useSyncExternalStore(subscribe, snapshot, () => HOME);
-};
+const useRoute = (): Route => useSyncExternalStore(subscribe, snapshot, () => HOME);
 
-const hrefOf = (id?: string): string => {
-  return id ? `#/c/${encodeURIComponent(id)}` : "#/";
-};
+const hrefOf = (id?: string): string => (id ? `#/c/${encodeURIComponent(id)}` : "#/");
 
 export { hrefOf, useRoute };
 export type { Route };

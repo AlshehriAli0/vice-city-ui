@@ -1,5 +1,3 @@
-import type { ReactElement } from "react";
-
 import {
   Combobox,
   ComboboxChip,
@@ -23,28 +21,26 @@ import { PLACES, labelIn, type Choice } from "./form-options";
 import { FormStage } from "./form-stage";
 import type { Playground } from "./types";
 
-function ComboboxItems({ items, icons }: { items: Choice[]; icons: boolean }): ReactElement {
-  return (
-    <ComboboxContent>
-      <ComboboxEmpty>No matches.</ComboboxEmpty>
-      <ComboboxList>
-        {items.map(item => (
-          <ComboboxItem key={item.value} value={item.value} label={item.label}>
-            {icons && item.art && (
-              <ComboboxItemIcon>
-                <img src={`/vc/${item.art}.jpg`} alt="" />
-              </ComboboxItemIcon>
-            )}
-            <ComboboxItemText>{item.label}</ComboboxItemText>
-            <ComboboxItemIndicator />
-          </ComboboxItem>
-        ))}
-      </ComboboxList>
-    </ComboboxContent>
-  );
-}
+const ComboboxItems = ({ items, icons }: { items: Choice[]; icons: boolean }) => (
+  <ComboboxContent>
+    <ComboboxEmpty>No matches.</ComboboxEmpty>
+    <ComboboxList>
+      {items.map(item => (
+        <ComboboxItem key={item.value} value={item.value} label={item.label}>
+          {icons && item.art && (
+            <ComboboxItemIcon>
+              <img src={`/vc/${item.art}.jpg`} alt="" />
+            </ComboboxItemIcon>
+          )}
+          <ComboboxItemText>{item.label}</ComboboxItemText>
+          <ComboboxItemIndicator />
+        </ComboboxItem>
+      ))}
+    </ComboboxList>
+  </ComboboxContent>
+);
 
-function ComboboxDemo({ values: v }: Playground): ReactElement {
+const ComboboxDemo = ({ values: v }: Playground) => {
   const multiple = Boolean(v.multiple);
   const placeholder = String(v.placeholder);
   return (
@@ -85,6 +81,6 @@ function ComboboxDemo({ values: v }: Playground): ReactElement {
       </Field>
     </FormStage>
   );
-}
+};
 
 export { ComboboxDemo };

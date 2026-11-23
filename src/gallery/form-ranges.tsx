@@ -1,5 +1,3 @@
-import type { ReactElement } from "react";
-
 import { Cycle, CycleCount, CycleNext, CyclePrevious, CycleValue } from "../ui/cycle";
 import { Field, FieldLabel, FieldList } from "../ui/field";
 import { Slider, SliderControl, SliderIndicator, SliderThumb, SliderTrack, SliderValue } from "../ui/slider";
@@ -10,7 +8,7 @@ import { useMirroredControl } from "./use-mirrored-control";
 
 const RANGE_LABELS = ["Minimum", "Maximum"];
 
-function sliderCode(v: Playground["values"]): string {
+const sliderCode = (v: Playground["values"]): string => {
   const thumbs = v.range
     ? `        <SliderThumb index={0} aria-label="Minimum" />\n        <SliderThumb index={1} aria-label="Maximum" />`
     : `        <SliderThumb />`;
@@ -25,9 +23,9 @@ ${thumbs}
     </SliderControl>${v.showValue ? "\n    <SliderValue />" : ""}
   </Slider>
 </Field>`;
-}
+};
 
-function SliderDemo({ values: v }: Playground): ReactElement {
+const SliderDemo = ({ values: v }: Playground) => {
   const range = Boolean(v.range);
   const step = Number(v.step);
   return (
@@ -52,7 +50,7 @@ function SliderDemo({ values: v }: Playground): ReactElement {
       </FieldList>
     </FormStage>
   );
-}
+};
 
 const slug = (label: string) => label.toLowerCase().replace(/[^a-z]+/g, "-");
 
@@ -61,7 +59,7 @@ const INVERT = ["Default", "Inverted X", "Inverted Y", "Inverted X & Y"].map(lab
   label,
 }));
 
-function CycleDemo(playground: Playground): ReactElement {
+const CycleDemo = (playground: Playground) => {
   const v = playground.values;
   const [value, setValue] = useMirroredControl(String(v.value), next => playground.set("value", next));
   return (
@@ -83,7 +81,7 @@ function CycleDemo(playground: Playground): ReactElement {
       </FieldList>
     </FormStage>
   );
-}
+};
 
 const formRangesDemos: Demo[] = [
   {

@@ -1,4 +1,4 @@
-import type { ReactElement } from "react";
+import type { ReactNode } from "react";
 
 import { Fitness, FitnessDetail } from "./phone-app.fitness";
 import { WhatUp, ThreadView, Contacts, ContactsAll } from "./phone-app.messages";
@@ -7,7 +7,7 @@ import { Settings, WallpaperPicker, RingtonePicker, Reminders, Waink } from "./p
 import { Snapmatic, Comments, Profile } from "./phone-app.snapmatic";
 import type { Screen } from "./phone-data";
 
-const SCREENS: Partial<Record<Screen, () => ReactElement>> = {
+const SCREENS: Partial<Record<Screen, () => ReactNode>> = {
   whatup: WhatUp,
   thread: ThreadView,
   contacts: Contacts,

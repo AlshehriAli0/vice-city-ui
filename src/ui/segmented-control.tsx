@@ -3,7 +3,7 @@ import {
   SegmentedControlIndicator as SegmentedControlIndicatorRoot,
   SegmentedControlItem as SegmentedControlItemRoot,
 } from "@ui-sdk/react/segmented-control";
-import type { ComponentProps, ReactElement } from "react";
+import type { ComponentProps } from "react";
 
 import { merge, styled } from "./cx";
 
@@ -12,9 +12,9 @@ import "./segmented-control.css";
 
 type SegmentedControlProps = ComponentProps<typeof SegmentedControlRoot> & { size?: "sm" | "md" };
 
-function SegmentedControl({ size = "md", className, ...props }: SegmentedControlProps): ReactElement {
-  return <SegmentedControlRoot {...props} className={merge("vc-segments", className)} data-size={size} />;
-}
+const SegmentedControl = ({ size = "md", className, ...props }: SegmentedControlProps) => (
+  <SegmentedControlRoot {...props} className={merge("vc-segments", className)} data-size={size} />
+);
 
 const SegmentedControlItem = styled(SegmentedControlItemRoot, "vc-segments__item");
 const SegmentedControlIndicator = styled(SegmentedControlIndicatorRoot, "vc-segments__indicator");

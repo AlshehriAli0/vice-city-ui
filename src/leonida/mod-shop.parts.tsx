@@ -1,62 +1,43 @@
 import { ArrowDown, ArrowUp } from "lucide-react";
-import type { ReactElement } from "react";
 
 import { cssVariables } from "../ui/css-variables";
 import { RATING, STATS, type Build, type Payment } from "./mod-shop.data";
 
 const money = (amount: number) => `$${amount.toLocaleString("en-US")}`;
 
-function BuckMeIcon(): ReactElement {
-  return (
-    <svg className="ld-shop__icon" data-pay="buckme" viewBox="0 0 32 32" aria-hidden="true">
-      <path
-        fillRule="evenodd"
-        d="M6 2.5h5.6v8.6A9 9 0 1 1 6 19.4zm10.8 11.4a5.3 5.3 0 1 0 0 10.6 5.3 5.3 0 0 0 0-10.6z"
-      />
-      <path d="M2.5 9.2 17 4.6l1.1 3.3L3.6 12.5z" />
-    </svg>
-  );
-}
+const BuckMeIcon = () => (
+  <svg className="ld-shop__icon" data-pay="buckme" viewBox="0 0 32 32" aria-hidden="true">
+    <path
+      fillRule="evenodd"
+      d="M6 2.5h5.6v8.6A9 9 0 1 1 6 19.4zm10.8 11.4a5.3 5.3 0 1 0 0 10.6 5.3 5.3 0 0 0 0-10.6z"
+    />
+    <path d="M2.5 9.2 17 4.6l1.1 3.3L3.6 12.5z" />
+  </svg>
+);
 
-function WalletIcon(): ReactElement {
-  return (
-    <svg className="ld-shop__icon" data-pay="cash" viewBox="0 0 32 32" aria-hidden="true">
-      <path d="M4 8.5A2.5 2.5 0 0 1 6.5 6h17A2.5 2.5 0 0 1 26 8.5V11h1.5a1.5 1.5 0 0 1 1.5 1.5v9a1.5 1.5 0 0 1-1.5 1.5H26v1.5a2.5 2.5 0 0 1-2.5 2.5h-17A2.5 2.5 0 0 1 4 23.5zM19 14.5a2.5 2.5 0 0 0 0 5h6.5v-5z" />
-    </svg>
-  );
-}
+const WalletIcon = () => (
+  <svg className="ld-shop__icon" data-pay="cash" viewBox="0 0 32 32" aria-hidden="true">
+    <path d="M4 8.5A2.5 2.5 0 0 1 6.5 6h17A2.5 2.5 0 0 1 26 8.5V11h1.5a1.5 1.5 0 0 1 1.5 1.5v9a1.5 1.5 0 0 1-1.5 1.5H26v1.5a2.5 2.5 0 0 1-2.5 2.5h-17A2.5 2.5 0 0 1 4 23.5zM19 14.5a2.5 2.5 0 0 0 0 5h6.5v-5z" />
+  </svg>
+);
 
-function CheckDisc(): ReactElement {
-  return (
-    <svg className="ld-shop__check" viewBox="0 0 24 24" aria-hidden="true">
-      <circle cx="12" cy="12" r="11" />
-      <path d="m6.8 12.4 3.4 3.4 7-7.2" />
-    </svg>
-  );
-}
+const CheckDisc = () => (
+  <svg className="ld-shop__check" viewBox="0 0 24 24" aria-hidden="true">
+    <circle cx="12" cy="12" r="11" />
+    <path d="m6.8 12.4 3.4 3.4 7-7.2" />
+  </svg>
+);
 
-function PriceRow({
-  price,
-  was,
-  pay,
-  short,
-}: {
-  price: number;
-  was?: number;
-  pay: Payment[];
-  short: boolean;
-}): ReactElement {
-  return (
-    <p className="ld-shop__price" data-short={short || undefined}>
-      {pay.includes("buckme") && <BuckMeIcon />}
-      {pay.includes("cash") && <WalletIcon />}
-      <span className="ld-shop__amount">{money(price)}</span>
-      {was !== undefined && <s className="ld-shop__was">{money(was)}</s>}
-    </p>
-  );
-}
+const PriceRow = ({ price, was, pay, short }: { price: number; was?: number; pay: Payment[]; short: boolean }) => (
+  <p className="ld-shop__price" data-short={short || undefined}>
+    {pay.includes("buckme") && <BuckMeIcon />}
+    {pay.includes("cash") && <WalletIcon />}
+    <span className="ld-shop__amount">{money(price)}</span>
+    {was !== undefined && <s className="ld-shop__was">{money(was)}</s>}
+  </p>
+);
 
-function Status({ owned, short }: { owned: boolean; short: boolean }): ReactElement {
+const Status = ({ owned, short }: { owned: boolean; short: boolean }) => {
   if (owned) {
     return (
       <p className="ld-shop__status" data-tone="applied">
@@ -76,22 +57,20 @@ function Status({ owned, short }: { owned: boolean; short: boolean }): ReactElem
     );
   }
   return <p className="ld-shop__status">Not owned</p>;
-}
+};
 
-function CarLayers({ src, mask }: { src: string; mask: string }): ReactElement {
-  return (
-    <>
-      <img className="ld-shop__base" src={src} alt="" draggable={false} />
-      <span className="ld-shop__paint" style={cssVariables({ "--mask": `url("${mask}")` })}>
-        <img className="ld-shop__shade-layer" src={src} alt="" draggable={false} />
-        <span className="ld-shop__tint" />
-        <img className="ld-shop__gloss" src={src} alt="" draggable={false} />
-      </span>
-    </>
-  );
-}
+const CarLayers = ({ src, mask }: { src: string; mask: string }) => (
+  <>
+    <img className="ld-shop__base" src={src} alt="" draggable={false} />
+    <span className="ld-shop__paint" style={cssVariables({ "--mask": `url("${mask}")` })}>
+      <img className="ld-shop__shade-layer" src={src} alt="" draggable={false} />
+      <span className="ld-shop__tint" />
+      <img className="ld-shop__gloss" src={src} alt="" draggable={false} />
+    </span>
+  </>
+);
 
-function ShopCar({ paint, metallic, view }: { paint: string; metallic: boolean; view: number }): ReactElement {
+const ShopCar = ({ paint, metallic, view }: { paint: string; metallic: boolean; view: number }) => {
   const src = "/vc/modshop-cheetah.webp";
   const mask = "/vc/modshop-cheetah-body.webp";
   return (
@@ -111,29 +90,27 @@ function ShopCar({ paint, metallic, view }: { paint: string; metallic: boolean; 
       </span>
     </div>
   );
-}
+};
 
 const statsOf = (build: Build | undefined) =>
   STATS.map(stat => Math.round((stat.base + (build?.delta[stat.value] ?? 0)) * 10) / 10);
 const ratingOf = (build: Build | undefined) => RATING.map((base, index) => base + (build?.rating[index] ?? 0));
 
-function trendOf(delta: number): "up" | "down" | undefined {
+const trendOf = (delta: number): "up" | "down" | undefined => {
   if (delta > 0) return "up";
   if (delta < 0) return "down";
   return undefined;
-}
+};
 
-function Delta({ by, digits }: { by: number; digits: number }): ReactElement {
-  return (
-    <span className="ld-shop__delta" data-trend={by > 0 ? "up" : "down"}>
-      {by > 0 ? <ArrowUp aria-hidden="true" /> : <ArrowDown aria-hidden="true" />}
-      <span className="ld-sr">{by > 0 ? "up " : "down "}</span>
-      {Math.abs(by).toFixed(digits)}
-    </span>
-  );
-}
+const Delta = ({ by, digits }: { by: number; digits: number }) => (
+  <span className="ld-shop__delta" data-trend={by > 0 ? "up" : "down"}>
+    {by > 0 ? <ArrowUp aria-hidden="true" /> : <ArrowDown aria-hidden="true" />}
+    <span className="ld-sr">{by > 0 ? "up " : "down "}</span>
+    {Math.abs(by).toFixed(digits)}
+  </span>
+);
 
-function StatPanel({ current, preview }: { current: Build | undefined; preview: Build }): ReactElement {
+const StatPanel = ({ current, preview }: { current: Build | undefined; preview: Build }) => {
   const now = statsOf(current);
   const next = statsOf(preview);
   const scoreNow = ratingOf(current);
@@ -188,6 +165,6 @@ function StatPanel({ current, preview }: { current: Build | undefined; preview: 
       </p>
     </div>
   );
-}
+};
 
 export { BuckMeIcon, CheckDisc, PriceRow, ShopCar, StatPanel, Status, WalletIcon, money };

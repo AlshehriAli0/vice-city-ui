@@ -1,5 +1,5 @@
 import { Button } from "@ui-sdk/react/button";
-import type { ComponentProps, HTMLAttributes, ReactElement, ReactNode } from "react";
+import type { ComponentProps, HTMLAttributes, ReactNode } from "react";
 
 import { cx, merge } from "../ui/cx";
 
@@ -26,55 +26,44 @@ const NAMES: Record<Glyph, string> = {
 
 type GlyphProps = { label?: boolean; className?: string };
 
-function ButtonGlyph({ shape, label, className }: GlyphProps & { shape: Glyph }): ReactElement {
-  return (
-    <>
-      <svg
-        className={cx("ld-btnglyph", className)}
-        data-slot="button-glyph"
-        data-glyph={shape}
-        viewBox="0 0 32 32"
-        aria-hidden="true"
-      >
-        <circle className="ld-btnglyph__disc" cx="16" cy="16" r="15" />
-        <path className="ld-btnglyph__shape" d={SHAPES[shape]} fillRule="evenodd" />
-      </svg>
-      {label && <span className="ld-sr">{NAMES[shape]}</span>}
-    </>
-  );
-}
+const ButtonGlyph = ({ shape, label, className }: GlyphProps & { shape: Glyph }) => (
+  <>
+    <svg
+      className={cx("ld-btnglyph", className)}
+      data-slot="button-glyph"
+      data-glyph={shape}
+      viewBox="0 0 32 32"
+      aria-hidden="true"
+    >
+      <circle className="ld-btnglyph__disc" cx="16" cy="16" r="15" />
+      <path className="ld-btnglyph__shape" d={SHAPES[shape]} fillRule="evenodd" />
+    </svg>
+    {label && <span className="ld-sr">{NAMES[shape]}</span>}
+  </>
+);
 
-function ShoulderKey({ children, label, className }: GlyphProps & { children: Shoulder }): ReactElement {
-  return (
-    <>
-      <span
-        className={cx("ld-btnglyph ld-btnglyph--shoulder", className)}
-        data-slot="button-glyph"
-        data-glyph={children}
-        aria-hidden="true"
-      >
-        <span className="ld-btnglyph__key">{children}</span>
-      </span>
-      {label && <span className="ld-sr">{children}</span>}
-    </>
-  );
-}
+const ShoulderKey = ({ children, label, className }: GlyphProps & { children: Shoulder }) => (
+  <>
+    <span
+      className={cx("ld-btnglyph ld-btnglyph--shoulder", className)}
+      data-slot="button-glyph"
+      data-glyph={children}
+      aria-hidden="true"
+    >
+      <span className="ld-btnglyph__key">{children}</span>
+    </span>
+    {label && <span className="ld-sr">{children}</span>}
+  </>
+);
 
-function isShoulder(glyph: Glyph | Shoulder): glyph is Shoulder {
-  return !(glyph in SHAPES);
-}
+const isShoulder = (glyph: Glyph | Shoulder): glyph is Shoulder => !(glyph in SHAPES);
 
-function PadGlyph({ glyph, label }: { glyph: Glyph | Shoulder; label?: boolean }): ReactElement {
-  return isShoulder(glyph) ? (
-    <ShoulderKey label={label}>{glyph}</ShoulderKey>
-  ) : (
-    <ButtonGlyph shape={glyph} label={label} />
-  );
-}
+const PadGlyph = ({ glyph, label }: { glyph: Glyph | Shoulder; label?: boolean }) =>
+  isShoulder(glyph) ? <ShoulderKey label={label}>{glyph}</ShoulderKey> : <ButtonGlyph shape={glyph} label={label} />;
 
-function ButtonPromptLabel({ className, ...props }: HTMLAttributes<HTMLSpanElement>): ReactElement {
-  return <span {...props} className={cx("ld-prompt__label", className)} data-slot="button-prompt-label" />;
-}
+const ButtonPromptLabel = ({ className, ...props }: HTMLAttributes<HTMLSpanElement>) => (
+  <span {...props} className={cx("ld-prompt__label", className)} data-slot="button-prompt-label" />
+);
 
 type ButtonPromptProps = Omit<ComponentProps<typeof Button>, "children"> & {
   glyph?: Glyph | Shoulder;
@@ -82,35 +71,31 @@ type ButtonPromptProps = Omit<ComponentProps<typeof Button>, "children"> & {
   muted?: boolean;
 };
 
-function ButtonPrompt({ glyph, children, muted, className, ...props }: ButtonPromptProps): ReactElement {
-  return (
-    <Button {...props} className={merge("ld-prompt", className)} data-muted={muted ? true : undefined}>
-      {glyph ? (
-        <>
-          <ButtonPromptLabel>{children}</ButtonPromptLabel>
-          <PadGlyph glyph={glyph} />
-        </>
-      ) : (
-        children
-      )}
-    </Button>
-  );
-}
+const ButtonPrompt = ({ glyph, children, muted, className, ...props }: ButtonPromptProps) => (
+  <Button {...props} className={merge("ld-prompt", className)} data-muted={muted ? true : undefined}>
+    {glyph ? (
+      <>
+        <ButtonPromptLabel>{children}</ButtonPromptLabel>
+        <PadGlyph glyph={glyph} />
+      </>
+    ) : (
+      children
+    )}
+  </Button>
+);
 
 type ButtonPromptsProps = HTMLAttributes<HTMLDivElement> & { label: string; stack?: boolean };
 
-function ButtonPrompts({ label, stack, className, ...props }: ButtonPromptsProps): ReactElement {
-  return (
-    <div
-      {...props}
-      className={cx("ld-prompts", className)}
-      data-slot="button-prompts"
-      role="group"
-      aria-label={label}
-      data-stack={stack ? true : undefined}
-    />
-  );
-}
+const ButtonPrompts = ({ label, stack, className, ...props }: ButtonPromptsProps) => (
+  <div
+    {...props}
+    className={cx("ld-prompts", className)}
+    data-slot="button-prompts"
+    role="group"
+    aria-label={label}
+    data-stack={stack ? true : undefined}
+  />
+);
 
 export { ButtonGlyph, ButtonPrompt, ButtonPromptLabel, ButtonPrompts, PadGlyph, ShoulderKey };
 export type { Glyph, Shoulder };

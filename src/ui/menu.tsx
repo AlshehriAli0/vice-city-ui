@@ -18,7 +18,7 @@ import {
   MenuTrigger as MenuTriggerRoot,
 } from "@ui-sdk/react/menu";
 import { Check, ChevronRight } from "lucide-react";
-import { Children, type ComponentProps, type ReactElement, type ReactNode } from "react";
+import { Children, type ComponentProps, type ReactNode } from "react";
 
 import { merge, POPUP_CLEARANCE, styled } from "./cx";
 
@@ -31,84 +31,67 @@ const MenuGroupLabel = styled(MenuGroupLabelRoot, "vc-menu__label");
 const MenuSeparator = styled(MenuSeparatorRoot, "vc-menu__sep");
 const MenuItemIcon = styled(MenuItemIconRoot, "vc-menu__icon");
 
-function boxText(children: ReactNode): ReactNode {
-  return Children.map(children, child =>
+const boxText = (children: ReactNode) =>
+  Children.map(children, child =>
     typeof child === "string" || typeof child === "number" ? <span className="vc-menu__text">{child}</span> : child
   );
-}
 
 type MenuItemProps = Omit<ComponentProps<typeof MenuItemRoot>, "children"> & { children?: ReactNode };
 
-function MenuItem({ className, children, ...props }: MenuItemProps): ReactElement {
-  return (
-    <MenuItemRoot {...props} className={merge("vc-menu__item", className)}>
-      {boxText(children)}
-    </MenuItemRoot>
-  );
-}
+const MenuItem = ({ className, children, ...props }: MenuItemProps) => (
+  <MenuItemRoot {...props} className={merge("vc-menu__item", className)}>
+    {boxText(children)}
+  </MenuItemRoot>
+);
 
-function MenuContent({
+const MenuContent = ({
   className,
   collisionPadding = POPUP_CLEARANCE,
   ...props
-}: ComponentProps<typeof MenuContentRoot>): ReactElement {
-  return (
-    <MenuContentRoot
-      {...props}
-      collisionPadding={collisionPadding}
-      className={merge("vc-menu vc-surface", className)}
-    />
-  );
-}
+}: ComponentProps<typeof MenuContentRoot>) => (
+  <MenuContentRoot {...props} collisionPadding={collisionPadding} className={merge("vc-menu vc-surface", className)} />
+);
 
-function MenuSubContent({
+const MenuSubContent = ({
   className,
   collisionPadding = POPUP_CLEARANCE,
   ...props
-}: ComponentProps<typeof MenuSubContentRoot>): ReactElement {
-  return (
-    <MenuSubContentRoot
-      {...props}
-      collisionPadding={collisionPadding}
-      className={merge("vc-menu vc-surface", className)}
-    />
-  );
-}
+}: ComponentProps<typeof MenuSubContentRoot>) => (
+  <MenuSubContentRoot
+    {...props}
+    collisionPadding={collisionPadding}
+    className={merge("vc-menu vc-surface", className)}
+  />
+);
 
 type MenuCheckboxItemProps = Omit<ComponentProps<typeof MenuCheckboxItemRoot>, "children"> & { children?: ReactNode };
 
-function MenuCheckboxItem({ className, children, ...props }: MenuCheckboxItemProps): ReactElement {
-  return (
-    <MenuCheckboxItemRoot {...props} className={merge("vc-menu__item", className)}>
-      <MenuItemIndicator className="vc-menu__check" keepMounted>
-        <Check aria-hidden="true" />
-      </MenuItemIndicator>
-      {boxText(children)}
-    </MenuCheckboxItemRoot>
-  );
-}
+const MenuCheckboxItem = ({ className, children, ...props }: MenuCheckboxItemProps) => (
+  <MenuCheckboxItemRoot {...props} className={merge("vc-menu__item", className)}>
+    <MenuItemIndicator className="vc-menu__check" keepMounted>
+      <Check aria-hidden="true" />
+    </MenuItemIndicator>
+    {boxText(children)}
+  </MenuCheckboxItemRoot>
+);
 
 type MenuRadioItemProps = Omit<ComponentProps<typeof MenuRadioItemRoot>, "children"> & { children?: ReactNode };
 
-function MenuRadioItem({ className, children, ...props }: MenuRadioItemProps): ReactElement {
-  return (
-    <MenuRadioItemRoot {...props} className={merge("vc-menu__item", className)}>
-      <MenuItemIndicator className="vc-menu__radio" keepMounted />
-      {boxText(children)}
-    </MenuRadioItemRoot>
-  );
-}
+const MenuRadioItem = ({ className, children, ...props }: MenuRadioItemProps) => (
+  <MenuRadioItemRoot {...props} className={merge("vc-menu__item", className)}>
+    <MenuItemIndicator className="vc-menu__radio" keepMounted />
+    {boxText(children)}
+  </MenuRadioItemRoot>
+);
 
 type MenuSubTriggerProps = Omit<ComponentProps<typeof MenuSubTriggerRoot>, "children"> & { children?: ReactNode };
 
-function MenuSubTrigger({ className, children, ...props }: MenuSubTriggerProps): ReactElement {
-  return (
-    <MenuSubTriggerRoot {...props} className={merge("vc-menu__item", className)}>
-      {boxText(children)}
-      <ChevronRight className="vc-menu__sub-chev" aria-hidden="true" />
-    </MenuSubTriggerRoot>
-  );
-}
+const MenuSubTrigger = ({ className, children, ...props }: MenuSubTriggerProps) => (
+  <MenuSubTriggerRoot {...props} className={merge("vc-menu__item", className)}>
+    {boxText(children)}
+    <ChevronRight className="vc-menu__sub-chev" aria-hidden="true" />
+  </MenuSubTriggerRoot>
+);
 
 export {
   Menu,

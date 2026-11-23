@@ -1,12 +1,12 @@
 import { Listbox, ListboxItem } from "@ui-sdk/react/listbox";
-import { useRef, type ReactElement } from "react";
+import { useRef } from "react";
 
 import { cssVariables } from "../ui/css-variables";
 import { ButtonPrompt, ButtonPrompts } from "./button-prompt";
 import { VISIBLE_ROWS, autosaveOf, saveLabel, stamp, type SaveGame, type SlotRow } from "./save-screen.data";
 import type { Confirm, SaveScreenState } from "./save-screen.state";
 
-function confirmCopy({ kind, save }: Confirm, saves: SaveGame[]) {
+const confirmCopy = ({ kind, save }: Confirm, saves: SaveGame[]) => {
   const label = saveLabel(save);
   const when = stamp(save.date, " ");
   if (kind === "overwrite") {
@@ -30,9 +30,9 @@ function confirmCopy({ kind, save }: Confirm, saves: SaveGame[]) {
     body: `Loading this save will cause any unsaved progress from your current session${lost} to be lost.`,
     consequence: `Loads ${label} and loses unsaved progress`,
   };
-}
+};
 
-function Detail({ row }: { row: SlotRow | null }): ReactElement {
+const Detail = ({ row }: { row: SlotRow | null }) => {
   const save = row?.save;
   return (
     <section className="ld-save__detail" aria-label="Slot details" aria-live="polite">
@@ -41,9 +41,9 @@ function Detail({ row }: { row: SlotRow | null }): ReactElement {
       <p className="ld-save__summary">{save ? save.summary : "Save your progress in a new slot."}</p>
     </section>
   );
-}
+};
 
-function SlotList({ state, autoFocus }: { state: SaveScreenState; autoFocus: boolean }): ReactElement {
+const SlotList = ({ state, autoFocus }: { state: SaveScreenState; autoFocus: boolean }) => {
   const { mode, rows, current, top } = state;
   const pending = useRef(autoFocus);
   const vars = cssVariables({ "--scroll": top, "--rows": rows.length });
@@ -102,9 +102,9 @@ function SlotList({ state, autoFocus }: { state: SaveScreenState; autoFocus: boo
       )}
     </>
   );
-}
+};
 
-function SavePrompts({ state }: { state: SaveScreenState }): ReactElement {
+const SavePrompts = ({ state }: { state: SaveScreenState }) => {
   const { mode, current } = state;
   const filled = Boolean(current?.save);
   const action = filled ? "Overwrite" : "Save";
@@ -125,6 +125,6 @@ function SavePrompts({ state }: { state: SaveScreenState }): ReactElement {
       </ButtonPrompt>
     </ButtonPrompts>
   );
-}
+};
 
 export { Detail, SavePrompts, SlotList, confirmCopy };

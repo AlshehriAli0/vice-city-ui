@@ -1,5 +1,4 @@
 import { Save, SlidersVertical } from "lucide-react";
-import type { ReactElement } from "react";
 
 import { toast } from "../leonida/mission-toast.store";
 import {
@@ -21,7 +20,7 @@ const SHEET_SIDES = opts(["left", "Left"], ["right", "Right"], ["bottom", "Botto
 
 const DIALOG_SIZES = opts(["sm", "S"], ["md", "M"], ["lg", "L"]);
 
-function DialogDemo({ values: v, set }: Playground): ReactElement {
+const DialogDemo = ({ values: v, set }: Playground) => {
   const open = Boolean(v.open);
   const onOpenChange = (next: boolean) => set("open", next);
   if (v.component === "sheet")
@@ -73,7 +72,7 @@ function DialogDemo({ values: v, set }: Playground): ReactElement {
       </div>
     </div>
   );
-}
+};
 
 const displayDialogsDemos: Demo[] = [
   {

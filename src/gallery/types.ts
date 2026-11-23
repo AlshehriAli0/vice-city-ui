@@ -1,4 +1,4 @@
-import type { ReactElement } from "react";
+import type { ReactNode } from "react";
 
 type Value = string | number | boolean;
 type Values = Record<string, Value>;
@@ -25,14 +25,14 @@ type Demo = {
   frame?: "scene" | false;
   file?: string;
   keys?: [string, string][];
-  states?: { label: string; render: () => ReactElement }[];
+  states?: { label: string; render: () => ReactNode }[];
   controls?: Control[];
   defaults?: Values;
   update?: (values: Values, name: string, value: Value) => Values;
   actions?: { name: string; label: string }[];
   examples?: { label: string; values: Values }[];
   code?: (values: Values) => string;
-  render: (playground: Playground) => ReactElement;
+  render: (playground: Playground) => ReactNode;
 };
 
 type SkyTheme = "blackout" | "dustyNeon" | "blueSky" | "hotSun" | "night" | "swamp";

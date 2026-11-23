@@ -1,4 +1,4 @@
-import type { ReactElement } from "react";
+import type { ReactNode } from "react";
 
 import { sections } from "../gallery";
 import type { Demo, Section } from "../gallery/types";
@@ -11,7 +11,7 @@ type Entry = Demo & {
   label: string;
   pitch: string;
   crop?: Crop;
-  preview?: () => ReactElement;
+  preview?: () => ReactNode;
   stageCrop?: Crop;
   section: Section;
   scene: boolean;
@@ -39,9 +39,7 @@ const ENTRIES: Entry[] = sections.flatMap(section =>
 
 const BY_ID = new Map(ENTRIES.map(entry => [entry.id, entry]));
 
-const entriesOf = (section: Section): Entry[] => {
-  return ENTRIES.filter(entry => entry.section === section);
-};
+const entriesOf = (section: Section): Entry[] => ENTRIES.filter(entry => entry.section === section);
 
 export { BY_ID, ENTRIES, entriesOf, sections };
 export type { Entry };

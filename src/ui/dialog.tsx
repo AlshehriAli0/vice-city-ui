@@ -7,7 +7,7 @@ import {
   DialogTitle as DialogTitleRoot,
   DialogTrigger as DialogTriggerRoot,
 } from "@ui-sdk/react/dialog";
-import type { ComponentProps, ReactElement, ReactNode } from "react";
+import type { ComponentProps, ReactNode } from "react";
 
 import { merge, styled } from "./cx";
 import { Glyph, type GlyphName } from "./kbd";
@@ -27,32 +27,28 @@ type DialogContentProps = Omit<ComponentProps<typeof DialogContentRoot>, "childr
   children?: ReactNode;
 };
 
-function DialogContent({ size = "md", className, children, ...props }: DialogContentProps): ReactElement {
-  return (
-    <>
-      <DialogBackdrop className="vc-dialog__backdrop" />
-      <DialogContentRoot {...props} className={merge("vc-dialog vc-surface", className)} data-size={size}>
-        <div className="vc-dialog__body">{children}</div>
-      </DialogContentRoot>
-    </>
-  );
-}
+const DialogContent = ({ size = "md", className, children, ...props }: DialogContentProps) => (
+  <>
+    <DialogBackdrop className="vc-dialog__backdrop" />
+    <DialogContentRoot {...props} className={merge("vc-dialog vc-surface", className)} data-size={size}>
+      <div className="vc-dialog__body">{children}</div>
+    </DialogContentRoot>
+  </>
+);
 
 type DialogPromptProps = Omit<ComponentProps<typeof DialogCloseRoot>, "children"> & {
   label: string;
   glyph?: GlyphName;
 };
 
-function DialogPrompt({ label, glyph = "cross", className, ...props }: DialogPromptProps): ReactElement {
-  return (
-    <DialogCloseRoot {...props} className={merge("vc-prompt-btn", className)}>
-      {label}
-      <span aria-hidden="true">
-        <Glyph name={glyph} />
-      </span>
-    </DialogCloseRoot>
-  );
-}
+const DialogPrompt = ({ label, glyph = "cross", className, ...props }: DialogPromptProps) => (
+  <DialogCloseRoot {...props} className={merge("vc-prompt-btn", className)}>
+    {label}
+    <span aria-hidden="true">
+      <Glyph name={glyph} />
+    </span>
+  </DialogCloseRoot>
+);
 
 export {
   Dialog,

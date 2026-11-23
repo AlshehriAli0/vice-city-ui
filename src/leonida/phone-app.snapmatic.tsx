@@ -1,6 +1,5 @@
 import { Tabs, TabsList, TabsPanel, TabsTab } from "@ui-sdk/react/tabs";
 import { ChevronRight, Eye, House, Heart, MessageSquare, Play } from "lucide-react";
-import type { ReactElement } from "react";
 
 import { cssVariables } from "../ui/css-variables";
 import { App, AppHeader, AppMenu, Face, Scroll } from "./phone-app.parts";
@@ -28,30 +27,28 @@ const TABS = [
   { value: "liked", label: "Liked", icon: Heart },
 ];
 
-function PostCard({ post }: { post: Post }): ReactElement {
-  return (
-    <PhoneMenuItem value={post.id} className="ld-snap__post" aria-label={`Post by ${post.handle}`}>
-      <span className="ld-snap__media ld-pic" style={cssVariables({ "--media": post.tone })}>
-        {post.video && (
-          <i className="ld-snap__play" aria-hidden="true">
-            <Play fill="currentColor" />
-          </i>
-        )}
-      </span>
-      <span className="ld-snap__meta">
-        <b className="ld-snap__handle">
-          <i className="ld-snap__dot" aria-hidden="true" />
-          {post.handle}
-        </b>
-        <small>Caption placeholder that runs on past the end of the line</small>
-        <em className="ld-snap__counts">
-          <Heart aria-hidden="true" /> {post.likes}
-          <MessageSquare aria-hidden="true" /> {post.comments}
-        </em>
-      </span>
-    </PhoneMenuItem>
-  );
-}
+const PostCard = ({ post }: { post: Post }) => (
+  <PhoneMenuItem value={post.id} className="ld-snap__post" aria-label={`Post by ${post.handle}`}>
+    <span className="ld-snap__media ld-pic" style={cssVariables({ "--media": post.tone })}>
+      {post.video && (
+        <i className="ld-snap__play" aria-hidden="true">
+          <Play fill="currentColor" />
+        </i>
+      )}
+    </span>
+    <span className="ld-snap__meta">
+      <b className="ld-snap__handle">
+        <i className="ld-snap__dot" aria-hidden="true" />
+        {post.handle}
+      </b>
+      <small>Caption placeholder that runs on past the end of the line</small>
+      <em className="ld-snap__counts">
+        <Heart aria-hidden="true" /> {post.likes}
+        <MessageSquare aria-hidden="true" /> {post.comments}
+      </em>
+    </span>
+  </PhoneMenuItem>
+);
 
 const OPTIONS = [
   { id: "like", group: "Post", label: "Like" },
@@ -59,7 +56,7 @@ const OPTIONS = [
   { id: "profile", group: "View", label: "Profile" },
 ];
 
-function Snapmatic(): ReactElement {
+const Snapmatic = () => {
   const { entry, update, go } = usePhone();
   const tab = entry.param ?? "explore";
   const post = POSTS.find(item => item.id === entry.focus) ?? POSTS[0];
@@ -129,25 +126,23 @@ function Snapmatic(): ReactElement {
       )}
     </App>
   );
-}
+};
 
-function Comments(): ReactElement {
-  return (
-    <App screen="comments">
-      <AppHeader title="Comments" />
-      <Scroll>
-        {["@handle_four", "@handle_five", "@handle_six"].map(handle => (
-          <div key={handle} className="ld-app__card ld-snap__comment">
-            <b>{handle}</b>
-            <p>Comment placeholder text.</p>
-          </div>
-        ))}
-      </Scroll>
-    </App>
-  );
-}
+const Comments = () => (
+  <App screen="comments">
+    <AppHeader title="Comments" />
+    <Scroll>
+      {["@handle_four", "@handle_five", "@handle_six"].map(handle => (
+        <div key={handle} className="ld-app__card ld-snap__comment">
+          <b>{handle}</b>
+          <p>Comment placeholder text.</p>
+        </div>
+      ))}
+    </Scroll>
+  </App>
+);
 
-function Profile(): ReactElement {
+const Profile = () => {
   const { entry } = usePhone();
   const contact = CONTACTS.find(item => item.id === entry.param);
   const handle = contact ? `@${contact.id}` : (entry.param ?? "@handle");
@@ -177,6 +172,6 @@ function Profile(): ReactElement {
       </Scroll>
     </App>
   );
-}
+};
 
 export { Snapmatic, Comments, Profile };

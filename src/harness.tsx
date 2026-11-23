@@ -13,7 +13,7 @@ import { staticPlayground } from "./site/playground-state";
 
 import "./site.css";
 
-function parseValues(source: string): Values {
+const parseValues = (source: string): Values => {
   const parsed: unknown = JSON.parse(source);
   if (parsed === null || typeof parsed !== "object" || Array.isArray(parsed)) return {};
 
@@ -23,7 +23,7 @@ function parseValues(source: string): Values {
       return [];
     })
   );
-}
+};
 
 const params = new URLSearchParams(location.search);
 const entry = BY_ID.get(params.get("c") ?? "");

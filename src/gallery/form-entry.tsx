@@ -1,4 +1,4 @@
-import { lazy, useState, type ReactElement } from "react";
+import { lazy, useState } from "react";
 
 import { Field, FieldDescription, FieldLabel, FieldList } from "../ui/field";
 import {
@@ -24,7 +24,7 @@ const ENTRY_KINDS = [
   { value: "code", label: "Code" },
 ];
 
-function CodeInput({ digits }: { digits: number }): ReactElement {
+const CodeInput = ({ digits }: { digits: number }) => {
   const [code, setCode] = useState("");
   const half = Math.ceil(digits / 2);
   const slots = (from: number, to: number) =>
@@ -41,9 +41,9 @@ function CodeInput({ digits }: { digits: number }): ReactElement {
       </FieldDescription>
     </>
   );
-}
+};
 
-function EntryControl({ values: v }: Pick<Playground, "values">): ReactElement {
+const EntryControl = ({ values: v }: Pick<Playground, "values">) => {
   if (v.kind === "date") return <DatePicker defaultValue="2000-01-01" />;
 
   const digits = Number(v.digits);
@@ -59,22 +59,20 @@ function EntryControl({ values: v }: Pick<Playground, "values">): ReactElement {
       </NumberInputGroup>
     </NumberInput>
   );
-}
+};
 
-function EntryDemo({ values: v }: Playground): ReactElement {
-  return (
-    <FormStage>
-      <FieldList>
-        <Field disabled={Boolean(v.disabled)}>
-          <FieldLabel>{String(v.label)}</FieldLabel>
-          <EntryControl values={v} />
-        </Field>
-      </FieldList>
-    </FormStage>
-  );
-}
+const EntryDemo = ({ values: v }: Playground) => (
+  <FormStage>
+    <FieldList>
+      <Field disabled={Boolean(v.disabled)}>
+        <FieldLabel>{String(v.label)}</FieldLabel>
+        <EntryControl values={v} />
+      </Field>
+    </FieldList>
+  </FormStage>
+);
 
-function entryControlCode(v: Playground["values"]): string {
+const entryControlCode = (v: Playground["values"]): string => {
   if (v.kind === "date") return `  <DatePicker defaultValue="2000-01-01" />`;
 
   if (v.kind === "code") {
@@ -96,20 +94,18 @@ function entryControlCode(v: Playground["values"]): string {
       <NumberInputIncrement />
     </NumberInputGroup>
   </NumberInput>`;
-}
+};
 
-function entryCode(v: Playground["values"]): string {
-  return `<Field${flag("disabled", v.disabled)}>
+const entryCode = (v: Playground["values"]): string => `<Field${flag("disabled", v.disabled)}>
   <FieldLabel>${v.label}</FieldLabel>
 ${entryControlCode(v)}
 </Field>`;
-}
 
 const SEGMENT_SIZES = labeledOptions(["sm", "Small"], ["md", "Medium"]);
 
 const TABS = ["Gameplay", "Display", "UI", "Camera", "Audio"];
 
-function TogglesDemo({ values: v }: Playground): ReactElement {
+const TogglesDemo = ({ values: v }: Playground) => {
   const disabled = Boolean(v.disabled);
   if (v.kind === "segmented")
     return (
@@ -142,9 +138,9 @@ function TogglesDemo({ values: v }: Playground): ReactElement {
       </ToggleGroup>
     </FormStage>
   );
-}
+};
 
-function togglesCode(v: Playground["values"]): string {
+const togglesCode = (v: Playground["values"]): string => {
   if (v.kind === "segmented")
     return `<SegmentedControl aria-label="Map view"${str("size", v.size, "md")}${flag("disabled", v.disabled)} defaultValue="3d">
   <SegmentedControlItem value="3d">3D view</SegmentedControlItem>
@@ -153,7 +149,7 @@ function togglesCode(v: Playground["values"]): string {
   return `<ToggleGroup aria-label="Settings tab"${flag("multiple", v.multiple)}${flag("disabled", v.disabled)} defaultValue={["ui"]}>
 ${TABS.map(label => `  <Toggle value="${label.toLowerCase()}">${label}</Toggle>`).join("\n")}
 </ToggleGroup>`;
-}
+};
 
 const formEntryDemos: Demo[] = [
   {

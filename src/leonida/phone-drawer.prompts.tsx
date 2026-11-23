@@ -1,9 +1,7 @@
-import type { ReactElement } from "react";
-
 import type { PhoneState, Prompt } from "./phone-data";
 import { PhonePrompts } from "./phone-prompts";
 
-function promptsFor(phone: PhoneState, select: () => void, square: () => void): Prompt[] {
+const promptsFor = (phone: PhoneState, select: () => void, square: () => void): Prompt[] => {
   const { entry } = phone;
   const back: Prompt = { label: "Back", key: "circle", run: phone.back };
   const pick: Prompt = { label: "Select", key: "cross", run: select };
@@ -43,9 +41,9 @@ function promptsFor(phone: PhoneState, select: () => void, square: () => void): 
     default:
       return [pick, back];
   }
-}
+};
 
-function DrawerPrompts({
+const DrawerPrompts = ({
   phone,
   onSelect,
   onSquare,
@@ -53,8 +51,6 @@ function DrawerPrompts({
   phone: PhoneState;
   onSelect: () => void;
   onSquare: () => void;
-}): ReactElement {
-  return <PhonePrompts label="Phone prompts" rows={promptsFor(phone, onSelect, onSquare)} />;
-}
+}) => <PhonePrompts label="Phone prompts" rows={promptsFor(phone, onSelect, onSquare)} />;
 
 export { DrawerPrompts };

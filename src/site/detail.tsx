@@ -1,5 +1,5 @@
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { useEffect, useLayoutEffect, useRef, type ReactElement } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 
 import { DemoBoundary } from "./boundary";
 import { BY_ID, ENTRIES, entriesOf, sections, type Entry } from "./catalog";
@@ -11,29 +11,27 @@ import { hrefOf } from "./route";
 import { Source } from "./source";
 import { Stage } from "./stage";
 
-function ComponentNav({ current }: { current: string }): ReactElement {
-  return (
-    <nav className="side-nav" aria-label="Components">
-      {sections.map(section => (
-        <div key={section.id} className="side-nav__group">
-          <p className="side-nav__title">{section.title}</p>
-          <ul>
-            {entriesOf(section).map(entry => (
-              <li key={entry.id}>
-                <a href={hrefOf(entry.id)} aria-current={entry.id === current ? "page" : undefined}>
-                  <span className="side-nav__no">{entry.label}</span>
-                  {entry.name}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))}
-    </nav>
-  );
-}
+const ComponentNav = ({ current }: { current: string }) => (
+  <nav className="side-nav" aria-label="Components">
+    {sections.map(section => (
+      <div key={section.id} className="side-nav__group">
+        <p className="side-nav__title">{section.title}</p>
+        <ul>
+          {entriesOf(section).map(entry => (
+            <li key={entry.id}>
+              <a href={hrefOf(entry.id)} aria-current={entry.id === current ? "page" : undefined}>
+                <span className="side-nav__no">{entry.label}</span>
+                {entry.name}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </nav>
+);
 
-function Pager({ entry }: { entry: Entry }): ReactElement {
+const Pager = ({ entry }: { entry: Entry }) => {
   const index = ENTRIES.indexOf(entry);
   const prev = index > 0 ? ENTRIES[index - 1] : undefined;
   const next = ENTRIES.at(index + 1);
@@ -61,47 +59,45 @@ function Pager({ entry }: { entry: Entry }): ReactElement {
       )}
     </nav>
   );
-}
+};
 
-function KeyTable({ keys }: { keys: [string, string][] }): ReactElement {
-  return (
-    <table className="keys">
-      <thead>
-        <tr>
-          <th scope="col">Keys</th>
-          <th scope="col">Action</th>
+const KeyTable = ({ keys }: { keys: [string, string][] }) => (
+  <table className="keys">
+    <thead>
+      <tr>
+        <th scope="col">Keys</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {keys.map(([combo, action]) => (
+        <tr key={combo}>
+          <td>
+            {combo.split(" / ").map((key, index) => (
+              <span key={key}>
+                {index > 0 && <span className="keys__or"> or </span>}
+                <kbd>{key}</kbd>
+              </span>
+            ))}
+          </td>
+          <td>{action}</td>
         </tr>
-      </thead>
-      <tbody>
-        {keys.map(([combo, action]) => (
-          <tr key={combo}>
-            <td>
-              {combo.split(" / ").map((key, index) => (
-                <span key={key}>
-                  {index > 0 && <span className="keys__or"> or </span>}
-                  <kbd>{key}</kbd>
-                </span>
-              ))}
-            </td>
-            <td>{action}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  );
-}
+      ))}
+    </tbody>
+  </table>
+);
 
-function DetailPage({ id }: { id: string }): ReactElement | null {
+const DetailPage = ({ id }: { id: string }) => {
   const entry = BY_ID.get(id);
   return entry ? <DetailContent entry={entry} /> : <UnknownComponent />;
-}
+};
 
-function UnknownComponent(): null {
+const UnknownComponent = (): null => {
   useEffect(() => window.location.replace("#/"), []);
   return null;
-}
+};
 
-function DetailPlayground({ entry }: { entry: Entry }): ReactElement {
+const DetailPlayground = ({ entry }: { entry: Entry }) => {
   const playground = usePlayground(entry);
   const phone = entry.id === "phone-drawer";
   const fullFrame = entry.section.id === "menus" || entry.section.id === "wheel-radio" || phone;
@@ -126,9 +122,9 @@ function DetailPlayground({ entry }: { entry: Entry }): ReactElement {
       <Usage demo={entry} values={playground.values} />
     </>
   );
-}
+};
 
-function DetailContent({ entry }: { entry: Entry }): ReactElement {
+const DetailContent = ({ entry }: { entry: Entry }) => {
   const title = useRef<HTMLHeadingElement>(null);
   const side = useRef<HTMLElement>(null);
 
@@ -196,6 +192,6 @@ function DetailContent({ entry }: { entry: Entry }): ReactElement {
       </article>
     </div>
   );
-}
+};
 
 export { DetailPage };

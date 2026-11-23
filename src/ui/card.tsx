@@ -1,5 +1,5 @@
 import { renderElement, type PartProps } from "@ui-sdk/react/primitive";
-import type { CSSProperties, ReactElement } from "react";
+import type { CSSProperties } from "react";
 
 import type { CssVariables } from "./css-variables";
 import { merge } from "./cx";
@@ -13,7 +13,7 @@ type CardProps = PartProps<"article"> & {
   interactive?: boolean;
 };
 
-function Card({ variant = "glass", interactive, render, className, ...props }: CardProps): ReactElement {
+const Card = ({ variant = "glass", interactive, render, className, ...props }: CardProps) => {
   "use memo";
 
   return renderElement(
@@ -27,11 +27,11 @@ function Card({ variant = "glass", interactive, render, className, ...props }: C
     },
     render
   );
-}
+};
 
 type CardMediaProps = Omit<PartProps<"div">, "style"> & { ratio?: string; focus?: string; style?: CSSProperties };
 
-function CardMedia({ ratio, focus, render, className, style, ...props }: CardMediaProps): ReactElement {
+const CardMedia = ({ ratio, focus, render, className, style, ...props }: CardMediaProps) => {
   "use memo";
 
   const vars = { "--card-media-ratio": ratio, "--card-media-focus": focus } satisfies CssVariables;
@@ -45,7 +45,7 @@ function CardMedia({ ratio, focus, render, className, style, ...props }: CardMed
     },
     render
   );
-}
+};
 
 const CardHeader = plain("header", "card-header", "vc-card__header");
 const CardEyebrow = plain("p", "card-eyebrow", "vc-card__eyebrow");

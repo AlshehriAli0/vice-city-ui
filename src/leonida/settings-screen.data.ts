@@ -6,8 +6,8 @@ import { UI } from "./settings-ui.data";
 
 const CATEGORIES: Category[] = [SCHEME, CONTROLLER, GAMEPLAY, DISPLAY, UI, CAMERA, AUDIO];
 
-const defaults = (): Record<string, Value> => {
-  return Object.fromEntries(
+const defaults = (): Record<string, Value> =>
+  Object.fromEntries(
     CATEGORIES.flatMap(category =>
       category.sections.flatMap(section => {
         if ("radio" in section) return [[section.radio.id, section.radio.start] as const];
@@ -15,7 +15,6 @@ const defaults = (): Record<string, Value> => {
       })
     )
   );
-};
 
 export { CATEGORIES, defaults };
 export type { Category, Choice, Preview, Row, Section, Value } from "./settings-screen.types";

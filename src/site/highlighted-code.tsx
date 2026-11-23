@@ -1,4 +1,4 @@
-import { Fragment, type ReactElement } from "react";
+import { Fragment } from "react";
 import { parse, type ParsedToken, type TokenType } from "sugar-high/core";
 import { tokenize } from "sugar-high/lang/typescript";
 
@@ -33,27 +33,25 @@ const highlightLines = (text: string) => {
   });
 };
 
-function HighlightedCode({ text }: { text: string }): ReactElement {
-  return (
-    <code>
-      {highlightLines(text).map(({ start, tokens, hasNewline }) => (
-        <Fragment key={start}>
-          <span className="sh__line">
-            {tokens.map(({ type, value, column }) =>
-              type === null ? (
-                value
-              ) : (
-                <span key={column} className={`sh__token--${type}`}>
-                  {value}
-                </span>
-              )
-            )}
-          </span>
-          {hasNewline && "\n"}
-        </Fragment>
-      ))}
-    </code>
-  );
-}
+const HighlightedCode = ({ text }: { text: string }) => (
+  <code>
+    {highlightLines(text).map(({ start, tokens, hasNewline }) => (
+      <Fragment key={start}>
+        <span className="sh__line">
+          {tokens.map(({ type, value, column }) =>
+            type === null ? (
+              value
+            ) : (
+              <span key={column} className={`sh__token--${type}`}>
+                {value}
+              </span>
+            )
+          )}
+        </span>
+        {hasNewline && "\n"}
+      </Fragment>
+    ))}
+  </code>
+);
 
 export { HighlightedCode };

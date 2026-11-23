@@ -1,6 +1,6 @@
 import { useShortcut } from "@ui-sdk/react/shortcuts";
 import { Toolbar, ToolbarButton } from "@ui-sdk/react/toolbar";
-import { useEffect, useEffectEvent, useRef, useState, type ReactElement, type RefObject } from "react";
+import { useEffect, useEffectEvent, useRef, useState, type RefObject } from "react";
 
 import { ButtonPrompt, ButtonPrompts } from "./button-prompt";
 import { GameConfirm } from "./game-confirm";
@@ -51,57 +51,47 @@ type PanelProps = {
   onBack?: () => void;
 };
 
-function GameMenuPanel({
-  current,
-  saveDisabled,
-  build,
-  refocusRef,
-  onPoint,
-  onChoose,
-  onBack,
-}: PanelProps): ReactElement {
-  return (
-    <>
-      <div className="ld-pause__panel ld-game__panel">
-        <h2 className="ld-game__title">Game</h2>
-        <Toolbar
-          ref={element => {
-            if (!element || !refocusRef.current) return;
-            refocusRef.current = false;
-            element.querySelector<HTMLElement>("[data-current]")?.focus();
-          }}
-          className="ld-game__list"
-          orientation="vertical"
-          aria-label="Game menu"
-        >
-          {GAME_ROWS.map(row => (
-            <ToolbarButton
-              key={row.value}
-              className="ld-game__row"
-              data-current={row.value === current || undefined}
-              disabled={row.value === "save" && saveDisabled}
-              onFocus={() => onPoint(row.value)}
-              onClick={() => onChoose(row.value)}
-            >
-              {row.label}
-            </ToolbarButton>
-          ))}
-        </Toolbar>
-        <p className="ld-game__build">{build}</p>
-      </div>
-      <ButtonPrompts label="Game menu prompts">
-        <ButtonPrompt glyph="cross" onClick={() => onChoose(current)}>
-          Select
-        </ButtonPrompt>
-        <ButtonPrompt glyph="circle" onClick={() => onBack?.()}>
-          Back
-        </ButtonPrompt>
-      </ButtonPrompts>
-    </>
-  );
-}
+const GameMenuPanel = ({ current, saveDisabled, build, refocusRef, onPoint, onChoose, onBack }: PanelProps) => (
+  <>
+    <div className="ld-pause__panel ld-game__panel">
+      <h2 className="ld-game__title">Game</h2>
+      <Toolbar
+        ref={element => {
+          if (!element || !refocusRef.current) return;
+          refocusRef.current = false;
+          element.querySelector<HTMLElement>("[data-current]")?.focus();
+        }}
+        className="ld-game__list"
+        orientation="vertical"
+        aria-label="Game menu"
+      >
+        {GAME_ROWS.map(row => (
+          <ToolbarButton
+            key={row.value}
+            className="ld-game__row"
+            data-current={row.value === current || undefined}
+            disabled={row.value === "save" && saveDisabled}
+            onFocus={() => onPoint(row.value)}
+            onClick={() => onChoose(row.value)}
+          >
+            {row.label}
+          </ToolbarButton>
+        ))}
+      </Toolbar>
+      <p className="ld-game__build">{build}</p>
+    </div>
+    <ButtonPrompts label="Game menu prompts">
+      <ButtonPrompt glyph="cross" onClick={() => onChoose(current)}>
+        Select
+      </ButtonPrompt>
+      <ButtonPrompt glyph="circle" onClick={() => onBack?.()}>
+        Back
+      </ButtonPrompt>
+    </ButtonPrompts>
+  </>
+);
 
-function GameMenu({
+const GameMenu = ({
   screen: screenProp,
   defaultScreen = "menu",
   onScreenChange,
@@ -117,7 +107,7 @@ function GameMenu({
   onNewGame,
   onBack,
   ...saveProps
-}: GameMenuProps): ReactElement {
+}: GameMenuProps) => {
   const root = useRef<HTMLDivElement>(null);
   const refocus = useRef(autoFocus);
   const [ownScreen, setOwnScreen] = useState(defaultScreen);
@@ -215,7 +205,7 @@ function GameMenu({
       </GameScreen>
     </div>
   );
-}
+};
 
 export { GAME_ROWS, GameMenu };
 export type { GameMenuProps, GameMenuRow, GameMenuScreen };

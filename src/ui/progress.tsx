@@ -5,7 +5,7 @@ import {
   ProgressTrack as ProgressTrackRoot,
   ProgressValue as ProgressValueRoot,
 } from "@ui-sdk/react/progress";
-import type { ComponentProps, CSSProperties, ReactElement } from "react";
+import type { ComponentProps, CSSProperties } from "react";
 
 import { merge, styled } from "./cx";
 import { plain } from "./plain";
@@ -24,16 +24,16 @@ type VitalProps = {
 
 type StyleProp<S> = CSSProperties | ((state: S) => CSSProperties | undefined) | undefined;
 
-function withVars<S>(vars: CSSProperties | undefined, style: StyleProp<S>): StyleProp<S> {
+const withVars = <S,>(vars: CSSProperties | undefined, style: StyleProp<S>): StyleProp<S> => {
   if (!vars) return style;
   return typeof style === "function" ? (state: S) => ({ ...vars, ...style(state) }) : { ...vars, ...style };
-}
+};
 
-function useVital<S>(
+const useVital = <S,>(
   value: number | null | undefined,
   { tone = "health", segments, dimWhenIdle }: VitalProps,
   style: StyleProp<S>
-) {
+) => {
   const active = useVitalActive(value ?? null, Boolean(dimWhenIdle));
   return {
     "data-tone": tone,
@@ -41,14 +41,14 @@ function useVital<S>(
     "data-idle": dimWhenIdle && !active ? "" : undefined,
     style: withVars(segmentStyle(segments), style),
   };
-}
+};
 
 type ProgressProps = ComponentProps<typeof ProgressRoot> & VitalProps;
 
-function Progress({ tone, segments, dimWhenIdle, className, style, ...props }: ProgressProps): ReactElement {
+const Progress = ({ tone, segments, dimWhenIdle, className, style, ...props }: ProgressProps) => {
   const vital = useVital(props.value, { tone, segments, dimWhenIdle }, style);
   return <ProgressRoot {...props} {...vital} className={merge("vc-vital", className)} />;
-}
+};
 
 const ProgressIcon = plain("span", "progress-icon", "vc-vital__icon");
 const ProgressLabel = styled(ProgressLabelRoot, "vc-vital__label");

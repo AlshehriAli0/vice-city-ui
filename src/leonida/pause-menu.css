@@ -348,3 +348,7 @@
     animation: none;
   }
 }
+
+.ld-pause-screen {
+  display: contents;
+}

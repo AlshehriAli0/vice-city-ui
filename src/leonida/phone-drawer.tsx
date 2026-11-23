@@ -5,7 +5,6 @@ import {
   useRef,
   useSyncExternalStore,
   type ComponentProps,
-  type ReactElement,
   type Ref,
   type RefObject,
 } from "react";
@@ -27,7 +26,7 @@ import "./phone-drawer.css";
 import "./phone-apps.css";
 
 // what: The hand's sway stops in the site's Still mode and under reduced motion.
-function subscribeMotion(change: () => void): () => void {
+const subscribeMotion = (change: () => void): (() => void) => {
   const observer = new MutationObserver(change);
   observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-motion"] });
   const query = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -36,17 +35,16 @@ function subscribeMotion(change: () => void): () => void {
     observer.disconnect();
     query.removeEventListener("change", change);
   };
-}
+};
 
-function useSway(): boolean {
-  return useSyncExternalStore(
+const useSway = (): boolean =>
+  useSyncExternalStore(
     subscribeMotion,
     () =>
       document.documentElement.dataset.motion !== "still" &&
       !window.matchMedia("(prefers-reduced-motion: reduce)").matches,
     () => false
   );
-}
 
 type HandsetProps = {
   view: Ref<HTMLDivElement>;
@@ -57,7 +55,7 @@ type HandsetProps = {
   settle: boolean;
 };
 
-function Handset({ view, entry, depth, motion, sway, settle }: HandsetProps): ReactElement {
+const Handset = ({ view, entry, depth, motion, sway, settle }: HandsetProps) => {
   const Screen = SCREENS[entry.screen];
   return (
     <div className="ld-phone-world" data-slot="phone-world">
@@ -89,7 +87,7 @@ function Handset({ view, entry, depth, motion, sway, settle }: HandsetProps): Re
       </div>
     </div>
   );
-}
+};
 
 type PhoneDrawerContentProps = Omit<ComponentProps<typeof DialogContent>, "children"> & {
   time?: string;
@@ -102,12 +100,12 @@ type PhoneDrawerContentProps = Omit<ComponentProps<typeof DialogContent>, "child
 
 const PAGE_SCROLL_KEYS = new Set(["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "PageUp", "PageDown"]);
 
-function usePhoneScreenFocus(
+const usePhoneScreenFocus = (
   screenKey: string,
   canMoveFocus: boolean,
   content: RefObject<HTMLDivElement | null>,
   view: RefObject<HTMLDivElement | null>
-) {
+) => {
   const shown = useRef(screenKey);
 
   useLayoutEffect(() => {
@@ -120,9 +118,9 @@ function usePhoneScreenFocus(
     const target = items?.[items.length - 1] ?? view.current ?? content.current;
     target?.focus({ preventScroll: false });
   }, [screenKey, canMoveFocus, content, view]);
-}
+};
 
-function PhoneDrawerContent({
+const PhoneDrawerContent = ({
   time = "8:00 am",
   owner = "Jason",
   temperature = 72,
@@ -131,7 +129,7 @@ function PhoneDrawerContent({
   reminders = 4,
   className,
   ...props
-}: PhoneDrawerContentProps): ReactElement {
+}: PhoneDrawerContentProps) => {
   const root = useRoot();
   const sway = useSway();
   const { phase, exit, setExit, settle, close } = usePhonePhase(root.open, inCar, sway, () => root.setOpen(false));
@@ -140,9 +138,9 @@ function PhoneDrawerContent({
   const stack = root.stack;
   const entry = stack[stack.length - 1];
 
-  function patchTop(patch: Partial<Entry>) {
+  const patchTop = (patch: Partial<Entry>) => {
     root.setStack(all => [...all.slice(0, -1), { ...all[all.length - 1], ...patch }]);
-  }
+  };
 
   const phone: PhoneState = {
     entry,
@@ -197,21 +195,18 @@ function PhoneDrawerContent({
   const screenKey = `${stack.length}-${entry.screen}-${entry.param ?? ""}-${entry.sheet ?? ""}`;
   usePhoneScreenFocus(screenKey, root.open && phase !== "out", content, view);
 
-  function select() {
+  const select = () => {
     const items = view.current?.querySelectorAll<HTMLElement>('[data-slot="phone-menu-item"][tabindex="0"]');
     items?.[items.length - 1]?.click();
-  }
+  };
   const square = usePhoneShortcuts(content, phone);
 
-  function initialFocus() {
-    return (
-      content.current?.querySelector<HTMLElement>(
-        '[data-slot="phone-view"] [data-slot="phone-menu-item"][tabindex="0"]'
-      ) ??
-      view.current ??
-      content.current
-    );
-  }
+  const initialFocus = () =>
+    content.current?.querySelector<HTMLElement>(
+      '[data-slot="phone-view"] [data-slot="phone-menu-item"][tabindex="0"]'
+    ) ??
+    view.current ??
+    content.current;
 
   return (
     <PhoneContext value={phone}>
@@ -237,7 +232,7 @@ function PhoneDrawerContent({
       </DialogContent>
     </PhoneContext>
   );
-}
+};
 
 export { PhoneDrawer, PhoneDrawerTrigger } from "./phone-drawer.root";
 export { PhoneDrawerContent };

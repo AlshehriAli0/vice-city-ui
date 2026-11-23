@@ -1,5 +1,4 @@
 import { Eye, Hourglass, Heart, Zap } from "lucide-react";
-import type { ReactElement } from "react";
 
 import { cssVariables } from "../ui/css-variables";
 import { App, AppHeader, AppMenu, Face, Scroll } from "./phone-app.parts";
@@ -22,37 +21,35 @@ const SKILLS: Skill[] = [
   { id: "focus", title: "Focus", accent: "#9b7bf0", level: 1, ring: 0.38, glyph: "eye" },
 ];
 
-function SkillGlyph({ glyph }: { glyph: Skill["glyph"] }): ReactElement {
+const SkillGlyph = ({ glyph }: { glyph: Skill["glyph"] }) => {
   if (glyph === "heart") return <Heart fill="currentColor" strokeWidth={0} />;
   if (glyph === "bolt") return <Zap fill="currentColor" strokeWidth={0} />;
   return <Eye />;
-}
+};
 
-function Ring({ value, glyph }: { value: number; glyph: Skill["glyph"] }): ReactElement {
-  return (
-    <span className="ld-ring" aria-hidden="true">
-      <svg aria-hidden="true" viewBox="0 0 44 44">
-        <circle cx="22" cy="22" r="18" pathLength="100" className="ld-ring__track" />
-        <circle
-          cx="22"
-          cy="22"
-          r="18"
-          pathLength="100"
-          className="ld-ring__fill"
-          strokeDasharray={`${value * 100} 100`}
-        />
-      </svg>
-      <SkillGlyph glyph={glyph} />
-    </span>
-  );
-}
+const Ring = ({ value, glyph }: { value: number; glyph: Skill["glyph"] }) => (
+  <span className="ld-ring" aria-hidden="true">
+    <svg aria-hidden="true" viewBox="0 0 44 44">
+      <circle cx="22" cy="22" r="18" pathLength="100" className="ld-ring__track" />
+      <circle
+        cx="22"
+        cy="22"
+        r="18"
+        pathLength="100"
+        className="ld-ring__fill"
+        strokeDasharray={`${value * 100} 100`}
+      />
+    </svg>
+    <SkillGlyph glyph={glyph} />
+  </span>
+);
 
 const BODY = [
   { id: "build", title: "Build", lines: ["Build summary", "Muscle placeholder", "Body fat placeholder"] },
   { id: "calories", title: "Calorie Balance", lines: ["Calorie summary placeholder"] },
 ];
 
-function Fitness(): ReactElement {
+const Fitness = () => {
   const { owner, go } = usePhone();
   return (
     <App screen="fitness" tone="dark">
@@ -106,9 +103,9 @@ function Fitness(): ReactElement {
       </Scroll>
     </App>
   );
-}
+};
 
-function FitnessDetail(): ReactElement {
+const FitnessDetail = () => {
   const { entry } = usePhone();
   const skill = SKILLS.find(item => item.id === entry.param);
   const title = skill?.title ?? BODY.find(item => item.id === entry.param)?.title ?? "Fitness";
@@ -136,6 +133,6 @@ function FitnessDetail(): ReactElement {
       </Scroll>
     </App>
   );
-}
+};
 
 export { Fitness, FitnessDetail };

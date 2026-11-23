@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, type ReactElement } from "react";
+import { useLayoutEffect, useRef, type ReactNode } from "react";
 
 import { ButtonPrompt, ButtonPrompts, type Glyph, type Shoulder } from "../leonida/button-prompt";
 import {
@@ -22,7 +22,7 @@ const HINTS: {
   value: string;
   label: string;
   glyph: Glyph | Shoulder;
-  help: ReactElement;
+  help: ReactNode;
   text: string;
   run: () => void;
 }[] = [
@@ -64,7 +64,7 @@ const HINTS: {
   },
 ];
 
-function HintDemo({ values, set }: Playground) {
+const HintDemo = ({ values, set }: Playground) => {
   const showing = useRef(values.showing);
   useLayoutEffect(() => {
     showing.current = values.showing;
@@ -107,31 +107,29 @@ function HintDemo({ values, set }: Playground) {
       </div>
     </HudStage>
   );
-}
+};
 
-function PromptsDemo({ values }: Playground) {
-  return (
-    <HudStage label="Button prompts demo">
-      <div data-hud="prompts">
-        <ButtonPrompts label="Screen prompts" stack={Boolean(values.stack)}>
-          <ButtonPrompt glyph="square" onClick={() => toast("Reminders")}>
-            Reminders
-          </ButtonPrompt>
-          <ButtonPrompt
-            glyph={optionValue(values.glyph, GLYPH_OPTIONS)}
-            muted={Boolean(values.muted)}
-            onClick={() => toast("Selected")}
-          >
-            {String(values.label)}
-          </ButtonPrompt>
-          <ButtonPrompt glyph="circle" onClick={() => toast("Back")}>
-            Exit
-          </ButtonPrompt>
-        </ButtonPrompts>
-      </div>
-    </HudStage>
-  );
-}
+const PromptsDemo = ({ values }: Playground) => (
+  <HudStage label="Button prompts demo">
+    <div data-hud="prompts">
+      <ButtonPrompts label="Screen prompts" stack={Boolean(values.stack)}>
+        <ButtonPrompt glyph="square" onClick={() => toast("Reminders")}>
+          Reminders
+        </ButtonPrompt>
+        <ButtonPrompt
+          glyph={optionValue(values.glyph, GLYPH_OPTIONS)}
+          muted={Boolean(values.muted)}
+          onClick={() => toast("Selected")}
+        >
+          {String(values.label)}
+        </ButtonPrompt>
+        <ButtonPrompt glyph="circle" onClick={() => toast("Back")}>
+          Exit
+        </ButtonPrompt>
+      </ButtonPrompts>
+    </div>
+  </HudStage>
+);
 
 const GLYPHS: (Glyph | Shoulder)[] = ["cross", "circle", "square", "triangle", "touchpad", "L1", "R1", "L2", "R2"];
 

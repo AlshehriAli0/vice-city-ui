@@ -1,6 +1,6 @@
-import type { ReactElement } from "react";
+import type { ReactNode } from "react";
 
-const MARKS: Record<string, ReactElement> = {
+const MARKS: Record<string, ReactNode> = {
   whatup: (
     <>
       <circle cx="12" cy="12" r="8.9" fill="#fff" />
@@ -63,15 +63,13 @@ const MARKS: Record<string, ReactElement> = {
   ),
 };
 
-function AppMark({ app }: { app: string }): ReactElement {
-  return (
-    <svg aria-hidden="true" viewBox="0 0 24 24">
-      {MARKS[app]}
-    </svg>
-  );
-}
+const AppMark = ({ app }: { app: string }) => (
+  <svg aria-hidden="true" viewBox="0 0 24 24">
+    {MARKS[app]}
+  </svg>
+);
 
-function Pinwheel({ className }: { className?: string }): ReactElement {
+const Pinwheel = ({ className }: { className?: string }) => {
   const petals = ["#ff6f9f", "#ffb04a", "#ffe04a", "#64d68a", "#4fc4e8", "#5b7cf0", "#9d6cf2", "#e06ad6"];
   return (
     <svg className={className} viewBox="0 0 24 24" aria-hidden="true">
@@ -82,29 +80,27 @@ function Pinwheel({ className }: { className?: string }): ReactElement {
       <circle cx="12" cy="12" r="1.6" fill="#fff" />
     </svg>
   );
-}
+};
 
 type Weather = "sun" | "cloud" | "partly";
 
-function WeatherGlyph({ weather, className }: { weather: Weather; className?: string }): ReactElement {
-  return (
-    <svg className={className} viewBox="0 0 24 24" aria-hidden="true">
-      {weather !== "cloud" && (
-        <circle
-          cx={weather === "partly" ? 15 : 12}
-          cy={weather === "partly" ? 9 : 12}
-          r={weather === "partly" ? 4.5 : 5}
-          fill="#f6c443"
-        />
-      )}
-      {weather !== "sun" && <path fill="#fff" d="M6 19h11a3.5 3.5 0 0 0 .4-7 5 5 0 0 0-9.6 1A3 3 0 0 0 6 19z" />}
-    </svg>
-  );
-}
+const WeatherGlyph = ({ weather, className }: { weather: Weather; className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" aria-hidden="true">
+    {weather !== "cloud" && (
+      <circle
+        cx={weather === "partly" ? 15 : 12}
+        cy={weather === "partly" ? 9 : 12}
+        r={weather === "partly" ? 4.5 : 5}
+        fill="#f6c443"
+      />
+    )}
+    {weather !== "sun" && <path fill="#fff" d="M6 19h11a3.5 3.5 0 0 0 .4-7 5 5 0 0 0-9.6 1A3 3 0 0 0 6 19z" />}
+  </svg>
+);
 
 const ACTIVE_ARMS = { up: ["up"], vertical: ["up", "down"], horizontal: ["left", "right"] };
 
-function DpadGlyph({ axis }: { axis?: "vertical" | "horizontal" | "up" }): ReactElement {
+const DpadGlyph = ({ axis }: { axis?: "vertical" | "horizontal" | "up" }) => {
   const lit = axis ? ACTIVE_ARMS[axis] : [];
   const on = (part: string) => lit.includes(part);
   const arm = (part: "up" | "down" | "left" | "right", d: string) => <path d={d} data-on={on(part) || undefined} />;
@@ -116,15 +112,13 @@ function DpadGlyph({ axis }: { axis?: "vertical" | "horizontal" | "up" }): React
       {arm("right", "M29 12.6v6.8h-7.4L18.2 16l3.4-3.4z")}
     </svg>
   );
-}
+};
 
-function StickGlyph({ label }: { label: "L3" | "R3" | "R" }): ReactElement {
-  return (
-    <span className="ld-stick" data-slot="stick-glyph" data-stick={label} aria-hidden="true">
-      {label}
-    </span>
-  );
-}
+const StickGlyph = ({ label }: { label: "L3" | "R3" | "R" }) => (
+  <span className="ld-stick" data-slot="stick-glyph" data-stick={label} aria-hidden="true">
+    {label}
+  </span>
+);
 
 export { AppMark, DpadGlyph, Pinwheel, StickGlyph, WeatherGlyph };
 export type { Weather };

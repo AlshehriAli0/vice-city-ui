@@ -1,19 +1,17 @@
-import type { ReactElement } from "react";
-
 import { APPS, WALLPAPERS, findApp, usePhone } from "./phone-data";
 import { AppMark, Pinwheel, WeatherGlyph } from "./phone-icons";
 import { PhoneMenu, PhoneMenuItem } from "./phone-menu";
 
-function Wallpaper({ id }: { id: string }): ReactElement {
+const Wallpaper = ({ id }: { id: string }) => {
   const art = WALLPAPERS.find(item => item.id === id)?.art;
   return (
     <div className="ld-home__wall ld-wallpaper" data-wallpaper={id} aria-hidden="true">
       {art && <img src={art} alt="" />}
     </div>
   );
-}
+};
 
-function HomeScreen(): ReactElement {
+const HomeScreen = () => {
   const phone = usePhone();
   const focused = APPS.find(app => app.id === phone.entry.focus) ?? APPS[0];
   return (
@@ -56,6 +54,6 @@ function HomeScreen(): ReactElement {
       </span>
     </div>
   );
-}
+};
 
 export { HomeScreen };

@@ -10,7 +10,7 @@ import {
   CalendarWeeks as CalendarWeeksRoot,
 } from "@ui-sdk/react/calendar";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { createContext, use, type ComponentProps, type ReactElement } from "react";
+import { createContext, use, type ComponentProps } from "react";
 
 import { cx, merge, styled } from "./cx";
 
@@ -33,14 +33,14 @@ type CalendarProps = (SingleProps | ManyProps) & { marked?: string[]; headingLev
 
 const MarkedContext = createContext<readonly string[]>([]);
 
-function Calendar({
+const Calendar = ({
   marked = [],
   headingLevel = 2,
   className,
   children,
   fixedWeeks = true,
   ...props
-}: CalendarProps): ReactElement {
+}: CalendarProps) => {
   const Heading = `h${headingLevel}` as const;
   const onValueChange: RootProps["onValueChange"] =
     props.mode === "multiple" || props.mode === "range"
@@ -72,69 +72,57 @@ function Calendar({
       </CalendarRoot>
     </MarkedContext>
   );
-}
+};
 
-function CalendarHeader({ className, ...props }: ComponentProps<"div">): ReactElement {
-  return <div {...props} className={cx("vc-cal__head", className)} />;
-}
+const CalendarHeader = ({ className, ...props }: ComponentProps<"div">) => (
+  <div {...props} className={cx("vc-cal__head", className)} />
+);
 
-function CalendarNav({ className, ...props }: ComponentProps<"div">): ReactElement {
-  return <div {...props} className={cx("vc-cal__navs", className)} />;
-}
+const CalendarNav = ({ className, ...props }: ComponentProps<"div">) => (
+  <div {...props} className={cx("vc-cal__navs", className)} />
+);
 
-function CalendarPrevious({
-  className,
-  children,
-  ...props
-}: ComponentProps<typeof CalendarPreviousRoot>): ReactElement {
-  return (
-    <CalendarPreviousRoot aria-label="Previous month" {...props} className={merge("vc-cal__nav", className)}>
-      {children ?? <ChevronLeft />}
-    </CalendarPreviousRoot>
-  );
-}
+const CalendarPrevious = ({ className, children, ...props }: ComponentProps<typeof CalendarPreviousRoot>) => (
+  <CalendarPreviousRoot aria-label="Previous month" {...props} className={merge("vc-cal__nav", className)}>
+    {children ?? <ChevronLeft />}
+  </CalendarPreviousRoot>
+);
 
-function CalendarNext({ className, children, ...props }: ComponentProps<typeof CalendarNextRoot>): ReactElement {
-  return (
-    <CalendarNextRoot aria-label="Next month" {...props} className={merge("vc-cal__nav", className)}>
-      {children ?? <ChevronRight />}
-    </CalendarNextRoot>
-  );
-}
+const CalendarNext = ({ className, children, ...props }: ComponentProps<typeof CalendarNextRoot>) => (
+  <CalendarNextRoot aria-label="Next month" {...props} className={merge("vc-cal__nav", className)}>
+    {children ?? <ChevronRight />}
+  </CalendarNextRoot>
+);
 
-function CalendarGrid({ className, children, ...props }: ComponentProps<typeof CalendarGridRoot>): ReactElement {
-  return (
-    <CalendarGridRoot {...props} className={merge("vc-cal__grid", className)}>
-      {children ?? (
-        <>
-          <CalendarWeekdays />
-          <CalendarWeeks />
-        </>
-      )}
-    </CalendarGridRoot>
-  );
-}
+const CalendarGrid = ({ className, children, ...props }: ComponentProps<typeof CalendarGridRoot>) => (
+  <CalendarGridRoot {...props} className={merge("vc-cal__grid", className)}>
+    {children ?? (
+      <>
+        <CalendarWeekdays />
+        <CalendarWeeks />
+      </>
+    )}
+  </CalendarGridRoot>
+);
 
 type WeekdaysProps = Omit<ComponentProps<typeof CalendarWeekdaysRoot>, "children"> &
   Partial<Pick<ComponentProps<typeof CalendarWeekdaysRoot>, "children">>;
 
-function CalendarWeekdays({ children, ...props }: WeekdaysProps): ReactElement {
-  return (
-    <CalendarWeekdaysRoot {...props}>{children ?? (index => <CalendarWeekday index={index} />)}</CalendarWeekdaysRoot>
-  );
-}
+const CalendarWeekdays = ({ children, ...props }: WeekdaysProps) => (
+  <CalendarWeekdaysRoot {...props}>{children ?? (index => <CalendarWeekday index={index} />)}</CalendarWeekdaysRoot>
+);
 
 type WeeksProps = Omit<ComponentProps<typeof CalendarWeeksRoot>, "children"> &
   Partial<Pick<ComponentProps<typeof CalendarWeeksRoot>, "children">>;
 
-function CalendarWeeks({ children, ...props }: WeeksProps): ReactElement {
-  return <CalendarWeeksRoot {...props}>{children ?? (cell => <CalendarDay value={cell.date} />)}</CalendarWeeksRoot>;
-}
+const CalendarWeeks = ({ children, ...props }: WeeksProps) => (
+  <CalendarWeeksRoot {...props}>{children ?? (cell => <CalendarDay value={cell.date} />)}</CalendarWeeksRoot>
+);
 
-function CalendarDay({ className, ...props }: ComponentProps<typeof CalendarDayRoot>): ReactElement {
+const CalendarDay = ({ className, ...props }: ComponentProps<typeof CalendarDayRoot>) => {
   const marked = use(MarkedContext).includes(props.value);
   return <CalendarDayRoot data-marked={marked || undefined} {...props} className={merge("vc-cal__day", className)} />;
-}
+};
 
 const CalendarHeading = styled(CalendarHeadingRoot, "vc-cal__heading");
 const CalendarWeekday = styled(CalendarWeekdayRoot, "vc-cal__weekday");

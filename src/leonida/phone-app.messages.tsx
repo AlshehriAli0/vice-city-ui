@@ -1,5 +1,4 @@
 import { Lock, MapPin, Phone as PhoneIcon, Play, SquareArrowOutUpRight, Users } from "lucide-react";
-import type { ReactElement } from "react";
 
 import { App, AppHeader, AppMenu, Face, Scroll } from "./phone-app.parts";
 import { CONTACTS, contactById, initial, usePhone } from "./phone-data";
@@ -18,7 +17,7 @@ const THREADS: Thread[] = [
   { id: "riley", section: "messages" },
 ];
 
-function ThreadRow({ thread }: { thread: Thread }): ReactElement {
+const ThreadRow = ({ thread }: { thread: Thread }) => {
   const contact = contactById(thread.id);
   return (
     <PhoneMenuItem
@@ -40,9 +39,9 @@ function ThreadRow({ thread }: { thread: Thread }): ReactElement {
       {thread.pin && <MapPin className="ld-whatup__pin" aria-hidden="true" />}
     </PhoneMenuItem>
   );
-}
+};
 
-function WhatUp(): ReactElement {
+const WhatUp = () => {
   const { go } = usePhone();
   return (
     <App screen="whatup">
@@ -63,11 +62,11 @@ function WhatUp(): ReactElement {
       </Scroll>
     </App>
   );
-}
+};
 
 const REPLY = "Reply option";
 
-function ThreadView(): ReactElement {
+const ThreadView = () => {
   const { entry, sent, send } = usePhone();
   const thread = THREADS.find(item => item.id === entry.param) ?? THREADS[0];
   const contact = contactById(thread.id);
@@ -110,9 +109,9 @@ function ThreadView(): ReactElement {
       </Scroll>
     </App>
   );
-}
+};
 
-function Contacts(): ReactElement {
+const Contacts = () => {
   const { go } = usePhone();
   return (
     <App screen="contacts">
@@ -128,7 +127,7 @@ function Contacts(): ReactElement {
       </Scroll>
     </App>
   );
-}
+};
 
 const SECTIONS = [...new Set(CONTACTS.map(contact => initial(contact.name)))];
 
@@ -138,7 +137,7 @@ const SHEET = [
   { id: "snapmatic", label: "Open Snapmatic" },
 ];
 
-function ContactsAll(): ReactElement {
+const ContactsAll = () => {
   const { entry, update, go, call } = usePhone();
   const active = initial(contactById(entry.focus ?? undefined).name);
   const sheet = entry.sheet ? contactById(entry.sheet) : undefined;
@@ -207,6 +206,6 @@ function ContactsAll(): ReactElement {
       )}
     </App>
   );
-}
+};
 
 export { WhatUp, ThreadView, Contacts, ContactsAll };
