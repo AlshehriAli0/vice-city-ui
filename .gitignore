@@ -19,3 +19,5 @@ node_modules/
 /fl-Popover.png
 /fl-Tooltip.png
 /tweet/
+.vercel
+.env*
