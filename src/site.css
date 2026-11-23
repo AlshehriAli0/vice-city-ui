@@ -917,6 +917,10 @@ main:focus {
     padding: 40px 0 32px;
   }
 
+  .masthead__title {
+    font-size: 18.5vw;
+  }
+
   .topbar {
     padding: 10px 10px 10px 14px;
   }
