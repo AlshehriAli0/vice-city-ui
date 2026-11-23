@@ -13,7 +13,6 @@
   margin: 0;
 }
 
-[data-theme="night"] .ld-minimap,
 .ld-minimap[data-time="night"] {
   --land: #12131a;
   --block: #121319;

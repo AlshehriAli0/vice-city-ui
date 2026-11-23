@@ -28,7 +28,6 @@ function parseValues(source: string): Values {
 const params = new URLSearchParams(location.search);
 const entry = BY_ID.get(params.get("c") ?? "");
 const root = document.documentElement;
-root.dataset.theme = params.get("theme") ?? "sunset";
 root.dataset.motion = params.get("still") ? "still" : "live";
 const bg = params.get("bg") ?? (entry?.scene ? "scene" : "plain");
 const fill = params.get("fill") === "1";

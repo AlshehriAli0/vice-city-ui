@@ -10,10 +10,10 @@ Open any component for its live demo, keyboard map and source, or press ⌘K / C
 
 ## Layout
 
-- `src/leonida/` holds the GTA VI components and `src/ui/` the core kit. Each is `<name>.tsx` with `<name>.css` beside it. Tokens and the three themes (`day`, `sunset`, `night`) live in `src/leonida/tokens.css`.
+- `src/leonida/` holds the GTA VI components and `src/ui/` the core kit. Each is `<name>.tsx` with `<name>.css` beside it. Tokens live in `src/leonida/tokens.css`.
 - `src/gallery/` holds the demos, one file per section. Each demo can carry `keys` and `file` for its detail page.
 - `src/site/` is the catalogue: home grid, detail pages, search and the hash router.
 - `tests/` has behavior and agent tests.
 - `DESIGN.md` has the design rules.
 
-Set `data-theme="day" | "sunset" | "night"` on `<html>` to change the time of day. `data-motion="still"` stops every animation.
+Set `data-motion="still"` on `<html>` to stop every animation.

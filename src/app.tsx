@@ -1,78 +1,13 @@
 import { OverlayHost } from "@ui-sdk/react/overlays";
-import { useEffect, useLayoutEffect, useRef, useState, type ReactElement } from "react";
+import { useEffect, useLayoutEffect, useRef, type ReactElement } from "react";
 
 import { LeonidaToasts } from "./leonida/mission-toast";
-import type { Hour } from "./leonida/time-of-day";
 import { BY_ID } from "./site/catalog";
 import { DetailPage } from "./site/detail";
 import { HomePage } from "./site/home";
 import { useRoute } from "./site/route";
 import { Search } from "./site/search";
-import { SegmentedControl, SegmentedControlItem } from "./ui/segmented-control";
-import { Toggle } from "./ui/toggle-group";
 import { ViceText } from "./ui/vice-text";
-
-const HOURS = [
-  { value: "day", label: "Day" },
-  { value: "sunset", label: "Sunset" },
-  { value: "night", label: "Night" },
-];
-
-const SKY: Record<Hour, string> = { day: "blueSky", sunset: "blackout", night: "night" };
-
-function isHour(value: string | null): value is Hour {
-  return value === "day" || value === "sunset" || value === "night";
-}
-
-function savedHour(): Hour {
-  try {
-    const saved = localStorage.getItem("vc-hour");
-    if (isHour(saved)) return saved;
-  } catch {
-    return "sunset";
-  }
-  return "sunset";
-}
-
-function AppearanceControls(): ReactElement {
-  const [hour, setHour] = useState<Hour>(savedHour);
-  const [still, setStill] = useState(false);
-
-  useLayoutEffect(() => {
-    document.documentElement.dataset.theme = hour;
-    document.documentElement.dataset.sky = SKY[hour];
-    try {
-      localStorage.setItem("vc-hour", hour);
-    } catch {
-      return;
-    }
-  }, [hour]);
-  useLayoutEffect(() => {
-    document.documentElement.dataset.motion = still ? "still" : "live";
-  }, [still]);
-
-  return (
-    <div className="topbar__tools">
-      <SegmentedControl
-        aria-label="Time of day"
-        size="sm"
-        value={hour}
-        onValueChange={next => {
-          if (isHour(next)) setHour(next);
-        }}
-      >
-        {HOURS.map(item => (
-          <SegmentedControlItem key={item.value} value={item.value}>
-            {item.label}
-          </SegmentedControlItem>
-        ))}
-      </SegmentedControl>
-      <Toggle pressed={still} onPressedChange={setStill}>
-        Still
-      </Toggle>
-    </div>
-  );
-}
 
 function App(): ReactElement {
   const route = useRoute();
@@ -120,7 +55,6 @@ function App(): ReactElement {
       <header className="topbar">
         <ViceText render={<a className="brand" href="#/" aria-label="Vice City UI" />}>Vice City UI</ViceText>
         <Search />
-        <AppearanceControls />
       </header>
 
       <main id="main" tabIndex={-1}>

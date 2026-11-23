@@ -78,7 +78,7 @@ test("every control an agent can see on the catalogue and a detail page is named
     for (const entry of entries) expect(entry.label, `${entry.component} ${entry.ref} has no name`).toBeTruthy();
     return entries.map(entry => entry.label);
   };
-  expect(check()).toContain("Time of day");
+  expect(check()).toContain("Search components");
   await go("#/c/settings-screen");
   expect(check()).toEqual(expect.arrayContaining(["Source files", "Copy", "Copy settings-screen.tsx"]));
 });
@@ -117,13 +117,6 @@ test("Usage and each Source file use the same copy control and copy the displaye
   const { default: wantedLevelSource } = await import("../src/leonida/wanted-level.tsx?raw");
   await checkSourceCopy("wanted-level.tsx", wantedLevelSource);
   await checkSourceCopy("wanted-level.css", wantedLevelStyles);
-});
-
-test("Still marks the page still", async () => {
-  const user = userEvent.setup();
-  render(<App />);
-  await user.click(screen.getByRole("button", { name: "Still" }));
-  expect(document.documentElement.dataset.motion).toBe("still");
 });
 
 test("a demo that throws is contained to its own card", () => {

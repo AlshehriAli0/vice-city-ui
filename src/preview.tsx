@@ -19,7 +19,6 @@ const sets = new Map([
 ]);
 const params = new URLSearchParams(location.search);
 const set = params.get("set") ?? "core-forms";
-document.documentElement.dataset.theme = params.get("theme") ?? "sunset";
 const demos = sets.get(set) ?? [];
 const only = params.get("only");
 const root = document.getElementById("root");

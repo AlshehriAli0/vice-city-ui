@@ -1,7 +1,5 @@
 /* In-game UI language shared by the overlay and Leonida components. See DESIGN.md. */
-:root,
-[data-theme="sunset"],
-[data-theme="night"] {
+:root {
   --g-panel: rgb(29 27 46 / 0.88);
   --g-panel-solid: #1d1b2e;
   --g-line: rgb(255 255 255 / 0.14);
@@ -12,11 +10,6 @@
   --g-sel-ink: #16141f;
   --g-accent: #f976b0;
   --g-accent-ink: #2a0d1c;
-}
-
-[data-theme="night"] {
-  --g-accent: #89f5e3;
-  --g-accent-ink: #062520;
 }
 
 /* A flat in-game button: slate, condensed caps, white fade bar on hover and focus. */

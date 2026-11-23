@@ -1,26 +1,10 @@
 /* The showcase shell: a calm, uniform catalogue in the slate palette of the game's menus.
-   GTA identity comes from the Art Deco faces, the pink accent and the Day / Sunset / Night palettes, applied quietly. */
+   GTA identity comes from the Art Deco faces, the pink accent and the sunset palette, applied quietly. */
 
-:root,
-[data-theme="sunset"] {
+:root {
   --fill-1: #ffd27b;
   --fill-2: #fc5243;
   --fill-3: #df3a93;
-}
-
-[data-theme="night"] {
-  --fill-1: #99ffaa;
-  --fill-2: #89f5e3;
-  --fill-3: #799fec;
-}
-
-[data-theme="day"] {
-  --fill-1: #99ccff;
-  --fill-2: #9b89f5;
-  --fill-3: #d263e9;
-}
-
-:root {
   --site-max: 1200px;
   --site-gutter: 24px;
   --site-inner: min(100% - 2 * var(--site-gutter), var(--site-max));
@@ -29,6 +13,8 @@
 }
 
 html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
   scroll-padding-top: calc(var(--bar-h) + 32px);
   scrollbar-gutter: stable;
 }
@@ -119,6 +105,7 @@ main:focus {
 /* The kit's secondary button, widened into a search field. */
 .topbar__search {
   min-width: min(300px, 34vw);
+  margin-inline-start: auto;
   justify-content: flex-start;
 }
 
@@ -127,14 +114,6 @@ main:focus {
 }
 
 .topbar__kbd {
-  margin-inline-start: auto;
-}
-
-.topbar__tools {
-  display: flex;
-  flex: none;
-  align-items: center;
-  gap: 10px;
   margin-inline-start: auto;
 }
 
@@ -955,10 +934,15 @@ main:focus {
     display: none;
   }
 
-  .topbar__tools {
-    flex: 1 1 100%;
-    justify-content: space-between;
-    margin-inline-start: 0;
+  .topbar {
+    flex-wrap: nowrap;
+    gap: 10px;
+    background: var(--sky-base);
+    backdrop-filter: none;
+  }
+
+  body {
+    background-attachment: scroll;
   }
 
   .detail {

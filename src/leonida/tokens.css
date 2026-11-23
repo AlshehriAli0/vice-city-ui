@@ -90,9 +90,8 @@
   --ease-snap: cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
-/* Sunset: the site's hotSun theme for the page, slate menus on top. */
-:root,
-[data-theme="sunset"] {
+/* The site's sunset palette for the page, slate menus on top. */
+:root {
   --bg: #0f0c1a;
   --bg-2: #16111f;
   --surface: #1d1b2e;
@@ -113,56 +112,6 @@
   --card-shadow: none;
   --band: linear-gradient(189deg, #321532 0.55%, #251229 30.38%, #1b0e1e 65.19%, #110b18 100%);
   --page-sky: linear-gradient(189deg, #321532 0.55%, #251229 30.38%, #1b0e1e 65.19%, #110b18 100%);
-  color-scheme: dark;
-}
-
-/* Night: the site's night theme, teal accent. */
-[data-theme="night"] {
-  --bg: #0d0c1a;
-  --bg-2: #111126;
-  --surface: #171a2e;
-  --surface-2: #1f2440;
-  --panel: rgb(23 26 46 / 0.86);
-  --line: rgb(255 255 255 / 0.13);
-  --line-strong: rgb(255 255 255 / 0.26);
-  --hair: rgb(255 255 255 / 0.13);
-  --text: #f4fbff;
-  --text-2: #cbd8ea;
-  --text-3: #93a3c0;
-  --accent: #89f5e3;
-  --accent-ink: #062520;
-  --sel: linear-gradient(90deg, #fff 0 55%, rgb(255 255 255 / 0.4) 82%, rgb(255 255 255 / 0.1));
-  --sel-ink: #111126;
-  --glow: 0 0 0 transparent;
-  --theme-glow: radial-gradient(62.79% 100% at 50% 0%, #99ffaa 0%, #89f5e3 50%, #799fec 100%);
-  --card-shadow: none;
-  --band: linear-gradient(189deg, #142242 0.55%, #161733 30.38%, #111126 65.19%, #0d0c1a 100%);
-  --page-sky: linear-gradient(189deg, #142242 0.55%, #161733 30.38%, #111126 65.19%, #0d0c1a 100%);
-  color-scheme: dark;
-}
-
-/* Day: the site's blueSky page. The game has no light UI, so menus stay slate. */
-[data-theme="day"] {
-  --bg: #0d0c1a;
-  --bg-2: #111127;
-  --surface: #1a1f38;
-  --surface-2: #232a4a;
-  --panel: rgb(26 31 56 / 0.86);
-  --line: rgb(255 255 255 / 0.14);
-  --line-strong: rgb(255 255 255 / 0.28);
-  --hair: rgb(255 255 255 / 0.14);
-  --text: #fdfdfd;
-  --text-2: #d6dcf0;
-  --text-3: #9ea7c6;
-  --accent: #f976b0;
-  --accent-ink: #1e0a16;
-  --sel: linear-gradient(90deg, #fff 0 55%, rgb(255 255 255 / 0.4) 82%, rgb(255 255 255 / 0.1));
-  --sel-ink: #16141f;
-  --glow: 0 0 0 transparent;
-  --theme-glow: radial-gradient(62.79% 100% at 50% 0%, #99ccff 0%, #9b89f5 50%, #d263e9 100%);
-  --card-shadow: none;
-  --band: linear-gradient(189deg, #16203f 0.55%, #151732 30.38%, #111127 65.19%, #0d0c1a 100%);
-  --page-sky: linear-gradient(189deg, #16203f 0.55%, #151732 30.38%, #111127 65.19%, #0d0c1a 100%);
   color-scheme: dark;
 }
 
