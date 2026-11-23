@@ -1,0 +1,55 @@
+import {
+  Drawer,
+  DrawerBackdrop,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerHandle,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@ui-sdk/react/drawer";
+import type { ComponentProps, ReactNode } from "react";
+
+import { merge, styled } from "../../shared/class-names";
+import { Glyph, type GlyphName } from "../display/kbd";
+import { plain } from "../shared/plain-part";
+
+import "../shared/base.css";
+import "./sheet.css";
+
+type SheetProps = ComponentProps<typeof Drawer>;
+
+const Sheet = ({ physics, driver = "pointer", ...props }: SheetProps) => (
+  <Drawer {...props} driver={driver} physics={{ response: 0.22, dampingRatio: 1, ...physics }} />
+);
+
+const SheetTrigger = styled(DrawerTrigger, "vc-sheet-trigger");
+const SheetTitle = styled(DrawerTitle, "vc-sheet__title");
+const SheetDescription = styled(DrawerDescription, "vc-sheet__description");
+const SheetClose = styled(DrawerClose, "vc-sheet__close");
+const SheetFooter = plain("div", "sheet-footer", "vc-sheet__footer");
+
+type SheetContentProps = Omit<ComponentProps<typeof DrawerContent>, "children"> & { children?: ReactNode };
+
+const SheetContent = ({ className, children, ...props }: SheetContentProps) => (
+  <>
+    <DrawerBackdrop className="vc-sheet__backdrop" />
+    <DrawerContent {...props} className={merge("vc-sheet", className)}>
+      <DrawerHandle className="vc-sheet__handle" aria-label="Drag to resize" />
+      <div className="vc-sheet__body">{children}</div>
+    </DrawerContent>
+  </>
+);
+
+type SheetPromptProps = Omit<ComponentProps<typeof DrawerClose>, "children"> & { label: string; glyph?: GlyphName };
+
+const SheetPrompt = ({ label, glyph = "circle", className, ...props }: SheetPromptProps) => (
+  <DrawerClose {...props} className={merge("vc-prompt-btn", className)}>
+    {label}
+    <span aria-hidden="true">
+      <Glyph name={glyph} />
+    </span>
+  </DrawerClose>
+);
+
+export { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetPrompt, SheetTitle, SheetTrigger };

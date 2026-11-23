@@ -1,0 +1,99 @@
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandGroupLabel,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@ui-sdk/react/command";
+import { Search as SearchIcon } from "lucide-react";
+import { useEffect, useState } from "react";
+
+import { Kbd } from "../../ui/display/kbd";
+import { Button } from "../../ui/forms/button";
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "../../ui/overlays/dialog";
+import { sections, type Entry } from "../catalogue/catalogue";
+import { hrefOf } from "../catalogue/hash-route";
+import { rank } from "./search-ranking";
+
+const isMac = typeof navigator !== "undefined" && /Mac|iPhone|iPad/.test(navigator.platform);
+const Item = ({ entry, chapter }: { entry: Entry; chapter?: boolean }) => (
+  <CommandItem value={entry.id} className="search__item">
+    <span className="search__name">{entry.name}</span>
+    <span className="search__sdk">{chapter ? entry.section.title : entry.sdk}</span>
+  </CommandItem>
+);
+
+const Search = () => {
+  const [open, setOpen] = useState(false);
+  const [query, setQuery] = useState("");
+  const results = query.trim() ? rank(query) : null;
+  useEffect(() => {
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key.toLowerCase() === "k" && (event.metaKey || event.ctrlKey)) {
+        event.preventDefault();
+        setOpen(value => !value);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+    };
+  }, []);
+  return (
+    <Dialog
+      open={open}
+      onOpenChange={next => {
+        setOpen(next);
+        if (!next) setQuery("");
+      }}
+    >
+      <DialogTrigger
+        render={<Button variant="secondary" size="sm" className="topbar__search" />}
+        aria-label="Search components"
+      >
+        <SearchIcon aria-hidden="true" />
+        <span className="topbar__search-text">Search components</span>
+        <Kbd className="topbar__kbd">{isMac ? "⌘K" : "Ctrl K"}</Kbd>
+      </DialogTrigger>
+      <DialogContent className="search" size="md">
+        <DialogTitle className="search__title">Search</DialogTitle>
+        <Command
+          className="search__command"
+          filter={false}
+          query={query}
+          onQueryChange={setQuery}
+          onAction={id => {
+            setOpen(false);
+            window.location.hash = hrefOf(id);
+          }}
+        >
+          <CommandInput className="search__input" aria-label="Search components" placeholder="Wanted, phone, select…" />
+          <CommandEmpty className="search__empty">Nothing matches that.</CommandEmpty>
+          <CommandList className="search__list">
+            {results
+              ? results.length > 0 && (
+                  <CommandGroup className="search__group">
+                    <CommandGroupLabel className="search__group-label">Best matches</CommandGroupLabel>
+                    {results.map(entry => (
+                      <Item key={entry.id} entry={entry} chapter />
+                    ))}
+                  </CommandGroup>
+                )
+              : sections.map(section => (
+                  <CommandGroup key={section.id} className="search__group">
+                    <CommandGroupLabel className="search__group-label">{section.title}</CommandGroupLabel>
+                    {section.entries.map(entry => (
+                      <Item key={entry.id} entry={entry} />
+                    ))}
+                  </CommandGroup>
+                ))}
+          </CommandList>
+        </Command>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+export { Search };

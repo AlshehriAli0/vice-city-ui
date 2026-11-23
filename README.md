@@ -10,10 +10,11 @@ Open any component for its live demo, keyboard map and source, or press ⌘K / C
 
 ## Layout
 
-- `src/leonida/` holds the GTA VI components and `src/ui/` the core kit. Each is `<name>.tsx` with `<name>.css` beside it. Tokens live in `src/leonida/tokens.css`.
-- `src/gallery/` holds the demos, one file per section. Each demo can carry `keys` and `file` for its detail page.
-- `src/site/` is the catalogue: home grid, detail pages, search and the hash router.
-- `tests/` has behavior and agent tests.
-- `DESIGN.md` has the design rules.
+- `src/leonida/` contains the game UI. Menus, phone, HUD, notifications, radio, weapons, and postcards each own their styles and implementation. Shared game tokens are in `src/leonida/shared/tokens.css`.
+- `src/ui/` contains the core kit, grouped into forms, navigation, overlays, and display. `src/shared/` holds helpers used by both kits.
+- `src/gallery/` defines live demos, examples, source links, and capture settings. `src/gallery/demo-sections.ts` sets the order in the catalogue.
+- `src/site/` contains the catalogue, hash routing, search, playground, and source viewer. The development pages at `/harness.html` and `/preview.html` mount individual demos and sets.
+- `tests/` groups behavior tests by site, core kit, and game UI. Run them with `bun run test`.
+- `scripts/` contains the map and palm asset generators and `capture-previews.py` for refreshing catalogue images.
 
-Set `data-motion="still"` on `<html>` to stop every animation.
+Set `data-motion="still"` on `<html>` to stop animations.

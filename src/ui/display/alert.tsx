@@ -1,0 +1,26 @@
+import { renderElement, type PartProps } from "@ui-sdk/react/primitive";
+
+import { merge } from "../../shared/class-names";
+import { plain } from "../shared/plain-part";
+
+import "../shared/base.css";
+import "./alert.css";
+
+type AlertProps = PartProps<"div"> & { tone?: "info" | "success" | "warning" | "danger" };
+
+const Alert = ({ tone = "info", render, className, ...props }: AlertProps) => {
+  "use memo";
+
+  return renderElement(
+    "div",
+    { ...props, className: merge("vc-alert", className), "data-slot": "alert", "data-tone": tone },
+    render
+  );
+};
+
+const AlertTitle = plain("p", "alert-title", "vc-alert__title");
+const AlertDescription = plain("div", "alert-description", "vc-alert__text");
+const AlertAction = plain("div", "alert-action", "vc-alert__action");
+
+export { Alert, AlertAction, AlertDescription, AlertTitle };
+export type { AlertProps };

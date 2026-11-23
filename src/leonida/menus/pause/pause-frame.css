@@ -1,0 +1,114 @@
+.ld-pause {
+  --panel: #1f202d;
+  --bar-ink: #1f202f;
+  --bar: 225 228 227;
+  background: #1c2230;
+}
+
+/* World: a neutral scene under a heavy blur, slightly desaturated, with a dark oval vignette. */
+.ld-pause__world {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.ld-pause__sky {
+  position: absolute;
+  inset: -80px;
+  background:
+    radial-gradient(34% 12% at 50% 27%, #9ea4b0 0%, transparent 100%),
+    radial-gradient(30% 12% at 82% 30%, #8d96a5 0%, transparent 100%),
+    radial-gradient(50% 14% at 50% 44%, #3d6a63 0%, transparent 100%),
+    linear-gradient(180deg, #1d2133 0%, #3c4357 16%, #687284 30%, #4a6a82 40%, #2c5672 56%, #1f3f58 76%, #162536 100%);
+  filter: blur(48px) saturate(0.85);
+}
+
+/* Bright blobs carry a magenta and green fringe, like the game's lens split. */
+.ld-pause__lights {
+  position: absolute;
+  inset: 0;
+  filter: blur(56px) drop-shadow(6px 0 0 rgb(255 40 200 / 0.45)) drop-shadow(-6px 0 0 rgb(40 255 150 / 0.35));
+  animation: ld-pause-drift 9s ease-in-out infinite alternate;
+}
+
+.ld-pause__lights i {
+  position: absolute;
+  border-radius: 50%;
+}
+
+.ld-pause__lights [data-l="1"] {
+  left: 900px;
+  top: 560px;
+  width: 260px;
+  height: 150px;
+  background: #e9edf2;
+}
+
+.ld-pause__lights [data-l="2"] {
+  left: 720px;
+  top: 560px;
+  width: 220px;
+  height: 180px;
+  background: #8f6fd6;
+}
+
+.ld-pause__lights [data-l="3"] {
+  left: 700px;
+  top: 740px;
+  width: 820px;
+  height: 120px;
+  background: #b9c4cc;
+  opacity: 0.7;
+}
+
+.ld-pause__lights [data-l="4"] {
+  left: 1280px;
+  top: 640px;
+  width: 140px;
+  height: 160px;
+  background: #b98f86;
+  opacity: 0.6;
+}
+
+.ld-pause__lights [data-l="5"] {
+  left: 1400px;
+  top: 470px;
+  width: 420px;
+  height: 40px;
+  background: #a6b4b8;
+  opacity: 0.45;
+}
+
+.ld-pause__world::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 55% 50%, transparent 30%, rgb(15 15 25 / 0.8) 100%);
+}
+
+/* Side panel: x 0–544, solid, with a soft seam where the blurred world bleeds through. */
+.ld-pause__panel {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 544px;
+  background: linear-gradient(90deg, var(--panel) calc(100% - 20px), rgb(31 32 45 / 0.86));
+}
+
+.ld-pause .ld-prompts {
+  --u: calc(26.5px / 26);
+  right: 40px;
+  bottom: 28px;
+  animation: ld-screen-in 33ms linear 283ms both;
+}
+
+@keyframes ld-pause-drift {
+  to {
+    translate: 18px -6px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ld-pause__lights {
+    animation: none;
+  }
+}

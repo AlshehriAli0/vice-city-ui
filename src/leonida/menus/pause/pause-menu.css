@@ -1,0 +1,248 @@
+/* Pause menu at 1080p. Open sequence (t = press): world cuts in, right column at 283ms,
+   panel slides 283–450ms, rows fade from 450ms 33ms apart, logo last, settled by 750ms. */
+.ld-pause__body {
+  position: absolute;
+  inset: 0;
+}
+
+.ld-pause__panel {
+  animation:
+    ld-pause-slide 167ms linear 283ms both,
+    ld-pause-hide 1ms 283ms backwards;
+}
+
+.ld-pause__mark {
+  position: absolute;
+  top: 46px;
+  left: 30px;
+  height: 92px;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 128px;
+  line-height: 92px;
+  letter-spacing: 0;
+  color: transparent;
+  -webkit-text-stroke: 2.5px #b26887;
+  animation: ld-screen-in 180ms ease-in-out 550ms both;
+}
+
+.ld-pause__list {
+  position: absolute;
+  top: 216px;
+  left: 32px;
+  display: grid;
+  grid-auto-rows: 64px;
+  gap: 8px;
+  width: 480px;
+}
+
+/* Rows: no dividers, 72px pitch. The bar is the row background and moves without a tween. */
+.ld-pause__row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 0 0 18px;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: #e6e6ea;
+  font-family: var(--font-ui);
+  font-weight: 400;
+  font-size: 26px;
+  letter-spacing: 0;
+  text-align: left;
+  cursor: pointer;
+  animation: ld-screen-in 67ms linear calc(450ms + var(--i) * 33ms) both;
+}
+
+.ld-pause__row[data-current] {
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.3);
+  background: linear-gradient(
+    90deg,
+    rgb(var(--bar)) 0%,
+    rgb(var(--bar) / 0.95) 45%,
+    rgb(var(--bar) / 0.82) 58%,
+    rgb(var(--bar) / 0.55) 78%,
+    rgb(var(--bar) / 0.28) 100%
+  );
+  color: var(--bar-ink);
+}
+
+/* The smear reads as brushed rather than a clean ramp. */
+.ld-pause__row[data-current]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.05;
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='64'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.012 0.4' numOctaves='2'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+.ld-pause__row:focus-visible {
+  outline: none;
+}
+
+.ld-pause__row:focus-visible[data-current] {
+  box-shadow: inset 0 0 0 2px var(--bar-ink);
+}
+
+.ld-pause__icon {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 27px;
+  height: 27px;
+  flex: none;
+}
+
+.ld-pause__icon svg {
+  width: 28px;
+  height: 28px;
+}
+
+/* Focus swaps the outline glyph for a filled one; inner strokes knock out to the bar colour. */
+.ld-pause__row[data-current] .ld-pause__icon:not([data-icon="settings"]) svg > :first-child {
+  fill: currentColor;
+}
+
+.ld-pause__row[data-current] .ld-pause__icon:not([data-icon="settings"]) svg > :not(:first-child) {
+  stroke: rgb(var(--bar));
+  fill: rgb(var(--bar));
+}
+
+.ld-pause__row[data-current] .ld-pause__icon[data-icon="settings"] svg {
+  stroke-width: 3;
+}
+
+.ld-pause__badge {
+  position: absolute;
+  top: -2px;
+  right: -4px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #f6c343;
+}
+
+/* Right column: mission status, right-aligned to x 1880. */
+.ld-pause__right {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 560px;
+  animation: ld-screen-in 33ms linear 283ms both;
+}
+
+.ld-pause__status {
+  display: grid;
+  justify-items: end;
+}
+
+.ld-pause__chapter {
+  margin: 128px 40px 0 0;
+  font-family: var(--font-ui);
+  font-size: 26px;
+  line-height: 34px;
+  color: #e8e8ea;
+  text-transform: uppercase;
+}
+
+.ld-pause__title {
+  margin: 4px 39px 0 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 44px;
+  letter-spacing: 0;
+  color: #ff6fa6;
+  text-transform: uppercase;
+}
+
+.ld-pause__actions {
+  display: grid;
+  width: 448px;
+  margin: 36px 32px 0 0;
+  border-top: 1px solid transparent;
+  border-image: linear-gradient(90deg, transparent, #464755 30%) 1;
+}
+
+.ld-pause__action {
+  height: 62px;
+  padding: 0 24px 0 0;
+  border: 0;
+  border-bottom: 1px solid transparent;
+  border-image: linear-gradient(90deg, transparent, #464755 30%) 1;
+  border-radius: 0;
+  background: none;
+  color: #e6e6ea;
+  font-family: var(--font-ui);
+  font-weight: 400;
+  font-size: 26px;
+  letter-spacing: 0;
+  text-align: right;
+  cursor: pointer;
+}
+
+.ld-pause__action:hover,
+.ld-pause__action:focus-visible {
+  background: linear-gradient(
+    270deg,
+    rgb(var(--bar)) 0%,
+    rgb(var(--bar) / 0.95) 45%,
+    rgb(var(--bar) / 0.55) 78%,
+    rgb(var(--bar) / 0.28) 100%
+  );
+  color: var(--bar-ink);
+  outline: none;
+}
+
+/* Back: the menu fades in 130ms and leaves the blurred world. */
+.ld-pause[data-closing] :is(.ld-pause__panel, .ld-pause__right, .ld-prompts) {
+  opacity: 0;
+  transition: opacity 130ms linear;
+  pointer-events: none;
+}
+
+/* Right edge per 33ms frame, from the capture: 31, 130, 272, 352, 517, 544. */
+@keyframes ld-pause-slide {
+  0% {
+    translate: -513px 0;
+  }
+  20% {
+    translate: -414px 0;
+  }
+  40% {
+    translate: -272px 0;
+  }
+  60% {
+    translate: -192px 0;
+  }
+  80% {
+    translate: -27px 0;
+  }
+  100% {
+    translate: 0 0;
+  }
+}
+
+@keyframes ld-pause-hide {
+  from {
+    visibility: hidden;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ld-pause__panel {
+    animation-name: ld-screen-in;
+  }
+}
+
+.ld-pause-screen {
+  display: contents;
+}
+
+.ld-pause[data-return] :is(.ld-pause__panel, .ld-pause__mark, .ld-pause__row, .ld-pause__right, .ld-prompts) {
+  animation: none;
+}

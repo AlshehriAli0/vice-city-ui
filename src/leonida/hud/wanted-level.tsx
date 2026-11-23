@@ -1,0 +1,171 @@
+import type { ChangeDetails } from "@ui-sdk/core";
+import { Rating, RatingItem, type RatingValueChangeReason } from "@ui-sdk/react/rating";
+import { Cctv, UsersRound, type LucideIcon } from "lucide-react";
+import { useState, type ComponentProps, type HTMLAttributes, type ReactNode } from "react";
+
+import { cx, merge } from "../../shared/class-names";
+import { cssVariables } from "../../shared/css-variables";
+import { GAME_ICON } from "./hud-icons";
+import { EVIDENCE_LABEL, STATE_LABEL, type Evidence, type WantedState } from "./wanted-states";
+
+import "./wanted-level.css";
+
+const STAR = "M16 2.2l3.62 8.6 9.3.73-7.08 6.07 2.17 9.08L16 21.8l-8.01 4.88 2.17-9.08-7.08-6.07 9.3-.73z";
+
+const StarGlyph = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="2.9 1.6 26.2 26.2" aria-hidden="true">
+    <path d={STAR} />
+  </svg>
+);
+
+const Hanger = () => (
+  <svg
+    aria-hidden="true"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={2.8}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M10 6a2 2 0 1 1 2 2v2" />
+    <path d="M12 10l-8.5 6.5h17z" />
+  </svg>
+);
+
+const Pistol = () => (
+  <svg aria-hidden="true" viewBox="40 90 440 330" fill="currentColor">
+    <path d={GAME_ICON.weapon} />
+  </svg>
+);
+
+const Head = () => (
+  <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor">
+    <ellipse cx="12" cy="9" rx="5" ry="6.2" />
+    <path d="M5.5 22c0-3.6 2.9-5.6 6.5-5.6s6.5 2 6.5 5.6z" />
+  </svg>
+);
+
+const Car = () => (
+  <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" fillRule="evenodd">
+    <path d="M6.2 5h11.6l2.2 5.6H4zM7.4 6.7l-1.1 2.6h11.4l-1.1-2.6z" />
+    <path d="M4 10.6h16a1.5 1.5 0 0 1 1.5 1.5v4.4a1.5 1.5 0 0 1-1.5 1.5H4a1.5 1.5 0 0 1-1.5-1.5v-4.4A1.5 1.5 0 0 1 4 10.6zm2.4 2a1.4 1.4 0 1 0 0 2.8 1.4 1.4 0 0 0 0-2.8zm11.2 0a1.4 1.4 0 1 0 0 2.8 1.4 1.4 0 0 0 0-2.8z" />
+    <rect x="4" y="17" width="3.6" height="3.4" rx="1" />
+    <rect x="16.4" y="17" width="3.6" height="3.4" rx="1" />
+  </svg>
+);
+
+const FILLED: Partial<Record<Evidence, LucideIcon>> = { cctv: Cctv, witness: UsersRound };
+
+const DRAWN: Partial<Record<Evidence, () => ReactNode>> = {
+  clothing: Hanger,
+  face: Head,
+  weapon: Pistol,
+  vehicle: Car,
+};
+
+const EvidenceDisc = ({ item, className = "ld-evidence__disc" }: { item: Evidence; className?: string }) => {
+  const FilledIcon = FILLED[item];
+  const Icon = DRAWN[item];
+  return (
+    <span className={className} data-slot="evidence-disc" data-evidence={item} aria-hidden="true">
+      {FilledIcon && <FilledIcon fill="currentColor" stroke="var(--disc)" strokeWidth={1.4} />}
+      {Icon && <Icon />}
+    </span>
+  );
+};
+
+const WantedHud = ({ className, ...props }: HTMLAttributes<HTMLDivElement>) => (
+  <div {...props} className={cx("ld-wanted-hud", className)} data-slot="wanted-hud" />
+);
+
+type RatingProps = ComponentProps<typeof Rating>;
+
+type WantedLevelProps = Omit<RatingProps, "value" | "defaultValue" | "onValueChange"> & {
+  value?: number;
+  defaultValue?: number;
+  onValueChange?: (value: number, details: ChangeDetails<RatingValueChangeReason>) => void;
+  state?: WantedState;
+};
+
+const WantedLevel = ({
+  value,
+  defaultValue = 0,
+  onValueChange,
+  state = "seen",
+  readOnly,
+  max = 6,
+  dir = "rtl",
+  deselectable = true,
+  "aria-label": label = "Wanted level",
+  getValueLabel,
+  className,
+  style,
+  children,
+  ...props
+}: WantedLevelProps) => {
+  const [own, setOwn] = useState(defaultValue);
+  const heat = value ?? own;
+  const [shown, setShown] = useState(heat);
+  const [from, setFrom] = useState(0);
+  if (heat !== shown) {
+    setShown(heat);
+    setFrom(Math.min(shown, heat));
+  }
+  return (
+    <Rating
+      {...props}
+      className={merge("ld-wanted", className)}
+      style={rating => cssVariables({ ...(typeof style === "function" ? style(rating) : style), "--from": from })}
+      dir={dir}
+      aria-label={readOnly ? undefined : label}
+      max={max}
+      value={heat}
+      readOnly={readOnly}
+      deselectable={deselectable}
+      data-state={state}
+      data-wanted={heat > 0 || undefined}
+      getValueLabel={
+        getValueLabel ??
+        ((score, top) =>
+          readOnly
+            ? `${label}: ${score} of ${top} stars, ${STATE_LABEL[state].toLowerCase()}`
+            : `${score} of ${top} stars`)
+      }
+      onValueChange={(next, details) => {
+        setOwn(next ?? 0);
+        onValueChange?.(next ?? 0, details);
+      }}
+    >
+      {children ?? <WantedLevelStar />}
+    </Rating>
+  );
+};
+
+const WantedLevelStar = ({ className, style, children, ...props }: ComponentProps<typeof RatingItem>) => (
+  <RatingItem
+    {...props}
+    className={merge("ld-wanted__star", className)}
+    style={star => cssVariables({ ...(typeof style === "function" ? style(star) : style), "--i": star.index - 1 })}
+  >
+    {children ?? <StarGlyph className="ld-wanted__glyph" />}
+  </RatingItem>
+);
+
+const WantedEvidence = ({
+  className,
+  "aria-label": label = "Evidence against you",
+  ...props
+}: HTMLAttributes<HTMLUListElement>) => (
+  <ul {...props} className={cx("ld-evidence", className)} data-slot="wanted-evidence" aria-label={label} />
+);
+
+const WantedEvidenceItem = ({ value, className, ...props }: HTMLAttributes<HTMLLIElement> & { value: Evidence }) => (
+  <li {...props} className={cx("ld-evidence__item", className)} data-slot="wanted-evidence-item" data-evidence={value}>
+    <EvidenceDisc item={value} />
+    <span className="ld-sr">{EVIDENCE_LABEL[value]}</span>
+  </li>
+);
+
+export { EvidenceDisc, StarGlyph, WantedEvidence, WantedEvidenceItem, WantedHud, WantedLevel, WantedLevelStar };
+export type { Evidence, WantedState } from "./wanted-states";

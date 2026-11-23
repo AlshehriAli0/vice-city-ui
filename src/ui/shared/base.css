@@ -1,0 +1,30 @@
+@import "./kit-theme.css";
+
+.vc-surface {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  background: var(--vc-panel);
+  color: var(--vc-text);
+  border-radius: 0;
+  box-shadow: var(--vc-shadow);
+  outline: none;
+  transform-origin: var(--transform-origin);
+  transition: opacity var(--vc-fast) var(--vc-ease);
+}
+
+.vc-surface[data-starting-style],
+.vc-surface[data-ending-style] {
+  opacity: 0;
+}
+
+.vc-caps {
+  font-family: var(--font-cond);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.vc-focus:focus-visible {
+  outline: none;
+  box-shadow: var(--vc-ring);
+}
