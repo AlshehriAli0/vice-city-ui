@@ -24,6 +24,13 @@ async function go(hash: string) {
   });
 }
 
+test("the footer links to the project on GitHub", () => {
+  render(<App />);
+  const footer = screen.getByRole("contentinfo");
+  const repository = within(footer).getByRole("link", { name: "Vice City UI on GitHub" });
+  expect(repository).toHaveAttribute("href", "https://github.com/AlshehriAli0/vice-city-ui");
+});
+
 test("a card opens its detail page with the title focused, and prev/next move through the catalogue", async () => {
   render(<App />);
   await go("#/c/wanted-level");

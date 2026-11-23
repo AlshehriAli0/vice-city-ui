@@ -5,6 +5,7 @@ import { BY_ID } from "./catalogue/catalogue";
 import { HomePage } from "./catalogue/catalogue-page";
 import { DetailPage } from "./catalogue/component-page";
 import { hrefOf, useRoute } from "./catalogue/hash-route";
+import githubMark from "./github-mark.svg";
 import { Search } from "./search/search";
 import { SiteOverlays } from "./site-overlays";
 
@@ -58,6 +59,12 @@ const App = () => {
       <main id="main" tabIndex={-1}>
         {route.page === "component" ? <DetailPage id={route.id} /> : <HomePage />}
       </main>
+
+      <footer className="footer">
+        <a href="https://github.com/AlshehriAli0/vice-city-ui" aria-label="Vice City UI on GitHub">
+          <img src={githubMark} alt="" width={24} height={24} />
+        </a>
+      </footer>
     </>
   );
 };
